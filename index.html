@@ -36,18 +36,18 @@
 </head>
 <body class="font-sora selection:bg-accent selection:text-black">
 
-<!-- TRANSPARENT NAV, OVERLAID ON HERO ONLY, SCROLLS AWAY NORMALLY -->
 <!-- LOGO — pinned to top-left, independent of everything else -->
 <div class="absolute top-3 left-6 z-50">
-    <img src="logo.png" alt="Smash Guys Logo" class="w-80 h-80 object-contain blend-logo" onerror="this.outerHTML='<span class=\'font-bebas text-accent text-3xl\'>[SG]</span>'">
+    <img src="logo.png" alt="Smash Guys Logo" class="w-40 h-40 object-contain blend-logo" onerror="this.outerHTML='<span class=\'font-bebas text-accent text-3xl\'>[SG]</span>'">
 </div>
 
 <!-- NAV — pinned to top-right, independent of the logo -->
 <nav class="absolute top-6 right-6 z-50 flex items-center gap-6">
+    <button id="open-auth-modal" class="text-accent hover:text-white font-bold text-sm uppercase tracking-wider transition flex items-center gap-2"><i class="fa-solid fa-user"></i> <span id="auth-nav-label">Login</span></button>
     <a href="tel:+44XXXXXXXXXX" class="text-gray-300 hover:text-accent font-bold text-sm uppercase tracking-wider transition">Call Us</a>
     <a href="#menu" class="text-gray-300 hover:text-accent font-bold text-sm uppercase tracking-wider transition">Menu</a>
     <a href="#location" class="text-gray-300 hover:text-accent font-bold text-sm uppercase tracking-wider transition hidden md:block">Location & Hours</a>
-    <a href="#menu" class="smooth-scroll-btn bg-accent text-primary font-bebas text-lg px-4 py-1.5 hover:bg-white transition uppercase tracking-wider">Order Now</a>
+    <!--<a href="#menu" class="smooth-scroll-btn bg-accent text-primary font-bebas text-lg px-4 py-1.5 hover:bg-white transition uppercase tracking-wider">Order Now</a>-->
 </nav>  
 
     <!-- Hero Section with Requested Title Block & Updated Paragraph Content -->
@@ -87,12 +87,12 @@
         <div class="whitespace-nowrap animate-[marquee_15s_linear_infinite] flex gap-10 font-bold uppercase shrink-0">
             <span>🔥 10% Off Sign Up (Use code WELCOME10)</span><span>•</span>
             <span>🔥 Fusion Friday Drops</span><span>•</span>
-            <span>🔥 Available on Uber Eats, Just Eat & Deliveroo</span><span>•</span>
+            <span>🔥 Coming soon on Uber Eats, Just Eat & Deliveroo</span><span>•</span>
         </div>
         <div class="whitespace-nowrap animate-[marquee_15s_linear_infinite] flex gap-10 font-bold uppercase shrink-0" aria-hidden="true">
             <span>🔥 10% Off Sign Up (Use code WELCOME10)</span><span>•</span>
             <span>🔥 Fusion Friday Drops</span><span>•</span>
-            <span>🔥 Available on Uber Eats, Just Eat & Deliveroo</span><span>•</span>
+            <span>🔥 Coming soon on Uber Eats, Just Eat & Deliveroo</span><span>•</span>
         </div>
     </div>
 
@@ -387,8 +387,8 @@
                 <!-- Delivery & Badges Box -->
                 <div class="bg-grey p-8 rounded-xl border border-white/10 flex flex-col justify-between">
                     <div>
-                        <h3 class="font-bebas text-3xl text-white mb-4">ORDER <span class="text-accent">& DELIVERY</span></h3>
-                        <p class="text-gray-300 text-sm mb-6">Order direct here for collection, or find our official storefront live on major delivery apps below.</p>
+                        <h3 class="font-bebas text-3xl text-white mb-4">ORDER <span class="text-accent">& DELIVERY</span><class="font-bebas text-3xl text-white mb-4"> (COMING <span class="text-accent"> SOON)</span></h3>
+                        <p class="text-gray-300 text-sm mb-6">Order direct here for collection, and we are coming soon on major delivery apps below.</p>
                     </div>
                     <div class="grid grid-cols-3 gap-3 text-gray-300 font-bold uppercase tracking-wider text-xs">
                         <div class="bg-black/50 p-3 rounded-lg border border-white/5 flex items-center justify-center text-center">Uber Eats</div>
@@ -443,18 +443,58 @@
 
     <!-- FOOTER -->
 
-      <footer class="bg-black py-12 border-t border-white/10 text-center">
-        <div class="container mx-auto px-4 flex flex-col items-center justify-center gap-4">
-            <div class="flex items-center gap-3">
-                <img src="logo.png" alt="Smash Guys Logo" class="w-40 h-40 object-contain blend-logo" onerror="this.style.display='none'">
-                <h2 class="font-bebas text-8xl text-white tracking-widest">SMASH<span class="text-accent">GUYS</span></h2>
-            </div>
-            <p class="text-gray-500 text-sm">Also available for delivery via <strong>Uber Eats</strong>, <strong>Just Eat</strong>, and <strong>Deliveroo</strong>.</p>
-            <p class="text-gray-500 text-xs">
-                &copy; 2026 Smash Guys. All rights reserved. | <button onclick="alert('Privacy Policy: We collect contact info strictly for direct marketing and order processing with explicit opt-in. Data is retained securely and never shared with unauthorized third parties.')" class="underline hover:text-accent">Privacy Policy</button>
-            </p>
+<footer class="bg-transparent py-12 border-t border-white/10 text-center" style="background-color: transparent !important; background: transparent !important;">
+    <div class="container mx-auto px-4 flex flex-col items-center justify-center gap-4">
+        <div class="flex items-center gap-3">
+            <img src="logo.png" alt="Smash Guys Logo" class="w-40 h-40 object-contain blend-logo" onerror="this.style.display='none'">
+            <h2 class="font-bebas text-8xl text-white tracking-widest">SMASH<span class="text-accent">GUYS</span></h2>
         </div>
-    </footer>
+        <p class="text-gray-400 text-xs">Smash Guys UK Ltd | Trading at Public Car Park, The Galleria, Hatfield, AL10 0XR</p>
+        <p class="text-gray-500 text-sm">Also available for delivery via <strong>Uber Eats</strong>, <strong>Just Eat</strong>, and <strong>Deliveroo</strong>.</p>
+        <div>
+            <a href="https://www.instagram.com/smashguys_uk?igsh=aXhlaDk2dTEwa3I5" target="_blank" class="inline-block hover:scale-110 transition transform text-accent text-6xl">
+                <i class="fa-brands fa-instagram"></i>
+            </a>
+        </div>
+        <p class="text-gray-500 text-xs">
+            &copy; 2026 Smash Guys. All rights reserved. | 
+            <button id="open-privacy-modal" class="underline hover:text-accent">Privacy Policy</button> | 
+            <button id="open-terms-modal" class="underline hover:text-accent">Terms & Conditions</button>
+        </p>
+    </div>
+</footer>
+
+    <!-- AUTHENTICATION MODAL -->
+    <div id="auth-modal-overlay" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-grey border border-white/20 rounded-2xl max-w-md w-full p-8 relative shadow-2xl">
+            <button id="close-auth-modal" class="absolute top-4 right-4 text-gray-400 hover:text-white font-bold text-2xl">&times;</button>
+            <h3 class="font-bebas text-4xl text-white mb-2 text-center">WELCOME TO <span class="text-accent">SMASH GUYS</span></h3>
+            <p class="text-gray-400 text-sm mb-6 text-center">Log in to track orders and secure exclusive discounts.</p>
+            
+            <div class="space-y-3 mb-6">
+                <button onclick="mockSocialLogin('Google')" class="w-full bg-white text-black font-bold py-3 px-4 rounded-lg flex items-center justify-center gap-3 hover:bg-gray-200 transition">
+                    <i class="fa-brands fa-google text-red-500"></i> Continue with Google
+                </button>
+                <button onclick="mockSocialLogin('Facebook')" class="w-full bg-[#1877F2] text-white font-bold py-3 px-4 rounded-lg flex items-center justify-center gap-3 hover:bg-blue-600 transition">
+                    <i class="fa-brands fa-facebook"></i> Continue with Facebook
+                </button>
+                <button onclick="mockSocialLogin('Apple')" class="w-full bg-black border border-white/20 text-white font-bold py-3 px-4 rounded-lg flex items-center justify-center gap-3 hover:bg-zinc-900 transition">
+                    <i class="fa-brands fa-apple"></i> Continue with Apple
+                </button>
+            </div>
+
+            <div class="relative flex items-center py-2 mb-6">
+                <div class="flex-grow border-t border-white/10"></div>
+                <span class="flex-shrink-0 mx-4 text-gray-500 text-xs font-bold uppercase tracking-wider">Or with email</span>
+                <div class="flex-grow border-t border-white/10"></div>
+            </div>
+
+            <form id="email-login-form" class="space-y-4">
+                <input type="email" id="login-email" placeholder="Enter your email" required class="w-full bg-black border border-white/20 p-3 text-white focus:border-accent focus:outline-none rounded-lg text-sm">
+                <button type="submit" class="w-full bg-accent text-primary font-bebas text-2xl py-3 hover:bg-white transition rounded-lg">CONTINUE WITH EMAIL</button>
+            </form>
+        </div>
+    </div>
 
     <!-- CART DRAWER OVERLAY -->
     <div id="cart-overlay" class="fixed inset-0 bg-black/70 z-50 hidden transition-opacity"></div>
@@ -520,6 +560,46 @@
         🛒 Cart (<span id="cart-count">0</span>)
     </button>
 
+    <!-- PRIVACY POLICY MODAL -->
+<div id="privacy-modal-overlay" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-grey border border-white/20 rounded-2xl max-w-2xl w-full p-8 relative shadow-2xl max-h-[80vh] overflow-y-auto">
+        <button id="close-privacy-modal" class="absolute top-4 right-4 text-gray-400 hover:text-white font-bold text-2xl">&times;</button>
+        <h3 class="font-bebas text-4xl text-white mb-4 text-center">PRIVACY <span class="text-accent">POLICY</span></h3>
+        
+        <div class="space-y-4 text-gray-300 text-sm leading-relaxed">
+            <p><strong>1. Who We Are:</strong> Smash Guys operates as Hertfordshire's dedicated smash burger and Nashville hot chicken destination.</p>
+            <p><strong>2. Information We Collect:</strong> We collect account registration details (email and social login tokens), order history, delivery preferences, and contact information submitted via our sign-up forms or promo code redemptions.</p>
+            <p><strong>3. How We Use Your Data:</strong> Your data is used strictly to process orders, manage user accounts, enforce single-use coupon policies, and send direct marketing updates (only where explicit opt-in consent has been provided).</p>
+            <p><strong>4. Data Security:</strong> We implement secure technical measures to retain your information safely. We never sell, trade, or share your personal data with unauthorized third parties.</p>
+            <p><strong>5. Your Rights:</strong> You have the right to request access to your data or ask for your account and data to be deleted at any time.</p>
+        </div>
+    </div>
+</div>
+
+    <!-- TERMS & CONDITIONS MODAL -->
+<div id="terms-modal-overlay" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-grey border border-white/20 rounded-2xl max-w-2xl w-full p-8 relative shadow-2xl max-h-[80vh] overflow-y-auto">
+        <button id="close-terms-modal" class="absolute top-4 right-4 text-gray-400 hover:text-white font-bold text-2xl">&times;</button>
+        <h3 class="font-bebas text-4xl text-white mb-4 text-center">TERMS & <span class="text-accent">CONDITIONS</span></h3>
+        
+        <div class="space-y-4 text-gray-300 text-sm leading-relaxed">
+            <p><strong>1. Introduction:</strong> Welcome to Smash Guys. By placing an order or using our website, you agree to these terms.</p>
+            <p><strong>2. Orders & Pricing:</strong> All orders are subject to availability. Prices are listed in GBP and include applicable taxes where required.</p>
+            <p><strong>3. Promo Codes:</strong> Promotional codes (such as WELCOME10) are restricted to single-use per verified user account and cannot be combined unless stated otherwise.</p>
+            <p><strong>4. Allergens:</strong> While we take precautions, our kitchen handles various ingredients. Please contact our staff directly regarding specific allergy inquiries before ordering.</p>
+        </div>
+    </div>
+</div>
+
+    <!-- COOKIE CONSENT BANNER -->
+<div id="cookie-banner" class="fixed bottom-0 left-0 w-full bg-black/90 border-t border-white/10 p-4 z-50 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-300 hidden">
+    <p>We use cookies to enhance your browsing experience, analyze traffic, and ensure security. Read our privacy guidelines for more info.</p>
+    <div class="flex gap-3 shrink-0">
+        <button id="accept-cookies" class="bg-accent text-primary font-bold px-5 py-2 rounded-lg hover:bg-white transition">Accept</button>
+        <button id="decline-cookies" class="bg-white/10 text-white px-5 py-2 rounded-lg hover:bg-white/20 transition">Decline</button>
+    </div>
+</div>
+
     <!-- Scripts -->
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script> 
     <script>
@@ -528,6 +608,59 @@
         const style = document.createElement('style');
         style.innerHTML = `@keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }`;
         document.head.appendChild(style);
+
+        // Global User State & Single-Use Coupon Tracker
+        let currentUser = null; 
+        const usedCoupons = {}; 
+
+        // Authentication Modal Logic
+        const authModal = document.getElementById('auth-modal-overlay');
+        const openAuthBtn = document.getElementById('open-auth-modal');
+        const closeAuthBtn = document.getElementById('close-auth-modal');
+        const authNavLabel = document.getElementById('auth-nav-label');
+        const emailLoginForm = document.getElementById('email-login-form');
+        const loginEmailInput = document.getElementById('login-email');
+
+        function toggleAuthModal() {
+            authModal.classList.toggle('hidden');
+        }
+
+        openAuthBtn.addEventListener('click', () => {
+            if (currentUser) {
+                if (confirm(`Logged in as ${currentUser}. Do you want to log out?`)) {
+                    currentUser = null;
+                    authNavLabel.innerText = 'Login';
+                    alert('You have been logged out.');
+                }
+            } else {
+                toggleAuthModal();
+            }
+        });
+
+        closeAuthBtn.addEventListener('click', toggleAuthModal);
+        authModal.addEventListener('click', (e) => {
+            if (e.target === authModal) toggleAuthModal();
+        });
+
+        function handleSuccessfulLogin(identifier) {
+            currentUser = identifier;
+            authNavLabel.innerText = identifier.length > 12 ? identifier.substring(0, 10) + '...' : identifier;
+            toggleAuthModal();
+            alert(`Successfully logged in as ${identifier}!`);
+        }
+
+        window.mockSocialLogin = function(provider) {
+            const fakeId = `user_${provider.toLowerCase()}_${Math.floor(Math.random() * 1000)}`;
+            handleSuccessfulLogin(fakeId);
+        };
+
+        emailLoginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = loginEmailInput.value.trim();
+            if (email) {
+                handleSuccessfulLogin(email);
+            }
+        });
 
         // Automatic Store Open/Closed Check based on daily hours (12:00 PM to 11:30 PM daily)
         function checkStoreHours() {
@@ -651,7 +784,7 @@
             });
         }
 
-        // Cart State & Logic with Stable IDs & Promo Code Support (Tax Removed)
+        // Cart State & Logic with Stable IDs & Single-Use Per-User Promo Code Validation
         let cart = [];
         let discountActive = false;
 
@@ -682,8 +815,27 @@
 
         applyPromoBtn.addEventListener('click', () => {
             const code = promoInput.value.trim().toUpperCase();
+            
+            if (!currentUser) {
+                promoMsg.classList.remove('hidden');
+                promoMsg.innerText = 'Please log in first to apply promo codes.';
+                toggleAuthModal();
+                return;
+            }
+
+            if (!usedCoupons[currentUser]) {
+                usedCoupons[currentUser] = new Set();
+            }
+
+            if (usedCoupons[currentUser].has(code)) {
+                promoMsg.classList.remove('hidden');
+                promoMsg.innerText = 'You have already used this coupon code!';
+                return;
+            }
+
             if (code === 'WELCOME10') {
                 discountActive = true;
+                usedCoupons[currentUser].add(code);
                 promoMsg.classList.remove('hidden');
                 promoMsg.innerText = '10% discount applied successfully!';
                 renderCart();
@@ -830,6 +982,60 @@
             const whatsappUrl = `https://wa.me/?text=${encodedMessage}`;
             window.open(whatsappUrl, '_blank');
         });
+
+        // Privacy Policy
+        const privacyModal = document.getElementById('privacy-modal-overlay');
+const openPrivacyBtn = document.getElementById('open-privacy-modal');
+const closePrivacyBtn = document.getElementById('close-privacy-modal');
+
+function togglePrivacyModal() {
+    privacyModal.classList.toggle('hidden');
+}
+
+if (openPrivacyBtn) openPrivacyBtn.addEventListener('click', togglePrivacyModal);
+if (closePrivacyBtn) closePrivacyBtn.addEventListener('click', togglePrivacyModal);
+if (privacyModal) {
+    privacyModal.addEventListener('click', (e) => {
+        if (e.target === privacyModal) togglePrivacyModal();
+    });
+}
+
+// Terms Modal Logic
+const termsModal = document.getElementById('terms-modal-overlay');
+const openTermsBtn = document.getElementById('open-terms-modal');
+const closeTermsBtn = document.getElementById('close-terms-modal');
+
+function toggleTermsModal() {
+    termsModal.classList.toggle('hidden');
+}
+
+if (openTermsBtn) openTermsBtn.addEventListener('click', toggleTermsModal);
+if (closeTermsBtn) closeTermsBtn.addEventListener('click', toggleTermsModal);
+if (termsModal) {
+    termsModal.addEventListener('click', (e) => {
+        if (e.target === termsModal) toggleTermsModal();
+    });
+}
+
+// Cookie Banner Logic
+const cookieBanner = document.getElementById('cookie-banner');
+const acceptCookiesBtn = document.getElementById('accept-cookies');
+const declineCookiesBtn = document.getElementById('decline-cookies');
+
+if (!localStorage.getItem('cookieConsent')) {
+    cookieBanner.classList.remove('hidden');
+}
+
+acceptCookiesBtn.addEventListener('click', () => {
+    localStorage.setItem('cookieConsent', 'accepted');
+    cookieBanner.classList.add('hidden');
+});
+
+declineCookiesBtn.addEventListener('click', () => {
+    localStorage.setItem('cookieConsent', 'declined');
+    cookieBanner.classList.add('hidden');
+});
+
     </script>
 </body>
 </html>
