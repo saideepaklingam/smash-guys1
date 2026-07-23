@@ -8,17 +8,22 @@ document.head.appendChild(style);
 let currentUser = null; 
 const usedCoupons = {}; 
 
-// Mobile Navigation Toggle Logic
+// Mobile Navigation Toggle Logic with Overlay Integration
 const mobileMenuBtn = document.getElementById('mobile-menu-btn');
 const mobileMenuDrawer = document.getElementById('mobile-menu-drawer');
+const mobileNavOverlay = document.getElementById('mobile-nav-overlay');
 const closeMobileMenuBtn = document.getElementById('close-mobile-menu');
 
 function toggleMobileMenu() {
     mobileMenuDrawer.classList.toggle('translate-x-full');
+    mobileNavOverlay.classList.toggle('hidden');
 }
 
 if (mobileMenuBtn) mobileMenuBtn.addEventListener('click', toggleMobileMenu);
 if (closeMobileMenuBtn) closeMobileMenuBtn.addEventListener('click', toggleMobileMenu);
+if (mobileNavOverlay) {
+    mobileNavOverlay.addEventListener('click', toggleMobileMenu);
+}
 
 // Close mobile menu when clicking nav links
 document.querySelectorAll('.mobile-nav-link').forEach(link => {
@@ -264,7 +269,6 @@ if (signupForm) {
         const hasSmsConsent = consentSms.checked;
         const hasAnyConsent = hasEmailConsent || hasSmsConsent;
 
-        // Strict rule: If SMS consent is checked, phone number is mandatory
         if (hasSmsConsent && !phoneVal) {
             signupError.innerText = 'Please provide a phone number to receive SMS/WhatsApp updates.';
             signupError.classList.remove('hidden');
@@ -417,12 +421,21 @@ function renderCart() {
 
         const itemDiv = document.createElement('div');
         itemDiv.className = 'flex justify-between items-center bg-black/40 p-3 rounded-lg border border-white/5';
+        
+        // Render editable cart items with inline plus/minus buttons
         itemDiv.innerHTML = `
             <div>
                 <h4 class="font-bold text-white text-sm">${item.name}</h4>
-                <p class="text-accent text-xs">£${item.price.toFixed(2)} x ${item.quantity}</p>
+                <p class="text-accent text-xs">£${item.price.toFixed(2)} each</p>
             </div>
-            <div class="font-bebas text-xl text-white">£${itemTotal.toFixed(2)}</div>
+            <div class="flex items-center gap-3">
+                <div class="flex items-center gap-2 bg-black p-1 rounded-full border border-white/10">
+                    <button type="button" aria-label="Decrease quantity" onclick="adjustCartQuantity('${item.id}', -1)" class="qty-btn w-6 h-6 text-xs flex items-center justify-center font-bold bg-white/10 rounded-full hover:bg-accent hover:text-black transition">-</button>
+                    <span class="font-bold w-5 text-center text-xs text-white">${item.quantity}</span>
+                    <button type="button" aria-label="Increase quantity" onclick="adjustCartQuantity('${item.id}', 1)" class="qty-btn w-6 h-6 text-xs flex items-center justify-center font-bold bg-white/10 rounded-full hover:bg-accent hover:text-black transition">+</button>
+                </div>
+                <div class="font-bebas text-xl text-white min-w-[50px] text-right">£${itemTotal.toFixed(2)}</div>
+            </div>
         `;
         cartItemsContainer.appendChild(itemDiv);
     });
@@ -440,6 +453,30 @@ function renderCart() {
     cartTotalElement.innerText = `£${finalTotal.toFixed(2)}`;
     cartCountElement.innerText = totalCount;
 }
+
+// Global helper function to adjust quantities directly from the cart drawer and sync main menu counters
+window.adjustCartQuantity = function(id, change) {
+    const itemIndex = cart.findIndex(item => item.id === id);
+    if (itemIndex > -1) {
+        cart[itemIndex].quantity += change;
+        
+        if (cart[itemIndex].quantity <= 0) {
+            cart.splice(itemIndex, 1);
+        }
+        
+        renderCart();
+        
+        // Sync with main menu card counters if present on the page
+        const menuCard = document.querySelector(`.menu-card .item-name[data-id="${id}"]`)?.closest('.menu-card');
+        if (menuCard) {
+            const qtyDisplay = menuCard.querySelector('.qty-display');
+            const matchingCartItem = cart.find(item => item.id === id);
+            if (qtyDisplay) {
+                qtyDisplay.innerText = matchingCartItem ? matchingCartItem.quantity : 0;
+            }
+        }
+    }
+};
 
 if (checkoutBtnCard) {
     checkoutBtnCard.addEventListener('click', () => {
