@@ -4,8 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smash Guys | Smashed Thin. Stacked Right.</title>
+    <link rel="icon" type="image/png" href="logo.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Sora:wght@400;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Animation Library -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
@@ -33,36 +36,27 @@
 </head>
 <body class="font-sora selection:bg-accent selection:text-black">
 
-    <!-- STICKY NAVIGATION BAR WITH LOGO ON TOP LEFT & BRAND TEXT -->
-    <header class="fixed top-0 left-0 w-full z-50 bg-primary/95 backdrop-blur-md border-b border-white/10 py-3 px-6 flex justify-between items-center shadow-lg">
-        <div class="flex items-center gap-3">
-            <!-- 
-                YOUR LOGO IS DISPLAYED HERE IN THE NAVBAR.
-                To change the size, modify 'w-12 h-12' (width and height classes) below.
-                For example: change to 'w-16 h-16' for a larger logo or 'w-8 h-8' for a smaller one.
-            -->
-            <img src="logo.png" alt="Smash Guys Logo" class="w-12 h-12 object-contain blend-logo" onerror="this.outerHTML='<span class=\'font-bebas text-accent text-3xl\'>[SG]</span>'">
-            <span class="font-bebas text-3xl md:text-4xl tracking-widest text-white">SMASH <span class="text-accent">GUYS</span></span>
-        </div>
-        <nav class="flex items-center gap-6">
-            <a href="#menu" class="text-gray-300 hover:text-accent font-bold text-sm uppercase tracking-wider transition">Menu</a>
-            <a href="#location" class="text-gray-300 hover:text-accent font-bold text-sm uppercase tracking-wider transition hidden md:block">Location & Hours</a>
-            <a href="#menu" class="smooth-scroll-btn bg-accent text-primary font-bebas text-lg px-4 py-1.5 hover:bg-white transition uppercase tracking-wider">Order Now</a>
-        </nav>
-    </header>
+<!-- TRANSPARENT NAV, OVERLAID ON HERO ONLY, SCROLLS AWAY NORMALLY -->
+<!-- LOGO — pinned to top-left, independent of everything else -->
+<div class="absolute top-3 left-6 z-50">
+    <img src="logo.png" alt="Smash Guys Logo" class="w-80 h-80 object-contain blend-logo" onerror="this.outerHTML='<span class=\'font-bebas text-accent text-3xl\'>[SG]</span>'">
+</div>
 
-    <!-- Hero Section with Requested Title Block & Hertfordshire USP -->
-    <section class="relative h-screen flex flex-col justify-center items-center text-center overflow-hidden pt-16">
+<!-- NAV — pinned to top-right, independent of the logo -->
+<nav class="absolute top-6 right-6 z-50 flex items-center gap-6">
+    <a href="tel:+44XXXXXXXXXX" class="text-gray-300 hover:text-accent font-bold text-sm uppercase tracking-wider transition">Call Us</a>
+    <a href="#menu" class="text-gray-300 hover:text-accent font-bold text-sm uppercase tracking-wider transition">Menu</a>
+    <a href="#location" class="text-gray-300 hover:text-accent font-bold text-sm uppercase tracking-wider transition hidden md:block">Location & Hours</a>
+    <a href="#menu" class="smooth-scroll-btn bg-accent text-primary font-bebas text-lg px-4 py-1.5 hover:bg-white transition uppercase tracking-wider">Order Now</a>
+</nav>  
+
+    <!-- Hero Section with Requested Title Block & Updated Paragraph Content -->
+    <section class="relative h-screen flex flex-col justify-center items-center text-center overflow-hidden">
         <div class="absolute inset-0 z-0 bg-[url('Cover.png')] bg-cover bg-center opacity-35" style="background-color: #111;"></div>
         <div class="absolute inset-0 z-0 bg-gradient-to-t from-primary to-transparent"></div>
         <div class="absolute inset-0 z-0 grease-overlay"></div>
         
         <div class="relative z-10 px-4 mt-6 max-w-4xl mx-auto" data-aos="zoom-in" data-aos-duration="1000">
-            <!-- USP Badge Starting with Hertfordshire's First Ever Smash Burgers & Nashville Hot Chicken Experience -->
-            <div class="inline-block bg-accent text-primary font-bold text-xs md:text-sm uppercase tracking-widest px-4 py-1.5 rounded-full mb-6 shadow-lg">
-                🔥 Hertfordshire's very first dedicated smash burger and authentic Nashville hot chicken experience 🔥
-            </div>
-
             <!-- Large Primary Heading Block as Requested -->
             <div class="font-bebas text-6xl md:text-[100px] leading-[0.9] tracking-wider mb-6 drop-shadow-2xl">
                 <span class="text-white">SMASH</span> <span class="text-accent">GUYS</span>
@@ -73,18 +67,29 @@
                 <span class="text-accent block">STACKED RIGHT.</span>
             </h1>
             
-            <p class="text-base md:text-xl font-normal tracking-wide mb-8 max-w-2xl mx-auto drop-shadow-md text-gray-200 leading-relaxed">
-                Whether you're grabbing a quick bite on your lunch break or hanging out with friends for dinner, we're always firing up hot, juicy smash burgers and crispy Nashville chicken made just for you. Come on in and make yourself at home!
+            <!-- Replaced paragraph snippet with FontAwesome integrated styling -->
+            <p class="text-base md:text-xl font-normal tracking-wide mb-8 max-w-3xl mx-auto text-gray-200 leading-relaxed drop-shadow-md">
+                Freshly smashed burgers and authentic Nashville hot chicken, made to order every time.
+                <br><br>
+                <span class="inline-flex items-center justify-center gap-3 font-bold text-white">
+                    <img src="fire.png" alt="Fire Icon" class="w-7 h-7 object-contain" style="filter: drop-shadow(0 0 8px rgba(255,212,0,0.5));">
+                    Hertfordshire's first dedicated Smash Burger & Nashville Hot Chicken destination.
+                    <img src="fire.png" alt="Fire Icon" class="w-7 h-7 object-contain" style="filter: drop-shadow(0 0 8px rgba(255,212,0,0.5));">
+                </span>
             </p>
             
-            <a href="#menu" class="smooth-scroll-btn inline-block bg-accent text-primary font-bebas text-3xl px-10 py-4 hover:bg-white hover:scale-105 transition-all shadow-[0_0_30px_rgba(255,212,0,0.4)]">Order Now</a>
+            <a href="#menu" class="smooth-scroll-btn inline-block bg-accent text-primary font-bebas text-3xl px-10 py-4 mt-20 hover:bg-white hover:scale-105 transition-all shadow-[0_0_30px_rgba(255,212,0,0.4)]">Order Now</a>
         </div>
     </section>
 
-    <!-- Marquee Offers -->
-    <div class="bg-accent text-primary py-3 overflow-hidden border-y-2 border-white">
-        <div class="whitespace-nowrap animate-[marquee_8s_linear_infinite] flex gap-10 font-bold uppercase">
-            <span>🔥 Hertfordshire's very first dedicated smash burger and authentic Nashville hot chicken experience</span><span>•</span>
+    <!-- Marquee Offers (Seamless Continuous Motion Loop) -->
+    <div class="bg-accent text-primary py-3 overflow-hidden border-y-2 border-white flex">
+        <div class="whitespace-nowrap animate-[marquee_15s_linear_infinite] flex gap-10 font-bold uppercase shrink-0">
+            <span>🔥 10% Off Sign Up (Use code WELCOME10)</span><span>•</span>
+            <span>🔥 Fusion Friday Drops</span><span>•</span>
+            <span>🔥 Available on Uber Eats, Just Eat & Deliveroo</span><span>•</span>
+        </div>
+        <div class="whitespace-nowrap animate-[marquee_15s_linear_infinite] flex gap-10 font-bold uppercase shrink-0" aria-hidden="true">
             <span>🔥 10% Off Sign Up (Use code WELCOME10)</span><span>•</span>
             <span>🔥 Fusion Friday Drops</span><span>•</span>
             <span>🔥 Available on Uber Eats, Just Eat & Deliveroo</span><span>•</span>
@@ -436,12 +441,13 @@
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="bg-black py-12 border-t border-white/10 text-center">
+    <!-- FOOTER -->
+
+      <footer class="bg-black py-12 border-t border-white/10 text-center">
         <div class="container mx-auto px-4 flex flex-col items-center justify-center gap-4">
             <div class="flex items-center gap-3">
-                <img src="logo.png" alt="Smash Guys Logo" class="w-10 h-10 object-contain blend-logo" onerror="this.style.display='none'">
-                <h2 class="font-bebas text-4xl text-white tracking-widest">SMASH<span class="text-accent">GUYS</span></h2>
+                <img src="logo.png" alt="Smash Guys Logo" class="w-40 h-40 object-contain blend-logo" onerror="this.style.display='none'">
+                <h2 class="font-bebas text-8xl text-white tracking-widest">SMASH<span class="text-accent">GUYS</span></h2>
             </div>
             <p class="text-gray-500 text-sm">Also available for delivery via <strong>Uber Eats</strong>, <strong>Just Eat</strong>, and <strong>Deliveroo</strong>.</p>
             <p class="text-gray-500 text-xs">
@@ -464,6 +470,11 @@
             <p class="text-gray-400 text-center py-10">Your cart is empty.</p>
         </div>
 
+        <!-- STORE STATUS BANNER (AUTOMATIC HOURS CHECK) -->
+        <div id="store-status-banner" class="px-6 py-2 bg-red-900/50 border-t border-red-500/30 text-red-200 text-xs font-bold text-center hidden">
+            🔴 Store is currently closed. Orders will be prepared for the next opening time.
+        </div>
+
         <!-- PROMO CODE INPUT AREA -->
         <div class="px-6 py-2 bg-grey border-t border-white/10">
             <label for="promo-code" class="block text-xs uppercase font-bold text-gray-400 mb-1">Promo Code</label>
@@ -477,7 +488,7 @@
         <!-- SPECIAL INSTRUCTIONS TEXT BOX AREA -->
         <div class="px-6 py-2 bg-grey">
             <label for="special-instructions" class="block text-xs uppercase font-bold text-gray-400 mb-1">Special Instructions / Allergies</label>
-            <textarea id="special-instructions" placeholder="e.g. No pickles, extra sauce on the side..." class="w-full bg-black border border-white/20 p-3 text-white text-sm focus:border-accent focus:outline-none rounded-lg resize-none h-16"></textarea>
+            <textarea id="special-instructions" placeholder="e.g. No pickles, No onions..." class="w-full bg-black border border-white/20 p-3 text-white text-sm focus:border-accent focus:outline-none rounded-lg resize-none h-16"></textarea>
         </div>
 
         <div class="p-6 border-t border-white/10 bg-black">
@@ -515,8 +526,29 @@
         AOS.init({ once: true, offset: 100 });
         
         const style = document.createElement('style');
-        style.innerHTML = `@keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }`;
+        style.innerHTML = `@keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }`;
         document.head.appendChild(style);
+
+        // Automatic Store Open/Closed Check based on daily hours (12:00 PM to 11:30 PM daily)
+        function checkStoreHours() {
+            const now = new Date();
+            const currentHour = now.getHours();
+            const currentMinute = now.getMinutes();
+            const currentTimeInMinutes = currentHour * 60 + currentMinute;
+            
+            const openTimeInMinutes = 12 * 60; // 12:00 PM
+            const closeTimeInMinutes = 23 * 60 + 30; // 11:30 PM
+
+            const banner = document.getElementById('store-status-banner');
+            if (banner) {
+                if (currentTimeInMinutes < openTimeInMinutes || currentTimeInMinutes > closeTimeInMinutes) {
+                    banner.classList.remove('hidden');
+                } else {
+                    banner.classList.add('hidden');
+                }
+            }
+        }
+        checkStoreHours();
 
         // Conditional Friday Check to show/hide Friday Fusion section automatically
         function checkFridayFusionAvailability() {
