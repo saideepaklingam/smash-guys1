@@ -1,9 +1,5 @@
 AOS.init({ once: true, offset: 100 });
 
-const style = document.createElement('style');
-style.innerHTML = `@keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }`;
-document.head.appendChild(style);
-
 // Global User State & Single-Use Coupon Tracker
 let currentUser = null; 
 const usedCoupons = {}; 
@@ -175,7 +171,7 @@ function checkStoreHours() {
 }
 checkStoreHours();
 
-// Conditional Friday Check using UK Time
+// Conditional Friday Check using UK Time (Properly scoped globally)
 function checkFridayFusionAvailability() {
     const ukNow = getUKTime();
     const dayOfWeek = ukNow.getDay(); // 5 represents Friday in UK time
@@ -351,8 +347,9 @@ if (applyPromoBtn) {
     });
 }
 
-// Attach event listeners using stable semantic <button> elements
-document.querySelectorAll('.menu-card').forEach(card => {
+// Attach event listeners using stable semantic elements
+if (document.getElementById('cart-drawer')) {
+    document.querySelectorAll('.menu-card').forEach(card => {
     const minusBtn = card.querySelector('.minus-btn');
     const plusBtn = card.querySelector('.plus-btn');
     const qtyDisplay = card.querySelector('.qty-display');
@@ -379,7 +376,9 @@ document.querySelectorAll('.menu-card').forEach(card => {
             }
         });
     }
-});
+}
+);
+}
 
 function updateCartItem(id, name, price, quantity) {
     const existingIndex = cart.findIndex(item => item.id === id);
@@ -422,7 +421,6 @@ function renderCart() {
         const itemDiv = document.createElement('div');
         itemDiv.className = 'flex justify-between items-center bg-black/40 p-3 rounded-lg border border-white/5';
         
-        // Render editable cart items with inline plus/minus buttons
         itemDiv.innerHTML = `
             <div>
                 <h4 class="font-bold text-white text-sm">${item.name}</h4>
@@ -454,7 +452,6 @@ function renderCart() {
     cartCountElement.innerText = totalCount;
 }
 
-// Global helper function to adjust quantities directly from the cart drawer and sync main menu counters
 window.adjustCartQuantity = function(id, change) {
     const itemIndex = cart.findIndex(item => item.id === id);
     if (itemIndex > -1) {
@@ -466,7 +463,6 @@ window.adjustCartQuantity = function(id, change) {
         
         renderCart();
         
-        // Sync with main menu card counters if present on the page
         const menuCard = document.querySelector(`.menu-card .item-name[data-id="${id}"]`)?.closest('.menu-card');
         if (menuCard) {
             const qtyDisplay = menuCard.querySelector('.qty-display');
@@ -524,3 +520,12 @@ if (checkoutBtnWA) {
         window.open(whatsappUrl, '_blank');
     });
 }
+
+// Listen for storage changes across tabs/pages to auto-update cart
+window.addEventListener('storage', (e) => {
+    if (e.key === 'smash_cart' || e.key === 'smash_discount') {
+        cart = JSON.parse(localStorage.getItem('smash_cart')) || [];
+        discountActive = JSON.parse(localStorage.getItem('smash_discount')) || false;
+        renderCart();
+    }
+});

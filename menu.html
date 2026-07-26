@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu | Smash Guys</title>
+    
+    <meta name="description" content="Explore the official Smash Guys menu featuring Nashville hot chicken, fresh double smash burgers, loaded fries, and weekly fusion drops.">
+    
+    <link rel="icon" type="image/png" href="logo.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Sora:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { primary: '#111', accent: '#FFD400', grey: '#1a1a1a' },
+                    fontFamily: { bebas: ['"Bebas Neue"', 'sans-serif'], sora: ['Sora', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="font-sora selection:bg-accent selection:text-black bg-primary text-white">
+
+<!-- BRAND LOGO -->
+<div class="absolute top-4 left-4 sm:left-8 z-50">
+    <a href="index.html" class="flex items-center gap-3 sm:gap-4 group">
+        <div class="relative">
+            <div class="absolute -inset-2 bg-accent/25 rounded-full blur-xl group-hover:bg-accent/45 transition duration-500"></div>
+            <img src="logo.png" alt="Smash Guys Logo" class="relative w-20 h-20 sm:w-28 sm:h-28 object-contain blend-logo drop-shadow-[0_4px_15px_rgba(255,212,0,0.6)] transform group-hover:scale-105 transition duration-300" onerror="this.outerHTML='<span class=\'font-bebas text-accent text-4xl sm:text-5xl\'>[SG]</span>'">
+        </div>
+        <div class="flex flex-col">
+            <span class="font-bebas text-3xl sm:text-5xl tracking-widest text-white leading-none drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">SMASH</span>
+            <span class="font-bebas text-3xl sm:text-5xl tracking-widest text-accent leading-none drop-shadow-[0_0_15px_rgba(255,212,0,0.5)]">GUYS</span>
+        </div>
+    </a>
+</div>
+
+<!-- DESKTOP NAV -->
+<nav class="absolute top-8 right-8 z-50 hidden md:flex items-center gap-8 bg-black/60 backdrop-blur-md px-8 py-3.5 rounded-full border border-white/15 shadow-2xl">
+    <a href="index.html" class="text-gray-300 hover:text-accent font-bold text-sm uppercase tracking-wider transition">Home</a>
+    <a href="menu.html" class="text-accent font-bold text-sm uppercase tracking-wider transition">Menu</a>
+    <a href="index.html#location" class="text-gray-300 hover:text-accent font-bold text-sm uppercase tracking-wider transition">Location</a>
+    <a href="cart.html" class="text-white hover:text-accent font-bold text-sm uppercase tracking-wider transition flex items-center gap-2"><i class="fa-solid fa-cart-shopping text-accent"></i> Cart</a>
+</nav>
+
+<!-- PAGE HEADER -->
+<section class="pt-40 pb-16 bg-gradient-to-b from-primary to-grey border-b border-white/10 text-center">
+    <div class="container mx-auto px-4 max-w-4xl" data-aos="fade-up">
+        <span class="bg-accent/10 border border-accent/25 text-accent text-xs font-bold uppercase px-4 py-1.5 rounded-full inline-block mb-4">Official Menu Lineup</span>
+        <h1 class="font-bebas text-6xl sm:text-7xl lg:text-8xl text-white mb-4">THE <span class="text-accent">MENU</span></h1>
+        <p class="text-gray-300 text-base sm:text-lg max-w-xl mx-auto font-light">
+            Smashed thin, stacked right, and dipped to perfection. Order for fast collection at The Galleria.
+        </p>
+    </div>
+</section>
+
+<!-- MENU CONTENT SECTION -->
+<section class="py-20 bg-primary">
+    <div class="container mx-auto px-4 max-w-6xl space-y-16">
+
+        <!-- 1. NASHVILLE CHICKEN BURGERS -->
+        <div data-aos="fade-up">
+            <h2 class="font-bebas text-4xl text-accent mb-8 border-b border-white/10 pb-3 flex items-center gap-3">
+                <i class="fa-solid fa-fire text-accent"></i> Nashville Chicken Burgers
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Nashville Classic -->
+                <div class="bg-grey rounded-2xl border border-white/10 flex flex-col justify-between menu-card overflow-hidden">
+                    <div class="w-full h-48 neutral-placeholder relative border-b border-white/10">
+                        <span class="z-10 bg-black/70 px-3 py-1 rounded-full text-xs font-bold text-accent tracking-widest border border-accent/20">IMAGE COMING SOON</span>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow justify-between">
+                        <div>
+                            <div class="flex justify-between items-start mb-3">
+                                <h3 class="font-bebas text-2xl text-white">Nashville Classic</h3>
+                                <span class="font-bebas text-2xl text-accent">£7.99</span>
+                            </div>
+                            <p class="text-gray-400 text-xs leading-relaxed mb-6">Crispy Chicken Fillet, American Cheese, Nashville Mayo, Pickles</p>
+                        </div>
+                        <button onclick="addToCart('Nashville Classic', 7.99)" class="w-full bg-white/10 hover:bg-accent hover:text-black font-bold uppercase text-xs tracking-wider py-3 rounded-xl transition">Add to Order</button>
+                    </div>
+                </div>
+                <!-- Nashville OG -->
+                <div class="bg-grey rounded-2xl border border-white/10 flex flex-col justify-between menu-card overflow-hidden">
+                    <div class="w-full h-48 neutral-placeholder relative border-b border-white/10">
+                        <span class="z-10 bg-black/70 px-3 py-1 rounded-full text-xs font-bold text-accent tracking-widest border border-accent/20">IMAGE COMING SOON</span>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow justify-between">
+                        <div>
+                            <div class="flex justify-between items-start mb-3">
+                                <h3 class="font-bebas text-2xl text-white">Nashville OG</h3>
+                                <span class="font-bebas text-2xl text-accent">£8.49</span>
+                            </div>
+                            <p class="text-gray-400 text-xs leading-relaxed mb-6">Crispy Chicken Fillet, American Cheese, Nashville Mayo, Slaw, Pickles, Jalapeños</p>
+                        </div>
+                        <button onclick="addToCart('Nashville OG', 8.49)" class="w-full bg-white/10 hover:bg-accent hover:text-black font-bold uppercase text-xs tracking-wider py-3 rounded-xl transition">Add to Order</button>
+                    </div>
+                </div>
+                <!-- Nashville Bacon Melt -->
+                <div class="bg-grey rounded-2xl border border-white/10 flex flex-col justify-between menu-card overflow-hidden">
+                    <div class="w-full h-48 neutral-placeholder relative border-b border-white/10">
+                        <span class="z-10 bg-black/70 px-3 py-1 rounded-full text-xs font-bold text-accent tracking-widest border border-accent/20">IMAGE COMING SOON</span>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow justify-between">
+                        <div>
+                            <div class="flex justify-between items-start mb-3">
+                                <h3 class="font-bebas text-2xl text-white">Nashville Bacon Melt</h3>
+                                <span class="font-bebas text-2xl text-accent">£8.99</span>
+                            </div>
+                            <p class="text-gray-400 text-xs leading-relaxed mb-6">Crispy Chicken Fillet, American Cheese, Crispy Bacon, Cheese Sauce, Nashville Mayo, Pickles</p>
+                        </div>
+                        <button onclick="addToCart('Nashville Bacon Melt', 8.99)" class="w-full bg-white/10 hover:bg-accent hover:text-black font-bold uppercase text-xs tracking-wider py-3 rounded-xl transition">Add to Order</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. BEEF BURGERS -->
+        <div data-aos="fade-up">
+            <h2 class="font-bebas text-4xl text-accent mb-8 border-b border-white/10 pb-3 flex items-center gap-3">
+                <i class="fa-solid fa-burger text-accent"></i> Beef Burgers
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Smash Classic -->
+                <div class="bg-grey rounded-2xl border border-white/10 flex flex-col justify-between menu-card overflow-hidden">
+                    <div class="w-full h-48 neutral-placeholder relative border-b border-white/10">
+                        <span class="z-10 bg-black/70 px-3 py-1 rounded-full text-xs font-bold text-accent tracking-widest border border-accent/20">IMAGE COMING SOON</span>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow justify-between">
+                        <div>
+                            <div class="flex justify-between items-start mb-3">
+                                <h3 class="font-bebas text-2xl text-white">Smash Classic</h3>
+                                <span class="font-bebas text-2xl text-accent">£7.99</span>
+                            </div>
+                            <p class="text-gray-400 text-xs leading-relaxed mb-6">2 x Fresh Smash Patties, American Cheese, House Sauce, Pickles, Grilled Onion</p>
+                        </div>
+                        <button onclick="addToCart('Smash Classic', 7.99)" class="w-full bg-white/10 hover:bg-accent hover:text-black font-bold uppercase text-xs tracking-wider py-3 rounded-xl transition">Add to Order</button>
+                    </div>
+                </div>
+                <!-- Golden Melt Smash -->
+                <div class="bg-grey rounded-2xl border border-white/10 flex flex-col justify-between menu-card overflow-hidden">
+                    <div class="w-full h-48 neutral-placeholder relative border-b border-white/10">
+                        <span class="z-10 bg-black/70 px-3 py-1 rounded-full text-xs font-bold text-accent tracking-widest border border-accent/20">IMAGE COMING SOON</span>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow justify-between">
+                        <div>
+                            <div class="flex justify-between items-start mb-3">
+                                <h3 class="font-bebas text-2xl text-white">Golden Melt Smash</h3>
+                                <span class="font-bebas text-2xl text-accent">£8.49</span>
+                            </div>
+                            <p class="text-gray-400 text-xs leading-relaxed mb-6">2 x Fresh Smash Patties, American Cheese, House Sauce, Cheese Sauce, Pickles, Grilled Onion</p>
+                        </div>
+                        <button onclick="addToCart('Golden Melt Smash', 8.49)" class="w-full bg-white/10 hover:bg-accent hover:text-black font-bold uppercase text-xs tracking-wider py-3 rounded-xl transition">Add to Order</button>
+                    </div>
+                </div>
+                <!-- Smoke House Bacon Smash -->
+                <div class="bg-grey rounded-2xl border border-white/10 flex flex-col justify-between menu-card overflow-hidden">
+                    <div class="w-full h-48 neutral-placeholder relative border-b border-white/10">
+                        <span class="z-10 bg-black/70 px-3 py-1 rounded-full text-xs font-bold text-accent tracking-widest border border-accent/20">IMAGE COMING SOON</span>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow justify-between">
+                        <div>
+                            <div class="flex justify-between items-start mb-3">
+                                <h3 class="font-bebas text-2xl text-white">Smoke House Bacon Smash</h3>
+                                <span class="font-bebas text-2xl text-accent">£8.99</span>
+                            </div>
+                            <p class="text-gray-400 text-xs leading-relaxed mb-6">2 x Fresh Smash Patties, American Cheese, Crispy Bacon, Smoky BBQ Sauce, Pickles, Grilled Onion</p>
+                        </div>
+                        <button onclick="addToCart('Smoke House Bacon Smash', 8.99)" class="w-full bg-white/10 hover:bg-accent hover:text-black font-bold uppercase text-xs tracking-wider py-3 rounded-xl transition">Add to Order</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. SIDES & WINGS -->
+        <div data-aos="fade-up">
+            <h2 class="font-bebas text-4xl text-accent mb-8 border-b border-white/10 pb-3 flex items-center gap-3">
+                <i class="fa-solid fa-utensils text-accent"></i> Sides & Wings
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Regular Fries -->
+                <div class="bg-grey rounded-2xl border border-white/10 flex flex-col justify-between menu-card overflow-hidden">
+                    <div class="w-full h-40 neutral-placeholder relative border-b border-white/10">
+                        <span class="z-10 bg-black/70 px-3 py-1 rounded-full text-xs font-bold text-accent tracking-widest border border-accent/20">IMAGE COMING SOON</span>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow justify-between">
+                        <div>
+                            <div class="flex justify-between items-start mb-3">
+                                <h3 class="font-bebas text-2xl text-white">Regular Fries</h3>
+                                <span class="font-bebas text-2xl text-accent">£3.99</span>
+                            </div>
+                            <p class="text-gray-400 text-xs leading-relaxed mb-6">Choice of Salted or Cajun seasoning.</p>
+                        </div>
+                        <button onclick="addToCart('Regular Fries', 3.99)" class="w-full bg-white/10 hover:bg-accent hover:text-black font-bold uppercase text-xs tracking-wider py-3 rounded-xl transition">Add to Order</button>
+                    </div>
+                </div>
+                <!-- Beef Loaded Fries -->
+                <div class="bg-grey rounded-2xl border border-white/10 flex flex-col justify-between menu-card overflow-hidden">
+                    <div class="w-full h-40 neutral-placeholder relative border-b border-white/10">
+                        <span class="z-10 bg-black/70 px-3 py-1 rounded-full text-xs font-bold text-accent tracking-widest border border-accent/20">IMAGE COMING SOON</span>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow justify-between">
+                        <div>
+                            <div class="flex justify-between items-start mb-3">
+                                <h3 class="font-bebas text-2xl text-white">Beef Loaded Fries</h3>
+                                <span class="font-bebas text-2xl text-accent">£6.99</span>
+                            </div>
+                            <p class="text-gray-400 text-xs leading-relaxed mb-6">Fries, Cheese Sauce, Beef, Grilled Onion</p>
+                        </div>
+                        <button onclick="addToCart('Beef Loaded Fries', 6.99)" class="w-full bg-white/10 hover:bg-accent hover:text-black font-bold uppercase text-xs tracking-wider py-3 rounded-xl transition">Add to Order</button>
+                    </div>
+                </div>
+                <!-- Chicken Loaded Fries -->
+                <div class="bg-grey rounded-2xl border border-white/10 flex flex-col justify-between menu-card overflow-hidden">
+                    <div class="w-full h-40 neutral-placeholder relative border-b border-white/10">
+                        <span class="z-10 bg-black/70 px-3 py-1 rounded-full text-xs font-bold text-accent tracking-widest border border-accent/20">IMAGE COMING SOON</span>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow justify-between">
+                        <div>
+                            <div class="flex justify-between items-start mb-3">
+                                <h3 class="font-bebas text-2xl text-white">Chicken Loaded Fries</h3>
+                                <span class="font-bebas text-2xl text-accent">£6.99</span>
+                            </div>
+                            <p class="text-gray-400 text-xs leading-relaxed mb-6">Fries, Cheese Sauce, Crispy Chicken, Nashville Mayo</p>
+                        </div>
+                        <button onclick="addToCart('Chicken Loaded Fries', 6.99)" class="w-full bg-white/10 hover:bg-accent hover:text-black font-bold uppercase text-xs tracking-wider py-3 rounded-xl transition">Add to Order</button>
+                    </div>
+                </div>
+                <!-- Hot Wings -->
+                <div class="bg-grey rounded-2xl border border-white/10 flex flex-col justify-between menu-card overflow-hidden">
+                    <div class="w-full h-40 neutral-placeholder relative border-b border-white/10">
+                        <span class="z-10 bg-black/70 px-3 py-1 rounded-full text-xs font-bold text-accent tracking-widest border border-accent/20">IMAGE COMING SOON</span>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow justify-between">
+                        <div>
+                            <div class="flex justify-between items-start mb-3">
+                                <h3 class="font-bebas text-2xl text-white">Hot Wings</h3>
+                                <span class="font-bebas text-2xl text-accent">From £5.99</span>
+                            </div>
+                            <p class="text-gray-400 text-xs leading-relaxed mb-6">6 PCS (£5.99) or 10 PCS (£8.99)</p>
+                        </div>
+                        <button onclick="addToCart('Hot Wings', 5.99)" class="w-full bg-white/10 hover:bg-accent hover:text-black font-bold uppercase text-xs tracking-wider py-3 rounded-xl transition">Add 6 PCS (£5.99)</button>
+                    </div>
+                </div>
+                <!-- BBQ Wings -->
+                <div class="bg-grey rounded-2xl border border-white/10 flex flex-col justify-between menu-card overflow-hidden">
+                    <div class="w-full h-40 neutral-placeholder relative border-b border-white/10">
+                        <span class="z-10 bg-black/70 px-3 py-1 rounded-full text-xs font-bold text-accent tracking-widest border border-accent/20">IMAGE COMING SOON</span>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow justify-between">
+                        <div>
+                            <div class="flex justify-between items-start mb-3">
+                                <h3 class="font-bebas text-2xl text-white">BBQ Wings</h3>
+                                <span class="font-bebas text-2xl text-accent">From £5.99</span>
+                            </div>
+                            <p class="text-gray-400 text-xs leading-relaxed mb-6">6 PCS (£5.99) or 10 PCS (£8.99)</p>
+                        </div>
+                        <button onclick="addToCart('BBQ Wings', 5.99)" class="w-full bg-white/10 hover:bg-accent hover:text-black font-bold uppercase text-xs tracking-wider py-3 rounded-xl transition">Add 6 PCS (£5.99)</button>
+                    </div>
+                </div>
+                <!-- 5 Hot + 5 BBQ Wings -->
+                <div class="bg-grey rounded-2xl border border-white/10 flex flex-col justify-between menu-card overflow-hidden">
+                    <div class="w-full h-40 neutral-placeholder relative border-b border-white/10">
+                        <span class="z-10 bg-black/70 px-3 py-1 rounded-full text-xs font-bold text-accent tracking-widest border border-accent/20">IMAGE COMING SOON</span>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow justify-between">
+                        <div>
+                            <div class="flex justify-between items-start mb-3">
+                                <h3 class="font-bebas text-2xl text-white">5 Hot + 5 BBQ Wings</h3>
+                                <span class="font-bebas text-2xl text-accent">£8.99</span>
+                            </div>
+                            <p class="text-gray-400 text-xs leading-relaxed mb-6">Mixed combo platter of 10 wings.</p>
+                        </div>
+                        <button onclick="addToCart('5 Hot + 5 BBQ Wings', 8.99)" class="w-full bg-white/10 hover:bg-accent hover:text-black font-bold uppercase text-xs tracking-wider py-3 rounded-xl transition">Add to Order</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. MEALS & DUOS -->
+        <div data-aos="fade-up">
+            <h2 class="font-bebas text-4xl text-accent mb-8 border-b border-white/10 pb-3 flex items-center gap-3">
+                <i class="fa-solid fa-box text-accent"></i> Meals & Duos
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Classic Meal -->
+                <div class="bg-grey rounded-2xl border border-white/10 flex flex-col justify-between menu-card overflow-hidden">
+                    <div class="w-full h-36 neutral-placeholder relative border-b border-white/10">
+                        <span class="z-10 bg-black/70 px-3 py-1 rounded-full text-[10px] font-bold text-accent tracking-widest border border-accent/20">IMAGE COMING SOON</span>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow justify-between">
+                        <div>
+                            <div class="flex justify-between items-start mb-3">
+                                <h3 class="font-bebas text-xl text-white">Classic Meal</h3>
+                                <span class="font-bebas text-xl text-accent">£11.49</span>
+                            </div>
+                            <p class="text-gray-400 text-xs leading-relaxed mb-6">Any Classic Burger, Regular Fries & Drink</p>
+                        </div>
+                        <button onclick="addToCart('Classic Meal', 11.49)" class="w-full bg-white/10 hover:bg-accent hover:text-black font-bold uppercase text-xs tracking-wider py-3 rounded-xl transition">Add to Order</button>
+                    </div>
+                </div>
+                <!-- Premium Meal -->
+                <div class="bg-grey rounded-2xl border border-white/10 flex flex-col justify-between menu-card overflow-hidden">
+                    <div class="w-full h-36 neutral-placeholder relative border-b border-white/10">
+                        <span class="z-10 bg-black/70 px-3 py-1 rounded-full text-[10px] font-bold text-accent tracking-widest border border-accent/20">IMAGE COMING SOON</span>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow justify-between">
+                        <div>
+                            <div class="flex justify-between items-start mb-3">
+                                <h3 class="font-bebas text-xl text-white">Premium Meal</h3>
+                                <span class="font-bebas text-xl text-accent">£12.99</span>
+                            </div>
+                            <p class="text-gray-400 text-xs leading-relaxed mb-6">Any Premium Burger, Regular Fries & Drink</p>
+                        </div>
+                        <button onclick="addToCart('Premium Meal', 12.99)" class="w-full bg-white/10 hover:bg-accent hover:text-black font-bold uppercase text-xs tracking-wider py-3 rounded-xl transition">Add to Order</button>
+                    </div>
+                </div>
+                <!-- Loaded Burger Meal -->
+                <div class="bg-grey rounded-2xl border border-white/10 flex flex-col justify-between menu-card overflow-hidden">
+                    <div class="w-full h-36 neutral-placeholder relative border-b border-white/10">
+                        <span class="z-10 bg-black/70 px-3 py-1 rounded-full text-[10px] font-bold text-accent tracking-widest border border-accent/20">IMAGE COMING SOON</span>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow justify-between">
+                        <div>
+                            <div class="flex justify-between items-start mb-3">
+                                <h3 class="font-bebas text-xl text-white">Loaded Burger Meal</h3>
+                                <span class="font-bebas text-xl text-accent">£13.99</span>
+                            </div>
+                            <p class="text-gray-400 text-xs leading-relaxed mb-6">Any Burger, Loaded Fries & Drink</p>
+                        </div>
+                        <button onclick="addToCart('Loaded Burger Meal', 13.99)" class="w-full bg-white/10 hover:bg-accent hover:text-black font-bold uppercase text-xs tracking-wider py-3 rounded-xl transition">Add to Order</button>
+                    </div>
+                </div>
+                <!-- Wings Meal -->
+                <div class="bg-grey rounded-2xl border border-white/10 flex flex-col justify-between menu-card overflow-hidden">
+                    <div class="w-full h-36 neutral-placeholder relative border-b border-white/10">
+                        <span class="z-10 bg-black/70 px-3 py-1 rounded-full text-[10px] font-bold text-accent tracking-widest border border-accent/20">IMAGE COMING SOON</span>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow justify-between">
+                        <div>
+                            <div class="flex justify-between items-start mb-3">
+                                <h3 class="font-bebas text-xl text-white">Wings Meal</h3>
+                                <span class="font-bebas text-xl text-accent">£9.99</span>
+                            </div>
+                            <p class="text-gray-400 text-xs leading-relaxed mb-6">6 Hot or BBQ Wings, Regular Fries & Drink</p>
+                        </div>
+                        <button onclick="addToCart('Wings Meal', 9.99)" class="w-full bg-white/10 hover:bg-accent hover:text-black font-bold uppercase text-xs tracking-wider py-3 rounded-xl transition">Add to Order</button>
+                    </div>
+                </div>
+                <!-- 10 Wings Combo Meal -->
+                <div class="bg-grey rounded-2xl border border-white/10 flex flex-col justify-between menu-card overflow-hidden">
+                    <div class="w-full h-36 neutral-placeholder relative border-b border-white/10">
+                        <span class="z-10 bg-black/70 px-3 py-1 rounded-full text-[10px] font-bold text-accent tracking-widest border border-accent/20">IMAGE COMING SOON</span>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow justify-between">
+                        <div>
+                            <div class="flex justify-between items-start mb-3">
+                                <h3 class="font-bebas text-xl text-white">10 Wings Combo Meal</h3>
+                                <span class="font-bebas text-xl text-accent">£13.99</span>
+                            </div>
+                            <p class="text-gray-400 text-xs leading-relaxed mb-6">10 Wings (or 5 Hot + 5 BBQ), Fries & Drink</p>
+                        </div>
+                        <button onclick="addToCart('10 Wings Combo Meal', 13.99)" class="w-full bg-white/10 hover:bg-accent hover:text-black font-bold uppercase text-xs tracking-wider py-3 rounded-xl transition">Add to Order</button>
+                    </div>
+                </div>
+                <!-- Meal For Two -->
+                <div class="bg-grey rounded-2xl border border-white/10 flex flex-col justify-between menu-card overflow-hidden">
+                    <div class="w-full h-36 neutral-placeholder relative border-b border-white/10">
+                        <span class="z-10 bg-black/70 px-3 py-1 rounded-full text-[10px] font-bold text-accent tracking-widest border border-accent/20">IMAGE COMING SOON</span>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow justify-between">
+                        <div>
+                            <div class="flex justify-between items-start mb-3">
+                                <h3 class="font-bebas text-xl text-white">Meal For Two</h3>
+                                <span class="font-bebas text-xl text-accent">£19.99</span>
+                            </div>
+                            <p class="text-gray-400 text-xs leading-relaxed mb-6">2 Burgers, 2 Regular Fries, 2 Soft Drinks</p>
+                        </div>
+                        <button onclick="addToCart('Meal For Two', 19.99)" class="w-full bg-white/10 hover:bg-accent hover:text-black font-bold uppercase text-xs tracking-wider py-3 rounded-xl transition">Add to Order</button>
+                    </div>
+                </div>
+                <!-- Smash Duo Feast -->
+                <div class="bg-grey rounded-2xl border border-white/10 flex flex-col justify-between menu-card overflow-hidden md:col-span-2">
+                    <div class="w-full h-36 neutral-placeholder relative border-b border-white/10">
+                        <span class="z-10 bg-black/70 px-3 py-1 rounded-full text-xs font-bold text-accent tracking-widest border border-accent/20">IMAGE COMING SOON</span>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow justify-between">
+                        <div>
+                            <div class="flex justify-between items-start mb-3">
+                                <h3 class="font-bebas text-xl text-white">Smash Duo Feast</h3>
+                                <span class="font-bebas text-xl text-accent">£20.99</span>
+                            </div>
+                            <p class="text-gray-400 text-xs leading-relaxed mb-6">2 Burgers, 2 Regular Fries, 2 Drinks, 10 Wings Combo</p>
+                        </div>
+                        <button onclick="addToCart('Smash Duo Feast', 20.99)" class="w-full bg-white/10 hover:bg-accent hover:text-black font-bold uppercase text-xs tracking-wider py-3 rounded-xl transition">Add to Order</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. DRINKS & EXTRAS -->
+        <div data-aos="fade-up">
+            <h2 class="font-bebas text-4xl text-accent mb-8 border-b border-white/10 pb-3 flex items-center gap-3">
+                <i class="fa-solid fa-plus text-accent"></i> Drinks & Extras
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-grey p-6 rounded-2xl border border-white/10">
+                    <h3 class="font-bebas text-2xl text-white mb-4">Drinks</h3>
+                    <ul class="space-y-3 text-sm text-gray-300">
+                        <li class="flex justify-between border-b border-white/5 pb-2"><span>Cans (Coca-Cola, Coke Zero, Sprite, Fanta, Dr Pepper)</span> <span class="font-bold text-accent">£1.49</span></li>
+                        <li class="flex justify-between pt-1"><span>Still Water</span> <span class="font-bold text-accent">£0.99</span></li>
+                    </ul>
+                </div>
+                <div class="bg-grey p-6 rounded-2xl border border-white/10">
+                    <h3 class="font-bebas text-2xl text-white mb-4">Extras & Add-Ons</h3>
+                    <ul class="space-y-3 text-sm text-gray-300">
+                        <li class="flex justify-between border-b border-white/5 pb-2"><span>Extra Patty</span> <span class="font-bold text-accent">£1.50</span></li>
+                        <li class="flex justify-between border-b border-white/5 pb-2"><span>Extra Cheese</span> <span class="font-bold text-accent">£0.50</span></li>
+                        <li class="flex justify-between border-b border-white/5 pb-2"><span>Extra Bacon</span> <span class="font-bold text-accent">£1.00</span></li>
+                        <li class="flex justify-between pt-1"><span>Any Dip</span> <span class="font-bold text-accent">£0.50</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- CART FLOATING BAR -->
+<div id="cart-bar" class="fixed bottom-6 right-6 z-50 bg-accent text-primary px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-4 transform translate-y-32 transition-transform duration-300">
+    <div class="flex flex-col">
+        <span class="text-xs uppercase font-bold tracking-wider">Your Order</span>
+        <span id="cart-count" class="font-bebas text-xl">0 Items</span>
+    </div>
+    <a href="cart.html" class="bg-primary text-white font-bebas text-xl px-5 py-2.5 rounded-xl hover:bg-black transition">VIEW CART</a>
+</div>
+
+<!-- FOOTER -->
+<footer class="py-12 border-t border-white/10 text-center bg-black">
+    <div class="container mx-auto px-4 flex flex-col items-center gap-6">
+        <div class="flex items-center gap-3">
+            <img src="logo.png" alt="Smash Guys Logo" class="w-12 h-12 object-contain blend-logo" onerror="this.style.display='none'">
+            <span class="font-bebas text-3xl tracking-widest text-white">SMASH <span class="text-accent">GUYS</span></span>
+        </div>
+        <p class="text-gray-400 text-xs max-w-md">
+            Smash Guys UK Ltd | Trading at Public Car Park, The Galleria, Hatfield, AL10 0XR. Fresh ingredients, high heat, zero compromises.
+        </p>
+        <div class="text-gray-500 text-xs flex gap-4 border-t border-white/10 pt-6 w-full max-w-md justify-center">
+            <span>&copy; 2026 Smash Guys.</span>
+        </div>
+    </div>
+</footer>
+
+<script>
+    AOS.init({ once: true, offset: 50 });
+    const lenis = new Lenis({ duration: 1.1, smoothWheel: true });
+    function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+    requestAnimationFrame(raf);
+
+    // Simple Cart State Handler
+    function addToCart(name, price) {
+        let cart = JSON.parse(localStorage.getItem('smash_cart')) || [];
+        let existing = cart.find(item => item.name === name);
+        if (existing) {
+            existing.qty += 1;
+        } else {
+            cart.push({ name, price, qty: 1 });
+        }
+        localStorage.setItem('smash_cart', JSON.stringify(cart));
+        updateCartBar();
+        
+        const bar = document.getElementById('cart-bar');
+        bar.classList.remove('translate-y-32');
+    }
+
+    function updateCartBar() {
+        let cart = JSON.parse(localStorage.getItem('smash_cart')) || [];
+        let totalCount = cart.reduce((sum, item) => sum + item.qty, 0);
+        const countEl = document.getElementById('cart-count');
+        const bar = document.getElementById('cart-bar');
+        if (totalCount > 0) {
+            countEl.innerText = `${totalCount} Item${totalCount > 1 ? 's' : ''}`;
+            bar.classList.remove('translate-y-32');
+        } else {
+            bar.classList.add('translate-y-32');
+        }
+    }
+    updateCartBar();
+</script>
+</body>
+</html>

@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout | Smash Guys</title>
+    
+    <meta name="description" content="Review your Smash Guys order and complete your checkout for fast collection at SMASH GUYS FOOD TRUCK Customers Car Park,The Galleria, Hatfield.">
+    
+    <link rel="icon" type="image/png" href="logo.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Sora:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { primary: '#111', accent: '#FFD400', grey: '#1a1a1a' },
+                    fontFamily: { bebas: ['"Bebas Neue"', 'sans-serif'], sora: ['Sora', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="font-sora selection:bg-accent selection:text-black bg-primary text-white">
+
+<!-- BRAND LOGO -->
+<div class="absolute top-4 left-4 sm:left-8 z-50">
+    <a href="index.html" class="flex items-center gap-3 sm:gap-4 group">
+        <div class="relative">
+            <div class="absolute -inset-1 bg-accent/15 rounded-full blur-md group-hover:bg-accent/30 transition duration-500"></div>
+            <img src="logo.png" alt="Smash Guys Logo" class="relative w-20 h-20 sm:w-28 sm:h-28 object-contain blend-logo drop-shadow-[0_4px_15px_rgba(255,212,0,0.8)] transform group-hover:scale-105 transition duration-300" onerror="this.outerHTML='<span class=\'font-bebas text-accent text-4xl sm:text-5xl\'>[SG]</span>'">
+        </div>
+        <div class="flex flex-col">
+            <span class="font-bebas text-3xl sm:text-5xl tracking-widest text-white leading-none drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">SMASH</span>
+            <span class="font-bebas text-3xl sm:text-5xl tracking-widest text-accent leading-none drop-shadow-[0_0_15px_rgba(255,212,0,0.5)]">GUYS</span>
+        </div>
+    </a>
+</div>
+
+<!-- DESKTOP NAV -->
+<nav class="absolute top-8 right-8 z-50 hidden md:flex items-center gap-8 bg-black/60 backdrop-blur-md px-8 py-3.5 rounded-full border border-white/15 shadow-2xl">
+    <a href="index.html" class="text-gray-300 hover:text-accent font-bold text-sm uppercase tracking-wider transition">Home</a>
+    <a href="menu.html" class="text-gray-300 hover:text-accent font-bold text-sm uppercase tracking-wider transition">Menu</a>
+    <a href="cart.html" class="text-accent font-bold text-sm uppercase tracking-wider transition flex items-center gap-2"><i class="fa-solid fa-cart-shopping text-accent"></i> Cart</a>
+</nav>
+
+<!-- PAGE HEADER -->
+<section class="pt-40 pb-12 bg-gradient-to-b from-primary to-grey border-b border-white/10 text-center">
+    <div class="container mx-auto px-4 max-w-4xl" data-aos="fade-up">
+        <span class="bg-accent/10 border border-accent/25 text-accent text-xs font-bold uppercase px-4 py-1.5 rounded-full inline-block mb-4">Secure Collection Checkout</span>
+        <h1 class="font-bebas text-6xl sm:text-7xl text-white mb-2">YOUR <span class="text-accent">ORDER</span></h1>
+        <p class="text-gray-300 text-sm sm:text-base max-w-md mx-auto font-light">
+            Review your items, apply promo codes, and complete checkout for collection at SMASH GUYS FOOD TRUCK Customers Car Park, The Galleria, Hatfield.
+        </p>
+    </div>
+</section>
+
+<!-- CHECKOUT CONTENT -->
+<section class="py-16 bg-primary min-h-[60vh]">
+    <div class="container mx-auto px-4 max-w-6xl">
+        <div id="cart-container" class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            
+            <!-- Left: Items List -->
+            <div class="lg:col-span-7 bg-grey p-6 sm:p-8 rounded-2xl border border-white/10" data-aos="fade-up">
+                <h2 class="font-bebas text-3xl text-white mb-6 border-b border-white/10 pb-3 flex justify-between items-center">
+                    <span>Order Items</span>
+                    <span id="item-counter" class="text-xs font-sora text-accent uppercase tracking-wider">0 Items</span>
+                </h2>
+                
+                <div id="cart-items-list" class="space-y-4 mb-6">
+                    <!-- Populated dynamically via JS -->
+                </div>
+
+                <div id="empty-cart-message" class="text-center py-12 hidden">
+                    <div class="w-16 h-16 bg-white/5 border border-white/10 rounded-full flex items-center justify-center mx-auto mb-4 text-accent text-2xl"><i class="fa-solid fa-basket-shopping"></i></div>
+                    <p class="text-gray-400 text-sm mb-6">Your cart is currently empty.</p>
+                    <a href="menu.html" class="inline-block bg-accent text-primary font-bebas text-xl px-8 py-3 rounded-xl hover:bg-white transition">EXPLORE MENU</a>
+                </div>
+            </div>
+
+            <!-- Right: Summary & Checkout Form -->
+            <div class="lg:col-span-5 bg-grey p-6 sm:p-8 rounded-2xl border border-white/10 sticky top-8" data-aos="fade-up">
+                <h2 class="font-bebas text-3xl text-white mb-6 border-b border-white/10 pb-3">Order Summary</h2>
+                
+                <div class="space-y-3 text-sm text-gray-300 mb-6">
+                    <div class="flex justify-between"><span>Subtotal</span> <span id="subtotal-amount" class="font-bold text-white">£0.00</span></div>
+                    <div class="flex justify-between"><span>Collection Fee</span> <span class="font-bold text-accent">FREE</span></div>
+                    <div id="discount-row" class="flex justify-between text-accent hidden"><span>Discount (WELCOME10)</span> <span id="discount-amount" class="font-bold">-£0.00</span></div>
+                    <div class="flex justify-between border-t border-white/10 pt-3 text-lg">
+                        <span class="font-bebas text-2xl text-white">Total Due</span> 
+                        <span id="total-amount" class="font-bebas text-2xl text-accent">£0.00</span>
+                    </div>
+                </div>
+
+                <!-- Promo Code Box -->
+                <div class="mb-6">
+                    <div class="flex gap-2">
+                        <input type="text" id="promo-input" placeholder="Enter Promo Code" class="bg-black border border-white/20 p-3 text-white text-xs rounded-xl flex-grow uppercase focus:border-accent focus:outline-none">
+                        <button onclick="applyPromoCode()" class="bg-white/10 hover:bg-accent hover:text-primary font-bold text-xs uppercase px-4 py-3 rounded-xl transition">Apply</button>
+                    </div>
+                    <p id="promo-feedback" class="text-xs mt-2 hidden"></p>
+                </div>
+
+                <!-- Checkout Form Inputs -->
+                <form id="checkout-form" class="space-y-4 pt-4 border-t border-white/10" onsubmit="handleCheckout(event)">
+                    <h3 class="font-bebas text-xl text-white">Collection Details</h3>
+                    <div>
+                        <label class="block text-xs uppercase text-gray-400 font-bold mb-1">Your Full Name *</label>
+                        <input type="text" id="cust-name" required placeholder="Enter your Full Name" class="w-full bg-black border border-white/20 p-3 text-white text-sm rounded-xl focus:border-accent focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs uppercase text-gray-400 font-bold mb-1">Phone Number (For Collection Alert) *</label>
+                        <input type="tel" id="cust-phone" required placeholder="XXXX XXXXXX" class="w-full bg-black border border-white/20 p-3 text-white text-sm rounded-xl focus:border-accent focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs uppercase text-gray-400 font-bold mb-1">Payment Method</label>
+                        <div class="bg-black/60 p-3.5 rounded-xl border border-white/10 text-xs text-gray-300 flex items-center justify-between">
+                            <span class="flex items-center gap-2"><i class="fa-solid fa-store text-accent"></i> Pay at Food Truck on Collection</span>
+                            <span class="bg-accent/10 text-accent font-bold px-2 py-1 rounded">Cash / Card</span>
+                        </div>
+                    </div>
+
+                    <button type="submit" id="checkout-btn" class="w-full bg-accent text-primary font-bebas text-2xl py-4 rounded-xl hover:bg-white transition shadow-xl mt-4">PLACE COLLECTION ORDER</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ORDER SUCCESS MODAL -->
+<div id="success-modal" class="fixed inset-0 bg-black/85 z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-grey rounded-2xl max-w-md w-full p-8 border border-white/15 text-center relative">
+        <div class="w-16 h-16 bg-accent/20 border border-accent text-accent rounded-full flex items-center justify-center mx-auto mb-4 text-3xl"><i class="fa-solid fa-check"></i></div>
+        <h3 class="font-bebas text-4xl text-white mb-2">ORDER PLACED SUCCESSFULLY!</h3>
+        <p class="text-gray-300 text-xs mb-6 leading-relaxed">
+            Thank you, <span id="receipt-name" class="font-bold text-white"></span>! Your collection order has been transmitted to our kitchen at <span class="text-accent font-bold">The Galleria, Hatfield</span>. Ready in approx. 15–20 minutes.
+        </p>
+        <div class="bg-black/50 p-4 rounded-xl border border-white/10 mb-6 text-left text-xs space-y-2">
+            <div class="flex justify-between"><span class="text-gray-400">Order Reference:</span> <span id="receipt-ref" class="font-mono text-accent font-bold">SG-8429</span></div>
+            <div class="flex justify-between"><span class="text-gray-400">Total Amount:</span> <span id="receipt-total" class="font-bold text-white">£0.00</span></div>
+            <div class="flex justify-between"><span class="text-gray-400">Payment:</span> <span class="text-white">Pay at Truck</span></div>
+        </div>
+        <a href="index.html" class="inline-block bg-accent text-primary font-bebas text-xl w-full py-3.5 rounded-xl hover:bg-white transition">RETURN TO HOME</a>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="py-12 border-t border-white/10 text-center bg-black">
+    <div class="container mx-auto px-4 flex flex-col items-center gap-6">
+        <div class="flex items-center gap-3">
+            <img src="logo.png" alt="Smash Guys Logo" class="w-12 h-12 object-contain blend-logo" onerror="this.style.display='none'">
+            <span class="font-bebas text-3xl tracking-widest text-white">SMASH <span class="text-accent">GUYS</span></span>
+        </div>
+        <p class="text-gray-400 text-xs max-w-md">
+            Smash Guys UK Ltd | SMASH GUYS FOOD TRUCK Customers Car Park, The Galleria, Hatfield, AL10 0XR. Fresh ingredients, high heat, zero compromises.
+        </p>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-6 text-sm text-gray-300">
+            <a href="https://www.instagram.com/smashguys_hatfield" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 hover:text-accent transition group">
+                <i class="fa-brands fa-instagram text-xl text-accent"></i> <span>@smashguys_hatfield</span>
+            </a>
+            <a href="https://www.facebook.com/smashguysuk" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 hover:text-accent transition group">
+                <i class="fa-brands fa-facebook text-xl text-accent"></i> <span>@smashguysuk</span>
+            </a>
+            <a href="https://www.tiktok.com/@smashguysuk" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 hover:text-accent transition group">
+                <i class="fa-brands fa-tiktok text-xl text-accent"></i> <span>@smashguysuk</span>
+            </a>
+        </div>
+        <div class="text-gray-500 text-xs flex gap-4 border-t border-white/10 pt-6 w-full max-w-md justify-center">
+            <span>&copy; 2026 Smash Guys.</span>
+        </div>
+    </div>
+</footer>
+
+<script>
+    AOS.init({ once: true, offset: 50 });
+    const lenis = new Lenis({ duration: 1.1, smoothWheel: true });
+    function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+    requestAnimationFrame(raf);
+
+    let discountApplied = false;
+    let discountRate = 0;
+
+    function renderCart() {
+        let cart = JSON.parse(localStorage.getItem('smash_cart')) || [];
+        const listEl = document.getElementById('cart-items-list');
+        const emptyEl = document.getElementById('empty-cart-message');
+        const counterEl = document.getElementById('item-counter');
+        const subtotalEl = document.getElementById('subtotal-amount');
+        const totalEl = document.getElementById('total-amount');
+        
+        listEl.innerHTML = '';
+        
+        if (cart.length === 0) {
+            emptyEl.classList.remove('hidden');
+            counterEl.innerText = '0 Items';
+            subtotalEl.innerText = '£0.00';
+            totalEl.innerText = '£0.00';
+            return;
+        }
+
+        emptyEl.classList.add('hidden');
+        let totalItems = 0;
+        let subtotal = 0;
+
+        cart.forEach((item, index) => {
+            totalItems += item.qty;
+            subtotal += item.price * item.qty;
+
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'flex justify-between items-center bg-black/40 p-4 rounded-xl border border-white/10';
+            itemDiv.innerHTML = `
+                <div class="flex flex-col">
+                    <span class="font-bebas text-xl text-white">${item.name}</span>
+                    <span class="text-xs text-accent font-bold">£${item.price.toFixed(2)} each</span>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="flex items-center bg-black border border-white/20 rounded-lg overflow-hidden">
+                        <button onclick="updateQty(${index}, -1)" class="px-3 py-1 text-gray-300 hover:bg-white/10 transition">-</button>
+                        <span class="px-3 text-xs font-bold text-white">${item.qty}</span>
+                        <button onclick="updateQty(${index}, 1)" class="px-3 py-1 text-gray-300 hover:bg-white/10 transition">+</button>
+                    </div>
+                    <span class="font-bebas text-xl text-white w-20 text-right">£${(item.price * item.qty).toFixed(2)}</span>
+                    <button onclick="removeItem(${index})" class="text-gray-500 hover:text-red-400 text-sm p-1 transition"><i class="fa-solid fa-trash"></i></button>
+                </div>
+            `;
+            listEl.appendChild(itemDiv);
+        });
+
+        counterEl.innerText = `${totalItems} Item${totalItems > 1 ? 's' : ''}`;
+        subtotalEl.innerText = `£${subtotal.toFixed(2)}`;
+
+        let finalTotal = subtotal;
+        if (discountApplied) {
+            let discountVal = subtotal * discountRate;
+            finalTotal -= discountVal;
+            document.getElementById('discount-row').classList.remove('hidden');
+            document.getElementById('discount-amount').innerText = `-£${discountVal.toFixed(2)}`;
+        } else {
+            document.getElementById('discount-row').classList.add('hidden');
+        }
+
+        totalEl.innerText = `£${finalTotal.toFixed(2)}`;
+    }
+
+    function updateQty(index, change) {
+        let cart = JSON.parse(localStorage.getItem('smash_cart')) || [];
+        cart[index].qty += change;
+        if (cart[index].qty <= 0) {
+            cart.splice(index, 1);
+        }
+        localStorage.setItem('smash_cart', JSON.stringify(cart));
+        renderCart();
+    }
+
+    function removeItem(index) {
+        let cart = JSON.parse(localStorage.getItem('smash_cart')) || [];
+        cart.splice(index, 1);
+        localStorage.setItem('smash_cart', JSON.stringify(cart));
+        renderCart();
+    }
+
+    function applyPromoCode() {
+        const codeInput = document.getElementById('promo-input').value.trim().toUpperCase();
+        const feedback = document.getElementById('promo-feedback');
+        feedback.classList.remove('hidden');
+
+        if (codeInput === 'WELCOME10') {
+            discountApplied = true;
+            discountRate = 0.10;
+            feedback.className = 'text-xs mt-2 text-accent font-bold';
+            feedback.innerText = 'Promo code WELCOME10 applied successfully (10% Off)!';
+            renderCart();
+        } else {
+            feedback.className = 'text-xs mt-2 text-red-400 font-bold';
+            feedback.innerText = 'Invalid promo code. Try WELCOME10';
+        }
+    }
+
+    function handleCheckout(event) {
+        event.preventDefault();
+        let cart = JSON.parse(localStorage.getItem('smash_cart')) || [];
+        if (cart.length === 0) {
+            alert('Your cart is empty!');
+            return;
+        }
+
+        const name = document.getElementById('cust-name').value;
+        const phone = document.getElementById('cust-phone').value;
+        
+        let subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+        let finalTotal = discountApplied ? subtotal * (1 - discountRate) : subtotal;
+
+        document.getElementById('receipt-name').innerText = name;
+        document.getElementById('receipt-ref').innerText = 'SG-' + Math.floor(1000 + Math.random() * 9000);
+        document.getElementById('receipt-total').innerText = `£${finalTotal.toFixed(2)}`;
+        
+        // Clear cart
+        localStorage.removeItem('smash_cart');
+        
+        // Show Success Modal
+        document.getElementById('success-modal').classList.remove('hidden');
+    }
+
+    renderCart();
+</script>
+</body>
+</html>

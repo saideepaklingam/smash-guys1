@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smash Guys | Smashed Thin. Stacked Right.</title>
     
-    <!-- Meta Description & Open Graph Tags for WhatsApp / Instagram / Social Sharing -->
     <meta name="description" content="Hertfordshire's first dedicated Smash Burger & Nashville Hot Chicken destination. Freshly smashed patties, secret Friday fusion drops, and hot chicken made to order.">
     <meta property="og:title" content="Smash Guys | Smashed Thin. Stacked Right.">
     <meta property="og:description" content="Freshly smashed burgers and authentic Nashville hot chicken, made to order every time. Visit us at The Galleria, Hatfield!">
@@ -16,612 +15,438 @@
     <link rel="icon" type="image/png" href="logo.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Sora:wght@400;700&display=swap" rel="stylesheet">
-    <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Animation Library -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: { primary: '#111', accent: '#FFD400', grey: '#1a1a1a' },
                     fontFamily: { bebas: ['"Bebas Neue"', 'sans-serif'], sora: ['Sora', 'sans-serif'] },
-                    animation: { 'bounce-slow': 'bounce 3s infinite' }
+                    animation: { 'marquee': 'marquee 15s linear infinite' }
                 }
             }
         }
     </script>
-    <!-- Linked Custom CSS File -->
     <link rel="stylesheet" href="style.css">
-</head>
-<body class="font-sora selection:bg-accent selection:text-black">
 
-<!-- LOGO — pinned to top-left -->
-<div class="absolute top-3 left-4 md:left-6 z-50">
-    <img src="logo.png" alt="Smash Guys Logo" class="w-32 h-32 md:w-40 md:h-40 object-contain blend-logo" onerror="this.outerHTML='<span class=\'font-bebas text-accent text-3xl\'>[SG]</span>'">
+    <style>
+        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
+
+        /* GRIDDLE PRESS & PATTY TRANSFORMATION ANIMATIONS */
+        @keyframes pressDown {
+            0% { transform: translateY(-200px) scale(1.15); opacity: 0; }
+            40% { transform: translateY(12px) scale(1); opacity: 1; }
+            60% { transform: translateY(-6px) scale(1); }
+            80% { transform: translateY(4px) scale(1); }
+            100% { transform: translateY(0) scale(1); opacity: 1; }
+        }
+
+        @keyframes pressLift {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(-200px) scale(1.15); opacity: 0; }
+        }
+
+        .animate-press-down {
+            animation: pressDown 0.4s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+
+        .animate-press-lift {
+            animation: pressLift 0.4s cubic-bezier(0.5, 0, 0.75, 1) forwards;
+        }
+
+        .btn-3d {
+            position: relative;
+            box-shadow: 0 4px 0 0 rgba(0,0,0,0.35), 0 10px 22px -6px rgba(255,212,0,0.35), inset 0 1px 0 rgba(255,255,255,0.45);
+            transition: transform 0.12s ease, box-shadow 0.12s ease;
+        }
+        .btn-3d:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 0 rgba(0,0,0,0.35), 0 16px 30px -6px rgba(255,212,0,0.45), inset 0 1px 0 rgba(255,255,255,0.55);
+        }
+        .btn-3d:active {
+            transform: translateY(2px);
+            box-shadow: 0 1px 0 0 rgba(0,0,0,0.35), 0 4px 10px -4px rgba(255,212,0,0.3), inset 0 1px 0 rgba(255,255,255,0.3);
+        }
+        .btn-outline {
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        .btn-outline:hover { transform: translateY(-2px); border-color: #FFD400; color: #FFD400; }
+
+        .modal-glass {
+            background: linear-gradient(145deg, rgba(32,32,32,0.92), rgba(12,12,12,0.96)) !important;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.08) !important;
+            box-shadow: 0 30px 70px -15px rgba(0,0,0,0.85);
+        }
+    </style>
+</head>
+<body class="font-sora selection:bg-accent selection:text-black bg-primary text-white">
+
+<!-- BALANCED BRAND LOGO & NAME -->
+<div class="absolute top-4 left-4 sm:left-8 z-50">
+    <a href="index.html" class="flex items-center gap-3 sm:gap-4 group">
+        <div class="relative">
+            <div class="absolute -inset-1 bg-accent/15 rounded-full blur-md group-hover:bg-accent/30 transition duration-500"></div>
+            <img src="logo.png" alt="Smash Guys Logo" class="relative w-40 h-40 sm:w-40 sm:h-40 object-contain blend-logo drop-shadow-[0_4px_15px_rgba(255,212,0,0.8)] transform group-hover:scale-105 transition duration-300" onerror="this.outerHTML='<span class=\'font-bebas text-accent text-4xl sm:text-5xl\'>[SG]</span>'">
+        </div>
+        <div class="flex flex-col">
+            <span class="font-bebas text-3xl sm:text-5xl tracking-widest text-white leading-none drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">SMASH</span>
+            <span class="font-bebas text-3xl sm:text-5xl tracking-widest text-accent leading-none drop-shadow-[0_0_15px_rgba(255,212,0,0.5)]">GUYS</span>
+        </div>
+    </a>
 </div>
 
 <!-- DESKTOP NAV -->
-<nav class="absolute top-6 right-6 z-50 hidden md:flex items-center gap-6">
-    <button id="open-auth-modal" class="text-accent hover:text-white font-bold text-sm uppercase tracking-wider transition flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-accent"><i class="fa-solid fa-user"></i> <span id="auth-nav-label">Login</span></button>
-    <a href="tel:+44XXXXXXXXXX" class="text-gray-300 hover:text-accent font-bold text-sm uppercase tracking-wider transition focus:outline-none focus:ring-2 focus:ring-accent">Call Us</a>
-    <a href="#menu" class="text-gray-300 hover:text-accent font-bold text-sm uppercase tracking-wider transition focus:outline-none focus:ring-2 focus:ring-accent">Menu</a>
-    <a href="#location" class="text-gray-300 hover:text-accent font-bold text-sm uppercase tracking-wider transition focus:outline-none focus:ring-2 focus:ring-accent">Location & Hours</a>
+<nav class="absolute top-8 right-8 z-50 hidden md:flex items-center gap-8 bg-black/60 backdrop-blur-md px-8 py-3.5 rounded-full border border-white/15 shadow-2xl">
+    <a href="menu.html" class="text-white hover:text-accent font-bold text-sm uppercase tracking-wider transition">Menu</a>
+    <a href="#location" class="text-gray-300 hover:text-accent font-bold text-sm uppercase tracking-wider transition">Location</a>
+    <a href="cart.html" class="text-accent hover:text-white font-bold text-sm uppercase tracking-wider transition">Checkout</a>
+    <button id="open-auth-modal" class="text-white hover:text-accent font-bold text-sm uppercase tracking-wider transition flex items-center gap-2 focus:outline-none border-l border-white/20 pl-6"><i class="fa-solid fa-user text-accent"></i> <span id="auth-nav-label">Login</span></button>
 </nav>
 
 <!-- MOBILE HAMBURGER BUTTON -->
-<div class="absolute top-6 right-4 z-50 md:hidden flex items-center gap-3">
-    <button id="mobile-menu-btn" aria-label="Open Menu" class="text-accent text-3xl focus:outline-none focus:ring-2 focus:ring-accent p-1">
+<div class="absolute top-6 right-6 z-50 md:hidden flex items-center">
+    <button id="mobile-menu-btn" aria-label="Open Menu" class="bg-black/80 border border-white/20 text-accent text-2xl p-3.5 rounded-full focus:outline-none shadow-lg">
         <i class="fa-solid fa-bars"></i>
     </button>
 </div>
 
-<!-- MOBILE NAVIGATION OVERLAY & DRAWER -->
-<div id="mobile-nav-overlay" class="fixed inset-0 bg-black/70 z-50 hidden transition-opacity"></div>
+<!-- MOBILE NAVIGATION DRAWER -->
+<div id="mobile-nav-overlay" class="fixed inset-0 bg-black/80 z-50 hidden transition-opacity"></div>
 <div id="mobile-menu-drawer" class="fixed inset-y-0 right-0 w-full sm:w-[300px] bg-grey border-l border-white/10 z-50 transform translate-x-full transition-transform duration-300 flex flex-col p-8 md:hidden shadow-2xl">
-    <div class="flex justify-between items-center mb-8 border-b border-white/10 pb-4">
+    <div class="flex justify-between items-center mb-10 border-b border-white/10 pb-4">
         <span class="font-bebas text-3xl tracking-widest text-white">SMASH <span class="text-accent">GUYS</span></span>
         <button id="close-mobile-menu" aria-label="Close Menu" class="text-gray-400 hover:text-white text-3xl focus:outline-none">&times;</button>
     </div>
     <div class="flex flex-col gap-6 font-bold uppercase text-lg">
-        <button id="mobile-open-auth-modal" class="mobile-nav-link text-accent text-left flex items-center gap-3"><i class="fa-solid fa-user"></i> <span id="mobile-auth-nav-label">Login</span></button>
-        <a href="tel:+44XXXXXXXXXX" class="mobile-nav-link text-gray-300 hover:text-accent flex items-center gap-3"><i class="fa-solid fa-phone"></i> Call Us</a>
-        <a href="#menu" class="mobile-nav-link text-gray-300 hover:text-accent">Menu</a>
+        <a href="menu.html" class="mobile-nav-link text-white hover:text-accent">Menu</a>
         <a href="#location" class="mobile-nav-link text-gray-300 hover:text-accent">Location & Hours</a>
+        <a href="cart.html" class="mobile-nav-link text-accent">Checkout</a>
+        <button id="mobile-open-auth-modal" class="mobile-nav-link text-gray-300 text-left flex items-center gap-3 pt-4 border-t border-white/10"><i class="fa-solid fa-user text-accent"></i> <span id="mobile-auth-nav-label">Login</span></button>
     </div>
 </div>
 
-    <!-- Hero Section -->
-    <section class="relative h-screen flex flex-col justify-center items-center text-center overflow-hidden">
-        <div class="absolute inset-0 z-0 bg-[url('Cover.png')] bg-cover bg-center opacity-35" style="background-color: #111;"></div>
-        <div class="absolute inset-0 z-0 bg-gradient-to-t from-primary to-transparent"></div>
-        <div class="absolute inset-0 z-0 grease-overlay"></div>
+<!-- Hero Section with Interactive Griddle Press Station -->
+<section id="hero-section" class="relative min-h-screen flex items-center justify-center overflow-hidden pt-36 pb-16">
+    <div class="absolute inset-0 z-0 bg-[url('Cover.png')] bg-cover bg-center opacity-25 filter grayscale"></div>
+    <div class="absolute inset-0 z-0 bg-gradient-to-b from-primary/90 via-primary/80 to-primary"></div>
+    
+    <div class="container mx-auto px-4 relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center max-w-6xl">
         
-        <div class="relative z-10 px-4 mt-6 max-w-4xl mx-auto" data-aos="zoom-in" data-aos-duration="1000">
-            <div class="font-bebas text-6xl md:text-[100px] leading-[0.9] tracking-wider mb-6 drop-shadow-2xl">
-                <span class="text-white">SMASH</span> <span class="text-accent">GUYS</span>
-            </div>
+        <!-- Left Column: Typography & CTAs -->
+        <div class="lg:col-span-7 text-center lg:text-left" data-aos="fade-right" data-aos-duration="800">
+            <!-- CLICKABLE HERO LOCATION PILL -->
+            <a href="https://maps.app.goo.gl/cD6nMEqKEUzuDX1m6" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2.5 bg-white/5 border border-white/15 px-4 py-1.5 rounded-full mb-6 shadow-md hover:border-accent hover:bg-white/10 transition group cursor-pointer" title="Click for GPS Directions">
+                <span class="w-2.5 h-2.5 rounded-full bg-accent animate-pulse"></span>
+                <span class="text-xs uppercase font-bold tracking-widest text-gray-300 group-hover:text-white transition">📍 The Galleria, Hatfield <span class="text-accent underline ml-1">Get Directions</span></span>
+            </a>
 
-            <h1 class="font-bebas text-4xl md:text-7xl leading-[1.0] tracking-wide mb-6 drop-shadow-2xl">
-                <span class="text-white block">SMASHED THIN.</span>
-                <span class="text-accent block">STACKED RIGHT.</span>
+            <h1 class="font-bebas text-6xl sm:text-7xl lg:text-[92px] leading-[0.92] tracking-wide mb-6">
+                <span class="text-white block drop-shadow-lg">SMASHED THIN.</span>
+                <span class="text-accent block drop-shadow-[0_0_20px_rgba(255,212,0,0.3)]">STACKED RIGHT.</span>
             </h1>
             
-            <p class="text-base md:text-xl font-normal tracking-wide mb-8 max-w-3xl mx-auto text-gray-200 leading-relaxed drop-shadow-md">
-                Freshly smashed burgers and authentic Nashville hot chicken, made to order every time.
-                <br><br>
-                <span class="inline-flex items-center justify-center gap-3 font-bold text-white">
-                    <img src="fire.png" alt="Fire Icon" class="w-7 h-7 object-contain" style="filter: drop-shadow(0 0 8px rgba(255,212,0,0.5));">
-                    Hertfordshire's first dedicated Smash Burger & Nashville Hot Chicken destination.
-                    <img src="fire.png" alt="Fire Icon" class="w-7 h-7 object-contain" style="filter: drop-shadow(0 0 8px rgba(255,212,0,0.5));">
+            <p class="text-base sm:text-lg text-gray-300 mb-8 max-w-xl mx-auto lg:mx-0 font-light leading-relaxed">
+                Hertfordshire's dedicated destination for authentic double smash burgers and hot-dipped Nashville chicken. Fresh locally-sourced beef, secret house sauces, and zero compromises.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                <a href="menu.html" class="btn-3d inline-block bg-accent text-primary font-bebas text-3xl px-10 py-4 rounded-xl text-center">VIEW MENU</a>
+                <a href="#location" class="btn-outline inline-block bg-black/40 border-2 border-white/15 text-white font-bebas text-3xl px-8 py-4 rounded-xl text-center">VIEW HOURS</a>
+            </div>
+        </div>
+
+        <!-- Right Column: Interactive Griddle Press Station -->
+        <div class="lg:col-span-5 flex flex-col items-center justify-center relative select-none" data-aos="zoom-in" data-aos-duration="1000">
+            <div class="absolute w-80 h-80 bg-accent/15 rounded-full blur-3xl -z-10 pointer-events-none animate-pulse"></div>
+            
+            <!-- Griddle Interactive Station -->
+            <div id="griddle-station" class="relative cursor-pointer group p-4 flex flex-col items-center" title="Click to Smash the Patty!">
+                
+                <!-- Patty Container -->
+                <div class="relative w-64 sm:w-80 h-64 sm:h-80 flex items-center justify-center">
+                    <img id="griddle-patty" src="Raw-Patty.png" alt="Raw Beef Patty Ball" class="w-56 sm:w-72 h-56 sm:h-72 object-contain drop-shadow-[0_25px_30px_rgba(0,0,0,0.85)] transition-all duration-300 z-10">
+                    
+                    <!-- Oversized Stainless Steel Press -->
+                    <img id="griddle-press" src="spatula.png" alt="Stainless Steel Press" class="absolute w-72 sm:w-96 h-72 sm:h-96 object-contain drop-shadow-[0_35px_45px_rgba(0,0,0,0.95)] opacity-0 pointer-events-none z-30 transition-opacity">
+                </div>
+                
+                <!-- Ground Griddle Shadow -->
+                <div id="griddle-shadow" class="w-48 sm:w-64 h-6 bg-black rounded-[100%] blur-md mt-2 z-0 transition-all duration-300 opacity-80 group-hover:scale-95"></div>
+                
+                <span id="griddle-badge" class="text-[11px] uppercase tracking-widest font-bold text-accent/80 mt-4 border border-accent/20 bg-black/60 px-3 py-1 rounded-full opacity-80 group-hover:opacity-100 group-hover:bg-accent group-hover:text-black transition">
+                    🔥 Click to Press & Smash!
                 </span>
-            </p>
-            
-            <a href="#menu" class="smooth-scroll-btn inline-block bg-accent text-primary font-bebas text-3xl px-10 py-4 mt-20 hover:bg-white hover:scale-105 transition-all shadow-[0_0_30px_rgba(255,212,0,0.4)] focus:outline-none focus:ring-2 focus:ring-white">Order Now</a>
+            </div>
         </div>
-    </section>
 
-    <!-- Marquee Offers -->
-    <div class="bg-accent text-primary py-3 overflow-hidden border-y-2 border-white flex">
-        <div class="whitespace-nowrap animate-[marquee_15s_linear_infinite] flex gap-10 font-bold uppercase shrink-0">
-            <span>🔥 10% Off Sign Up (Use code WELCOME10)</span><span>•</span>
-            <span>🔥 Fusion Friday Drops</span><span>•</span>
-            <span>🔥 Coming soon on Uber Eats, Just Eat & Deliveroo</span><span>•</span>
+    </div>
+</section>
+
+<!-- Sleek Marquee Banner -->
+<div class="bg-accent text-primary py-3 overflow-hidden border-y border-white/20 flex">
+    <div class="whitespace-nowrap animate-marquee flex gap-12 font-bold uppercase tracking-wider text-sm shrink-0">
+        <span>🔥 Use Code WELCOME10 For 10% Off Your First Order</span><span>•</span>
+        <span>🔥 Secret Fusion Friday Drops Every Week</span><span>•</span>
+        <span>🔥 100% Fresh Never-Frozen Beef</span><span>•</span>
+        <span>🔥 Collection Available In 15 Minutes</span><span>•</span>
+    </div>
+    <div class="whitespace-nowrap animate-marquee flex gap-12 font-bold uppercase tracking-wider text-sm shrink-0" aria-hidden="true">
+        <span>🔥 Use Code WELCOME10 For 10% Off Your First Order</span><span>•</span>
+        <span>🔥 Secret Fusion Friday Drops Every Week</span><span>•</span>
+        <span>🔥 100% Fresh Never-Frozen Beef</span><span>•</span>
+        <span>🔥 Collection Available In 15 Minutes</span><span>•</span>
+    </div>
+</div>
+
+<!-- Fusion Friday Drop Section -->
+<section class="py-24 bg-gradient-to-b from-primary to-grey relative border-b border-white/10" data-aos="fade-up">
+    <div class="container mx-auto px-4 max-w-5xl flex flex-col md:flex-row items-center gap-12">
+        <div class="md:w-1/2 relative">
+            <div class="absolute -top-3 -left-3 bg-accent text-primary font-bebas text-xl px-4 py-1 rounded shadow-lg z-10 transform -rotate-6">LIMITED WEEKLY DROP</div>
+            <img src="Friday-Fusion.png" class="rounded-2xl border border-white/15 shadow-2xl object-cover w-full h-[380px]" alt="Fusion Friday Smash Burger">
         </div>
-        <div class="whitespace-nowrap animate-[marquee_15s_linear_infinite] flex gap-10 font-bold uppercase shrink-0" aria-hidden="true">
-            <span>🔥 10% Off Sign Up (Use code WELCOME10)</span><span>•</span>
-            <span>🔥 Fusion Friday Drops</span><span>•</span>
-            <span>🔥 Coming soon on Uber Eats, Just Eat & Deliveroo</span><span>•</span>
+        <div class="md:w-1/2">
+            <h2 class="font-bebas text-6xl text-white mb-2">FUSION <span class="text-accent">FRIDAY</span></h2>
+            <p class="text-gray-300 text-base leading-relaxed mb-8 font-light">
+                Every Friday, we drop a secret menu combination bringing global street food flavors to our signature smash patties. Exclusively available on Fridays in limited quantities. When they sell out, the kitchen closes the drop.
+            </p>
+            <div class="grid grid-cols-4 gap-3 max-w-md">
+                <div class="bg-black/60 border border-white/10 p-3 text-center rounded-xl"><span id="days" class="block font-bebas text-3xl text-accent">00</span><span class="text-[10px] uppercase text-gray-400 font-bold">Days</span></div>
+                <div class="bg-black/60 border border-white/10 p-3 text-center rounded-xl"><span id="hours" class="block font-bebas text-3xl text-accent">00</span><span class="text-[10px] uppercase text-gray-400 font-bold">Hours</span></div>
+                <div class="bg-black/60 border border-white/10 p-3 text-center rounded-xl"><span id="minutes" class="block font-bebas text-3xl text-accent">00</span><span class="text-[10px] uppercase text-gray-400 font-bold">Mins</span></div>
+                <div class="bg-black/60 border border-white/10 p-3 text-center rounded-xl"><span id="seconds" class="block font-bebas text-3xl text-accent">00</span><span class="text-[10px] uppercase text-gray-400 font-bold">Secs</span></div>
+            </div>
         </div>
     </div>
+</section>
 
-    <!-- Fusion Friday Section -->
-    <section class="py-24 bg-primary relative border-b border-grey" data-aos="fade-up">
-        <div class="container mx-auto px-4 flex flex-col md:flex-row items-center gap-12">
-            <div class="md:w-1/2">
-                <img src="Friday-Fusion.png" class="rounded-xl border-4 border-accent shadow-[0_0_50px_rgba(255,212,0,0.2)] transform -rotate-3 object-cover w-full h-[400px]" alt="Fusion Friday Smash Burger" onerror="this.outerHTML='<div class=\'neutral-placeholder rounded-xl border-4 border-accent w-full h-[400px]\'>Image Coming Soon</div>'">
-            </div>
-            <div class="md:w-1/2">
-                <span class="bg-white text-primary px-3 py-1 font-bold uppercase text-sm mb-4 inline-block">Limited Time</span>
-                <h2 class="font-bebas text-7xl text-accent mb-4">FUSION FRIDAY</h2>
-                <p class="text-gray-400 text-lg mb-6">Global flavours meet our premium smash patties. Every Friday, a new secret combination drops. Exclusive flavours, limited numbers. When it's gone, it's gone.</p>
-                <div class="flex gap-4">
-                    <div class="bg-grey p-4 text-center rounded-lg min-w-[70px] border border-white/10"><span id="days" class="block font-bebas text-4xl text-accent">00</span><span class="text-xs uppercase text-gray-400">Days</span></div>
-                    <div class="bg-grey p-4 text-center rounded-lg min-w-[70px] border border-white/10"><span id="hours" class="block font-bebas text-4xl text-accent">00</span><span class="text-xs uppercase text-gray-400">Hours</span></div>
-                    <div class="bg-grey p-4 text-center rounded-lg min-w-[70px] border border-white/10"><span id="minutes" class="block font-bebas text-4xl text-accent">00</span><span class="text-xs uppercase text-gray-400">Mins</span></div>
-                    <div class="bg-grey p-4 text-center rounded-lg min-w-[70px] border border-white/10"><span id="seconds" class="block font-bebas text-4xl text-accent">00</span><span class="text-xs uppercase text-gray-400">Secs</span></div>
-                </div>
-            </div>
+<!-- Location & Opening Hours Section -->
+<section id="location" class="py-24 bg-primary" data-aos="fade-up">
+    <div class="container mx-auto px-4 max-w-5xl">
+        <div class="text-center mb-16">
+            <h2 class="font-bebas text-6xl text-white">FIND <span class="text-accent">US HERE</span></h2>
+            <p class="text-gray-400 text-sm">Hot food, fast collection, right in the heart of Hatfield.</p>
         </div>
-    </section>
-
-    <!-- Interactive Menu Section -->
-    <section id="menu" class="pt-24 pb-12 bg-primary">
-        <div class="container mx-auto px-4">
-            <h2 class="font-bebas text-6xl text-center mb-16" data-aos="fade-down">OUR <span class="text-accent">MENU</span></h2>
-            
-            <p class="text-gray-500 text-xs italic text-center mb-12">
-                * Note: All images are for visual representation purposes only and may vary from the actual served product.
-            </p>
-
-            <!-- SMASH BURGERS -->
-            <h3 class="font-bebas text-5xl text-accent mb-8 border-b border-white/10 pb-4" data-aos="fade-up">SMASH BURGERS</h3>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-                <!-- Classic Smash -->
-                <div class="menu-card bg-grey border border-white/10 rounded-xl overflow-hidden p-6 flex flex-col justify-between" data-aos="fade-up" data-aos-delay="100">
-                    <img src="Classic-Smash.png" alt="Classic Smash Burger" onerror="this.outerHTML='<div class=\'neutral-placeholder w-full h-56 rounded-lg mb-4\'>Image Coming Soon</div>'" class="w-full h-56 object-cover rounded-lg mb-4 opacity-90 hover:opacity-100 transition">
-                    <div>
-                        <div class="flex justify-between items-start mb-2">
-                            <h3 class="font-bebas text-3xl item-name" data-id="classic-smash">Classic Smash Burger</h3>
-                            <span class="text-accent font-bold text-xl item-price" data-price="3.50">£3.50</span>
-                        </div>
-                        <p class="text-gray-400 text-sm mb-2">Our signature double smash patty with OG sauce.</p>
-                        <p class="text-xs text-gray-500 mb-6 font-mono">[Allergens: Contact the staff]</p>
-                    </div>
-                    <div class="flex justify-between items-center bg-black p-2 rounded-full border border-white/10">
-                        <button type="button" aria-label="Decrease quantity" class="qty-btn minus-btn">-</button>
-                        <span class="font-bold w-8 text-center qty-display">0</span>
-                        <button type="button" aria-label="Increase quantity" class="qty-btn plus-btn">+</button>
-                    </div>
-                </div>
-
-                <!-- Cheese Smash -->
-                <div class="menu-card bg-grey border border-white/10 rounded-xl overflow-hidden p-6 flex flex-col justify-between" data-aos="fade-up" data-aos-delay="200">
-                    <img src="Cheese-Smash.png" alt="Cheese Smash Burger" onerror="this.outerHTML='<div class=\'neutral-placeholder w-full h-56 rounded-lg mb-4\'>Image Coming Soon</div>'" class="w-full h-56 object-cover rounded-lg mb-4 opacity-90 hover:opacity-100 transition">
-                    <div>
-                        <div class="flex justify-between items-start mb-2">
-                            <h3 class="font-bebas text-3xl item-name" data-id="cheese-smash">Cheese Smash Burger</h3>
-                            <span class="text-accent font-bold text-xl item-price" data-price="4.00">£4.00</span>
-                        </div>
-                        <p class="text-gray-400 text-sm mb-2">Double smash patty dripping with melted American cheese.</p>
-                        <p class="text-xs text-gray-500 mb-6 font-mono">[Allergens: Contact the staff]</p>
-                    </div>
-                    <div class="flex justify-between items-center bg-black p-2 rounded-full border border-white/10">
-                        <button type="button" aria-label="Decrease quantity" class="qty-btn minus-btn">-</button>
-                        <span class="font-bold w-8 text-center qty-display">0</span>
-                        <button type="button" aria-label="Increase quantity" class="qty-btn plus-btn">+</button>
-                    </div>
-                </div>
-
-                <!-- Nashville Smash -->
-                <div class="menu-card bg-grey border border-white/10 rounded-xl overflow-hidden p-6 flex flex-col justify-between" data-aos="fade-up" data-aos-delay="300">
-                    <img src="Nashville-Smash.png" alt="Nashville Smash Burger" onerror="this.outerHTML='<div class=\'neutral-placeholder w-full h-56 rounded-lg mb-4\'>Image Coming Soon</div>'" class="w-full h-56 object-cover rounded-lg mb-4 opacity-90 hover:opacity-100 transition">
-                    <div>
-                        <div class="flex justify-between items-start mb-2">
-                            <h3 class="font-bebas text-3xl item-name" data-id="nashville-smash">Nashville Smash Burger</h3>
-                            <span class="text-accent font-bold text-xl item-price" data-price="4.50">£4.50</span>
-                        </div>
-                        <p class="text-gray-400 text-sm mb-2">Spicy dipped smash patty loaded with Nashville heat.</p>
-                        <p class="text-xs text-gray-500 mb-6 font-mono">[Allergens: Contact the staff]</p>
-                    </div>
-                    <div class="flex justify-between items-center bg-black p-2 rounded-full border border-white/10">
-                        <button type="button" aria-label="Decrease quantity" class="qty-btn minus-btn">-</button>
-                        <span class="font-bold w-8 text-center qty-display">0</span>
-                        <button type="button" aria-label="Increase quantity" class="qty-btn plus-btn">+</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- CHICKEN SANDWICHES -->
-            <h3 class="font-bebas text-5xl text-accent mb-8 border-b border-white/10 pb-4" data-aos="fade-up">CHICKEN SANDWICHES</h3>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-                <!-- Classic Chicken -->
-                <div class="menu-card bg-grey border border-white/10 rounded-xl overflow-hidden p-6 flex flex-col justify-between" data-aos="fade-up" data-aos-delay="100">
-                    <img src="Classic-Chicken.png" alt="Classic Chicken Sandwich" onerror="this.outerHTML='<div class=\'neutral-placeholder w-full h-56 rounded-lg mb-4\'>Image Coming Soon</div>'" class="w-full h-56 object-cover rounded-lg mb-4 opacity-90 hover:opacity-100 transition">
-                    <div>
-                        <div class="flex justify-between items-start mb-2">
-                            <h3 class="font-bebas text-3xl item-name" data-id="classic-chicken">Classic Chicken Sandwich</h3>
-                            <span class="text-accent font-bold text-xl item-price" data-price="3.00">£3.00</span>
-                        </div>
-                        <p class="text-gray-400 text-sm mb-2">Crispy fried chicken breast, pickles, and mayo.</p>
-                        <p class="text-xs text-gray-500 mb-6 font-mono">[Allergens: Contact the staff]</p>
-                    </div>
-                    <div class="flex justify-between items-center bg-black p-2 rounded-full border border-white/10">
-                        <button type="button" aria-label="Decrease quantity" class="qty-btn minus-btn">-</button>
-                        <span class="font-bold w-8 text-center qty-display">0</span>
-                        <button type="button" aria-label="Increase quantity" class="qty-btn plus-btn">+</button>
-                    </div>
-                </div>
-
-                <!-- Spicy Chicken -->
-                <div class="menu-card bg-grey border border-white/10 rounded-xl overflow-hidden p-6 flex flex-col justify-between" data-aos="fade-up" data-aos-delay="200">
-                    <img src="Spicy-Chicken.png" alt="Spicy Chicken Sandwich" onerror="this.outerHTML='<div class=\'neutral-placeholder w-full h-56 rounded-lg mb-4\'>Image Coming Soon</div>'" class="w-full h-56 object-cover rounded-lg mb-4 opacity-90 hover:opacity-100 transition">
-                    <div>
-                        <div class="flex justify-between items-start mb-2">
-                            <h3 class="font-bebas text-3xl item-name" data-id="spicy-chicken">Spicy Chicken Sandwich</h3>
-                            <span class="text-accent font-bold text-xl item-price" data-price="3.50">£3.50</span>
-                        </div>
-                        <p class="text-gray-400 text-sm mb-2">Crispy chicken with a kick of our spicy mayo and peppers.</p>
-                        <p class="text-xs text-gray-500 mb-6 font-mono">[Allergens: Contact the staff]</p>
-                    </div>
-                    <div class="flex justify-between items-center bg-black p-2 rounded-full border border-white/10">
-                        <button type="button" aria-label="Decrease quantity" class="qty-btn minus-btn">-</button>
-                        <span class="font-bold w-8 text-center qty-display">0</span>
-                        <button type="button" aria-label="Increase quantity" class="qty-btn plus-btn">+</button>
-                    </div>
-                </div>
-
-                <!-- Nashville Chicken -->
-                <div class="menu-card bg-grey border border-white/10 rounded-xl overflow-hidden p-6 flex flex-col justify-between" data-aos="fade-up" data-aos-delay="300">
-                    <img src="Nashville-Chicken.png" alt="Nashville Chicken Sandwich" onerror="this.outerHTML='<div class=\'neutral-placeholder w-full h-56 rounded-lg mb-4\'>Image Coming Soon</div>'" class="w-full h-56 object-cover rounded-lg mb-4 opacity-90 hover:opacity-100 transition">
-                    <div>
-                        <div class="flex justify-between items-start mb-2">
-                            <h3 class="font-bebas text-3xl item-name" data-id="nashville-chicken">Nashville Chicken Sandwich</h3>
-                            <span class="text-accent font-bold text-xl item-price" data-price="4.00">£4.00</span>
-                        </div>
-                        <p class="text-gray-400 text-sm mb-2">Authentic hot-dipped Nashville chicken with ranch.</p>
-                        <p class="text-xs text-gray-500 mb-6 font-mono">[Allergens: Contact the staff]</p>
-                    </div>
-                    <div class="flex justify-between items-center bg-black p-2 rounded-full border border-white/10">
-                        <button type="button" aria-label="Decrease quantity" class="qty-btn minus-btn">-</button>
-                        <span class="font-bold w-8 text-center qty-display">0</span>
-                        <button type="button" aria-label="Increase quantity" class="qty-btn plus-btn">+</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- FRIDAY FUSION -->
-            <div id="friday-fusion-container" style="display: none;" class="mb-16">
-                <h3 class="font-bebas text-5xl text-accent mb-8 border-b border-white/10 pb-4" data-aos="fade-up">FRIDAY FUSION</h3>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <div class="menu-card bg-grey border-2 border-accent rounded-xl p-6 flex flex-col justify-between shadow-[0_0_20px_rgba(255,212,0,0.2)]" data-aos="fade-up" data-aos-delay="100">
-                        <img src="Friday-Fusion.png" alt="Friday Fusion Special" onerror="this.outerHTML='<div class=\'neutral-placeholder w-full h-56 rounded-lg mb-4\'>Image Coming Soon</div>'" class="w-full h-56 object-cover rounded-lg mb-4 border border-accent/40 opacity-90 hover:opacity-100 transition">
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="bg-grey p-8 rounded-2xl border border-white/10 flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center text-accent text-lg"><i class="fa-solid fa-location-dot"></i></div>
                         <div>
-                            <div class="flex justify-between items-start mb-2">
-                                <h3 class="font-bebas text-3xl item-name text-accent" data-id="friday-fusion-special">Friday Fusion Special</h3>
-                                <span class="text-accent font-bold text-xl item-price" data-price="6.00">£6.00</span>
-                            </div>
-                            <p class="text-gray-300 text-sm mb-2">Global flavours meet our premium smash patties. Available only today!</p>
-                            <p class="text-xs text-accent font-mono mb-6 font-bold uppercase tracking-wider">[Allergens: Contact the staff]</p>
-                        </div>
-                        <div class="flex justify-between items-center bg-black p-2 rounded-full border border-white/10">
-                            <button type="button" aria-label="Decrease quantity" class="qty-btn minus-btn">-</button>
-                            <span class="font-bold w-8 text-center qty-display">0</span>
-                            <button type="button" aria-label="Increase quantity" class="qty-btn plus-btn">+</button>
+                            <h3 class="font-bebas text-2xl text-white">STORE LOCATION</h3>
+                            <p class="text-gray-400 text-xs">Public Car Park, The Galleria, Hatfield, AL10 0XR</p>
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <!-- FRIES & POP -->
-            <div class="bg-grey p-8 rounded-xl border border-white/10 mb-8" data-aos="fade-up">
-                <h3 class="font-bebas text-4xl text-accent mb-6 border-b border-white/10 pb-4">FRIES & POP</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
-                    <div class="flex justify-between items-center menu-card">
-                        <div>
-                            <h4 class="font-bold text-lg item-name" data-id="regular-fries">Regular Fries</h4>
-                            <p class="text-accent text-sm item-price" data-price="3.49">£3.49</p>
-                            <span class="text-xs text-gray-500 font-mono">[Allergens: Contact the staff]</span>
-                        </div>
-                        <div class="flex items-center gap-3"><button type="button" aria-label="Decrease quantity" class="qty-btn minus-btn w-8 h-8">-</button><span class="font-bold w-4 text-center qty-display">0</span><button type="button" aria-label="Increase quantity" class="qty-btn plus-btn w-8 h-8">+</button></div>
-                    </div>
-                    <div class="flex justify-between items-center menu-card">
-                        <div>
-                            <h4 class="font-bold text-lg item-name" data-id="cajun-fries">Cajun Fries</h4>
-                            <p class="text-accent text-sm item-price" data-price="3.99">£3.99</p>
-                            <span class="text-xs text-gray-500 font-mono">[Allergens: Contact the staff]</span>
-                        </div>
-                        <div class="flex items-center gap-3"><button type="button" aria-label="Decrease quantity" class="qty-btn minus-btn w-8 h-8">-</button><span class="font-bold w-4 text-center qty-display">0</span><button type="button" aria-label="Increase quantity" class="qty-btn plus-btn w-8 h-8">+</button></div>
-                    </div>
-                    <div class="flex justify-between items-center menu-card">
-                        <div>
-                            <h4 class="font-bold text-lg item-name" data-id="cheese-loaded-fries">Cheese Loaded Fries</h4>
-                            <p class="text-accent text-sm item-price" data-price="4.49">£4.49</p>
-                            <span class="text-xs text-gray-500 font-mono">[Allergens: Contact the staff]</span>
-                        </div>
-                        <div class="flex items-center gap-3"><button type="button" aria-label="Decrease quantity" class="qty-btn minus-btn w-8 h-8">-</button><span class="font-bold w-4 text-center qty-display">0</span><button type="button" aria-label="Increase quantity" class="qty-btn plus-btn w-8 h-8">+</button></div>
-                    </div>
-                    <div class="flex justify-between items-center menu-card">
-                        <div>
-                            <h4 class="font-bold text-lg item-name" data-id="chicken-bacon-ranch-fries">Chicken Bacon Ranch Loaded Fries</h4>
-                            <p class="text-accent text-sm item-price" data-price="5.49">£5.49</p>
-                            <span class="text-xs text-gray-500 font-mono">[Allergens: Contact the staff]</span>
-                        </div>
-                        <div class="flex items-center gap-3"><button type="button" aria-label="Decrease quantity" class="qty-btn minus-btn w-8 h-8">-</button><span class="font-bold w-4 text-center qty-display">0</span><button type="button" aria-label="Increase quantity" class="qty-btn plus-btn w-8 h-8">+</button></div>
-                    </div>
-                    <div class="flex justify-between items-center mt-4 pt-4 border-t border-white/10 menu-card">
-                        <div>
-                            <h4 class="font-bold text-lg item-name" data-id="soft-drinks">Pop (Soft Drinks)</h4>
-                            <p class="text-accent text-sm item-price" data-price="1.50">£1.50</p>
-                            <span class="text-xs text-gray-500 font-mono">[Allergens: Contact the staff]</span>
-                        </div>
-                        <div class="flex items-center gap-3"><button type="button" aria-label="Decrease quantity" class="qty-btn minus-btn w-8 h-8">-</button><span class="font-bold w-4 text-center qty-display">0</span><button type="button" aria-label="Increase quantity" class="qty-btn plus-btn w-8 h-8">+</button></div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- EXTRAS & SAUCES -->
-            <div class="p-6 border border-accent/30 rounded-xl bg-accent/5" data-aos="fade-up">
-                <h4 class="font-bebas text-3xl text-accent mb-4 border-b border-accent/20 pb-2">BUILD YOUR SMASH: EXTRAS & SAUCES</h4>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-gray-300">
-                    <div>
-                        <h5 class="font-bold text-white mb-2 uppercase tracking-wider">Premium Extras</h5>
-                        <ul class="space-y-4">
-                            <li class="flex justify-between items-center menu-card">
-                                <div><span class="font-bold text-white item-name" data-id="beef-bacon">Beef Bacon</span><p class="text-accent text-xs item-price" data-price="1.00">£1.00</p></div>
-                                <div class="flex items-center gap-2 bg-black p-1 rounded-full border border-white/10"><button type="button" aria-label="Decrease quantity" class="qty-btn minus-btn w-7 h-7 text-xs">-</button><span class="font-bold w-6 text-center qty-display text-xs">0</span><button type="button" aria-label="Increase quantity" class="qty-btn plus-btn w-7 h-7 text-xs">+</button></div>
-                            </li>
-                            <li class="flex justify-between items-center menu-card">
-                                <div><span class="font-bold text-white item-name" data-id="extra-cheese">Extra Cheese</span><p class="text-accent text-xs item-price" data-price="0.50">£0.50</p></div>
-                                <div class="flex items-center gap-2 bg-black p-1 rounded-full border border-white/10"><button type="button" aria-label="Decrease quantity" class="qty-btn minus-btn w-7 h-7 text-xs">-</button><span class="font-bold w-6 text-center qty-display text-xs">0</span><button type="button" aria-label="Increase quantity" class="qty-btn plus-btn w-7 h-7 text-xs">+</button></div>
-                            </li>
-                            <li class="flex justify-between items-center menu-card">
-                                <div><span class="font-bold text-white item-name" data-id="nashville-chicken-addon">Nashville Chicken (Add-on)</span><p class="text-accent text-xs item-price" data-price="2.00">£2.00</p></div>
-                                <div class="flex items-center gap-2 bg-black p-1 rounded-full border border-white/10"><button type="button" aria-label="Decrease quantity" class="qty-btn minus-btn w-7 h-7 text-xs">-</button><span class="font-bold w-6 text-center qty-display text-xs">0</span><button type="button" aria-label="Increase quantity" class="qty-btn plus-btn w-7 h-7 text-xs">+</button></div>
-                            </li>
-                            <li class="flex justify-between items-center menu-card">
-                                <div><span class="font-bold text-white item-name" data-id="caramelised-onions">Caramelised Onions</span><p class="text-accent text-xs item-price" data-price="0.50">£0.50</p></div>
-                                <div class="flex items-center gap-2 bg-black p-1 rounded-full border border-white/10"><button type="button" aria-label="Decrease quantity" class="qty-btn minus-btn w-7 h-7 text-xs">-</button><span class="font-bold w-6 text-center qty-display text-xs">0</span><button type="button" aria-label="Increase quantity" class="qty-btn plus-btn w-7 h-7 text-xs">+</button></div>
-                            </li>
-                            <li class="flex justify-between items-center menu-card">
-                                <div><span class="font-bold text-white item-name" data-id="pickles">Pickles</span><p class="text-accent text-xs item-price" data-price="0.25">£0.25</p></div>
-                                <div class="flex items-center gap-2 bg-black p-1 rounded-full border border-white/10"><button type="button" aria-label="Decrease quantity" class="qty-btn minus-btn w-7 h-7 text-xs">-</button><span class="font-bold w-6 text-center qty-display text-xs">0</span><button type="button" aria-label="Increase quantity" class="qty-btn plus-btn w-7 h-7 text-xs">+</button></div>
-                            </li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h5 class="font-bold text-white mb-2 uppercase tracking-wider">Sauces</h5>
-                        <ul class="space-y-4">
-                            <li class="flex justify-between items-center menu-card">
-                                <div><span class="font-bold text-white item-name" data-id="ranch-sauce">Ranch Sauce</span><p class="text-accent text-xs item-price" data-price="0.25">£0.25</p></div>
-                                <div class="flex items-center gap-2 bg-black p-1 rounded-full border border-white/10"><button type="button" aria-label="Decrease quantity" class="qty-btn minus-btn w-7 h-7 text-xs">-</button><span class="font-bold w-6 text-center qty-display text-xs">0</span><button type="button" aria-label="Increase quantity" class="qty-btn plus-btn w-7 h-7 text-xs">+</button></div>
-                            </li>
-                            <li class="flex justify-between items-center menu-card">
-                                <div><span class="font-bold text-white item-name" data-id="nashville-hot-sauce">Nashville Hot Sauce</span><p class="text-accent text-xs item-price" data-price="0.25">£0.25</p></div>
-                                <div class="flex items-center gap-2 bg-black p-1 rounded-full border border-white/10"><button type="button" aria-label="Decrease quantity" class="qty-btn minus-btn w-7 h-7 text-xs">-</button><span class="font-bold w-6 text-center qty-display text-xs">0</span><button type="button" aria-label="Increase quantity" class="qty-btn plus-btn w-7 h-7 text-xs">+</button></div>
-                            </li>
-                            <li class="flex justify-between items-center menu-card">
-                                <div><span class="font-bold text-white item-name" data-id="og-sauce">OG Sauce</span><p class="text-accent text-xs item-price" data-price="0.25">£0.25</p></div>
-                                <div class="flex items-center gap-2 bg-black p-1 rounded-full border border-white/10"><button type="button" aria-label="Decrease quantity" class="qty-btn minus-btn w-7 h-7 text-xs">-</button><span class="font-bold w-6 text-center qty-display text-xs">0</span><button type="button" aria-label="Increase quantity" class="qty-btn plus-btn w-7 h-7 text-xs">+</button></div>
-                            </li>
-                        </ul>
-                        <h5 class="font-bold text-white mt-6 mb-2 uppercase tracking-wider">On The House</h5>
-                        <p class="text-gray-400">Ketchup, Mayo, Mustard are entirely <strong class="text-accent">FREE</strong>.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Location, Hours & Delivery Section -->
-    <section id="location" class="py-24 bg-primary border-t border-white/10" data-aos="fade-up">
-        <div class="container mx-auto px-4 max-w-5xl">
-            <h2 class="font-bebas text-5xl text-accent mb-10 text-center">COME VISIT US</h2>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-                <div class="bg-grey p-8 rounded-xl border border-white/10 flex flex-col justify-between">
-                    <div>
-                        <h3 class="font-bebas text-3xl text-white mb-4">STORE <span class="text-accent">LOCATION & HOURS</span></h3>
-                        <p class="text-gray-300 font-bold mb-2">📍 Public Car Park, The Galleria, Hatfield, AL 10 0XR</p>
-                        <p class="text-gray-400 text-sm mb-6">We're always ready to welcome you with hot food and friendly faces.</p>
-                        <ul class="space-y-2 text-sm text-gray-300">
-                            <li class="flex justify-between border-b border-white/5 pb-1"><span>Monday:</span> <span class="text-accent">12:00 PM – 11:30 PM</span></li>
-                            <li class="flex justify-between border-b border-white/5 pb-1"><span>Tuesday:</span> <span class="text-accent">12:00 PM – 11:30 PM</span></li>
-                            <li class="flex justify-between border-b border-white/5 pb-1"><span>Wednesday:</span> <span class="text-accent">12:00 PM – 11:30 PM</span></li>
-                            <li class="flex justify-between border-b border-white/5 pb-1"><span>Thursday:</span> <span class="text-accent">12:00 PM – 11:30 PM</span></li>
-                            <li class="flex justify-between border-b border-white/5 pb-1"><span>Friday:</span> <span class="text-accent">12:00 PM – 11:30 PM</span></li>
-                            <li class="flex justify-between border-b border-white/5 pb-1"><span>Saturday:</span> <span class="text-accent">12:00 PM – 11:30 PM</span></li>
-                            <li class="flex justify-between border-b border-white/5 pb-1"><span>Sunday:</span> <span class="text-accent">12:00 PM – 11:30 PM</span></li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="bg-grey p-8 rounded-xl border border-white/10 flex flex-col justify-between">
-                    <div>
-                        <h3 class="font-bebas text-3xl text-white mb-4">ORDER <span class="text-accent">& DELIVERY (COMING <span class="text-accent">SOON</span>)</span></h3>
-                        <p class="text-gray-300 text-sm mb-6">Order direct here for collection, and we are coming soon on major delivery apps below.</p>
-                    </div>
-                    <div class="grid grid-cols-3 gap-3 text-gray-300 font-bold uppercase tracking-wider text-xs">
-                        <div class="bg-black/50 p-3 rounded-lg border border-white/5 flex items-center justify-center text-center">Uber Eats</div>
-                        <div class="bg-black/50 p-3 rounded-lg border border-white/5 flex items-center justify-center text-center">Just Eat</div>
-                        <div class="bg-black/50 p-3 rounded-lg border border-white/5 flex items-center justify-center text-center">Deliveroo</div>
-                    </div>
-                </div>
-            </div>
-
-            <p class="text-center text-xl text-gray-400 leading-relaxed font-light mb-6">
-                As Hertfordshire's very first spot for genuine smash burgers and Nashville hot chicken, we love bringing great people together over fresh, delicious comfort food. Stop by today and taste the difference!
-            </p>
-        </div>
-    </section>
-
-    <!-- Sign up form -->
-    <section class="py-24 bg-[url('Discount.png')] bg-cover bg-center relative" data-aos="zoom-in">
-        <div class="absolute inset-0 bg-primary/90 backdrop-blur-sm"></div>
-        <div class="container mx-auto px-4 relative z-10">
-            <div class="max-w-3xl mx-auto bg-black p-10 border border-white/20 rounded-2xl shadow-2xl">
-                <div class="text-center mb-8">
-                    <h2 class="font-bebas text-6xl text-accent">GET 10% OFF</h2>
-                    <p class="text-gray-300 mt-2">Sign up for Smash Guys updates, secret menu drops, and offers.</p>
-                </div>
-                <form id="signup-form" class="space-y-6">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <input type="email" id="signup-email" placeholder="Email Address *" class="w-full bg-grey border border-white/20 p-4 text-white focus:border-accent focus:outline-none rounded-lg">
-                        <input type="tel" id="signup-phone" placeholder="Phone Number (Required if SMS ticked)" class="w-full bg-grey border border-white/20 p-4 text-white focus:border-accent focus:outline-none rounded-lg">
-                    </div>
+                    <p class="text-gray-300 text-sm leading-relaxed mb-6 font-light">
+                        Located conveniently in the Galleria car park. Pull up, grab your order, and enjoy the best smash in Hertfordshire.
+                    </p>
                     
-                    <div class="space-y-3 bg-grey/50 p-4 rounded-lg border border-white/10">
-                        <label class="flex items-start gap-3 cursor-pointer group">
-                            <input type="checkbox" id="consent-email" class="mt-1 w-5 h-5 accent-accent">
-                            <span class="text-sm text-gray-300 group-hover:text-white transition">I agree to receive email marketing and exclusive discount updates.</span>
-                        </label>
-                        <label class="flex items-start gap-3 cursor-pointer group">
-                            <input type="checkbox" id="consent-sms" class="mt-1 w-5 h-5 accent-accent">
-                            <span class="text-sm text-gray-300 group-hover:text-white transition">I agree to receive promotional updates and offers via SMS/WhatsApp.</span>
-                        </label>
+                    <a href="https://maps.app.goo.gl/cD6nMEqKEUzuDX1m6" target="_blank" rel="noopener noreferrer" class="btn-3d w-full bg-accent text-primary font-bebas text-2xl py-3.5 rounded-xl flex items-center justify-center gap-3 mb-6 hover:bg-white transition shadow-lg">
+                        <i class="fa-solid fa-location-arrow"></i> <span>GET DIRECTIONS TO FOOD TRUCK</span>
+                    </a>
+                </div>
+                <div class="pt-6 border-t border-white/10">
+                    <span class="text-xs uppercase text-gray-400 block mb-2 font-bold">Delivery Apps (Coming Soon)</span>
+                    <div class="grid grid-cols-3 gap-2 text-center text-xs font-bold uppercase">
+                        <div class="bg-black/50 py-2.5 rounded border border-white/5 text-gray-400">UberEats</div>
+                        <div class="bg-black/50 py-2.5 rounded border border-white/5 text-gray-400">JustEat</div>
+                        <div class="bg-black/50 py-2.5 rounded border border-white/5 text-gray-400">Deliveroo</div>
                     </div>
+                </div>
+            </div>
 
-                    <p id="signup-error" class="text-red-400 text-sm hidden font-bold text-center">Please provide a valid email and check at least one consent box.</p>
-                    
-                    <button type="submit" class="w-full bg-accent text-primary font-bebas text-3xl py-4 hover:bg-white transition rounded-lg focus:outline-none focus:ring-2 focus:ring-white">CLAIM DISCOUNT & SIGN UP</button>
-                    <div id="signup-success-msg" class="hidden text-center text-accent font-bold mt-4">
-                        Success! Your 10% discount promo code is: <span class="underline text-white font-mono text-xl">WELCOME10</span> (Applied automatically at checkout)
+            <div class="bg-grey p-8 rounded-2xl border border-white/10">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-10 h-10 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center text-accent text-lg"><i class="fa-solid fa-clock"></i></div>
+                    <div>
+                        <h3 class="font-bebas text-2xl text-white">OPENING HOURS</h3>
+                        <p class="text-gray-400 text-xs">Open 7 Days a Week for Collection</p>
                     </div>
-                </form>
-            </div>
-        </div>
-    </section>
-
-    <!-- FOOTER -->
-    <footer class="bg-transparent py-12 border-t border-white/10 text-center" style="background-color: transparent !important; background: transparent !important;">
-        <div class="container mx-auto px-4 flex flex-col items-center justify-center gap-4">
-            <div class="flex items-center gap-3">
-                <img src="logo.png" alt="Smash Guys Logo" class="w-40 h-40 object-contain blend-logo" onerror="this.style.display='none'">
-                <h2 class="font-bebas text-4xl text-white tracking-widest">SMASH<span class="text-accent">GUYS</span></h2>
-            </div>
-            <p class="text-gray-400 text-xs">Smash Guys UK Ltd | Trading at Public Car Park, The Galleria, Hatfield, AL10 0XR</p>
-            <p class="text-gray-500 text-sm">Also available for delivery via <strong>Uber Eats</strong>, <strong>Just Eat</strong>, and <strong>Deliveroo</strong>.</p>
-            <div>
-                <a href="https://www.instagram.com/smashguys_uk?igsh=aXhlaDk2dTEwa3I5" target="_blank" class="inline-block hover:scale-110 transition transform text-accent text-6xl" aria-label="Instagram Profile">
-                    <i class="fa-brands fa-instagram"></i>
-                </a>
-            </div>
-            <p class="text-gray-500 text-xs">
-                &copy; 2026 Smash Guys. All rights reserved. | 
-                <button id="open-privacy-modal" class="underline hover:text-accent focus:outline-none focus:ring-1 focus:ring-accent">Privacy Policy</button> | 
-                <button id="open-terms-modal" class="underline hover:text-accent focus:outline-none focus:ring-1 focus:ring-accent">Terms & Conditions</button>
-            </p>
-        </div>
-    </footer>
-
-    <!-- AUTHENTICATION MODAL -->
-    <div id="auth-modal-overlay" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-grey border border-white/20 rounded-2xl max-w-md w-full p-8 relative shadow-2xl">
-            <button id="close-auth-modal" aria-label="Close modal" class="absolute top-4 right-4 text-gray-400 hover:text-white font-bold text-2xl focus:outline-none">&times;</button>
-            <h3 class="font-bebas text-4xl text-white mb-2 text-center">WELCOME TO <span class="text-accent">SMASH GUYS</span></h3>
-            <p class="text-gray-400 text-sm mb-6 text-center">Log in to track orders and secure exclusive discounts.</p>
-            
-            <div class="space-y-3 mb-6">
-                <button onclick="mockSocialLogin('Google')" class="w-full bg-white text-black font-bold py-3 px-4 rounded-lg flex items-center justify-center gap-3 hover:bg-gray-200 transition focus:outline-none focus:ring-2 focus:ring-accent">
-                    <i class="fa-brands fa-google text-red-500"></i> Continue with Google
-                </button>
-                <button onclick="mockSocialLogin('Facebook')" class="w-full bg-[#1877F2] text-white font-bold py-3 px-4 rounded-lg flex items-center justify-center gap-3 hover:bg-blue-600 transition focus:outline-none focus:ring-2 focus:ring-accent">
-                    <i class="fa-brands fa-facebook"></i> Continue with Facebook
-                </button>
-                <button onclick="mockSocialLogin('Apple')" class="w-full bg-black border border-white/20 text-white font-bold py-3 px-4 rounded-lg flex items-center justify-center gap-3 hover:bg-zinc-900 transition focus:outline-none focus:ring-2 focus:ring-accent">
-                    <i class="fa-brands fa-apple"></i> Continue with Apple
-                </button>
-            </div>
-
-            <div class="relative flex items-center py-2 mb-6">
-                <div class="flex-grow border-t border-white/10"></div>
-                <span class="flex-shrink-0 mx-4 text-gray-500 text-xs font-bold uppercase tracking-wider">Or with email</span>
-                <div class="flex-grow border-t border-white/10"></div>
-            </div>
-
-            <form id="email-login-form" class="space-y-4">
-                <input type="email" id="login-email" placeholder="Enter your email" required class="w-full bg-black border border-white/20 p-3 text-white focus:border-accent focus:outline-none rounded-lg text-sm">
-                <button type="submit" class="w-full bg-accent text-primary font-bebas text-2xl py-3 hover:bg-white transition rounded-lg focus:outline-none focus:ring-2 focus:ring-white">CONTINUE WITH EMAIL</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- PRIVACY POLICY MODAL -->
-    <div id="privacy-modal-overlay" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-grey border border-white/20 rounded-2xl max-w-2xl w-full p-8 relative shadow-2xl max-h-[80vh] overflow-y-auto">
-            <button id="close-privacy-modal" aria-label="Close modal" class="absolute top-4 right-4 text-gray-400 hover:text-white font-bold text-2xl focus:outline-none">&times;</button>
-            <h3 class="font-bebas text-4xl text-white mb-4 text-center">PRIVACY <span class="text-accent">POLICY</span></h3>
-            
-            <div class="space-y-4 text-gray-300 text-sm leading-relaxed">
-                <p><strong>1. Who We Are:</strong> Smash Guys operates as Hertfordshire's dedicated smash burger and Nashville hot chicken destination.</p>
-                <p><strong>2. Information We Collect:</strong> We collect account registration details (email and social login tokens), order history, delivery preferences, and contact information submitted via our sign-up forms or promo code redemptions.</p>
-                <p><strong>3. How We Use Your Data:</strong> Your data is used strictly to process orders, manage user accounts, enforce single-use coupon policies, and send direct marketing updates (only where explicit opt-in consent has been provided).</p>
-                <p><strong>4. Data Security:</strong> We implement secure technical measures to retain your information safely. We never sell, trade, or share your personal data with unauthorized third parties.</p>
-                <p><strong>5. Your Rights:</strong> You have the right to request access to your data or ask for your account and data to be deleted at any time.</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- TERMS & CONDITIONS MODAL -->
-    <div id="terms-modal-overlay" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-grey border border-white/20 rounded-2xl max-w-2xl w-full p-8 relative shadow-2xl max-h-[80vh] overflow-y-auto">
-            <button id="close-terms-modal" aria-label="Close modal" class="absolute top-4 right-4 text-gray-400 hover:text-white font-bold text-2xl focus:outline-none">&times;</button>
-            <h3 class="font-bebas text-4xl text-white mb-4 text-center">TERMS & <span class="text-accent">CONDITIONS</span></h3>
-            
-            <div class="space-y-4 text-gray-300 text-sm leading-relaxed">
-                <p><strong>1. Introduction:</strong> Welcome to Smash Guys. By placing an order or using our website, you agree to these terms.</p>
-                <p><strong>2. Orders & Pricing:</strong> All orders are subject to availability. Prices are listed in GBP and include applicable taxes where required.</p>
-                <p><strong>3. Promo Codes:</strong> Promotional codes (such as WELCOME10) are restricted to single-use per verified user account and cannot be combined unless stated otherwise.</p>
-                <p><strong>4. Allergens:</strong> While we take precautions, our kitchen handles various ingredients. Please contact our staff directly regarding specific allergy inquiries before ordering.</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- COOKIE CONSENT BANNER -->
-    <div id="cookie-banner" class="fixed bottom-0 left-0 w-full bg-black/90 border-t border-white/10 p-4 z-50 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-300 hidden">
-        <p>We use cookies to enhance your browsing experience, analyze traffic, and ensure security. Read our privacy guidelines for more info.</p>
-        <div class="flex gap-3 shrink-0">
-            <button id="accept-cookies" class="bg-accent text-primary font-bold px-5 py-2 rounded-lg hover:bg-white transition focus:outline-none focus:ring-2 focus:ring-white">Accept</button>
-            <button id="decline-cookies" class="bg-white/10 text-white px-5 py-2 rounded-lg hover:bg-white/20 transition focus:outline-none focus:ring-2 focus:ring-white">Decline</button>
-        </div>
-    </div>
-
-    <!-- CART DRAWER OVERLAY -->
-    <div id="cart-overlay" class="fixed inset-0 bg-black/70 z-50 hidden transition-opacity"></div>
-
-    <!-- SLIDE-OUT CART DRAWER -->
-    <div id="cart-drawer" class="fixed top-0 right-0 w-full md:w-[400px] h-full bg-grey border-l border-white/10 z-50 transform translate-x-full transition-transform duration-300 flex flex-col shadow-2xl">
-        <div class="p-6 border-b border-white/10 flex justify-between items-center bg-black">
-            <h3 class="font-bebas text-3xl text-white tracking-wider">YOUR <span class="text-accent">CART</span></h3>
-            <button id="close-cart" aria-label="Close cart" class="text-gray-400 hover:text-white font-bold text-2xl focus:outline-none">&times;</button>
-        </div>
-
-        <div id="cart-items" class="flex-1 overflow-y-auto p-6 space-y-4">
-            <p class="text-gray-400 text-center py-10">Your cart is empty.</p>
-        </div>
-
-        <!-- STORE STATUS BANNER -->
-        <div id="store-status-banner" class="px-6 py-2 bg-red-900/50 border-t border-red-500/30 text-red-200 text-xs font-bold text-center hidden">
-            🔴 Store is currently closed. Orders will be prepared for the next opening time.
-        </div>
-
-        <!-- PROMO CODE INPUT AREA -->
-        <div class="px-6 py-2 bg-grey border-t border-white/10">
-            <label for="promo-code" class="block text-xs uppercase font-bold text-gray-400 mb-1">Promo Code</label>
-            <div class="flex gap-2">
-                <input type="text" id="promo-code" placeholder="Enter code (e.g. WELCOME10)" class="flex-1 bg-black border border-white/20 p-2 text-white text-sm focus:border-accent focus:outline-none rounded-lg uppercase">
-                <button id="apply-promo" class="bg-white/10 hover:bg-accent hover:text-black text-white font-bold text-xs px-4 rounded-lg transition focus:outline-none focus:ring-1 focus:ring-accent">Apply</button>
-            </div>
-            <p id="promo-msg" class="text-xs mt-1 text-accent hidden">10% discount applied successfully!</p>
-        </div>
-
-        <!-- SPECIAL INSTRUCTIONS TEXT BOX AREA -->
-        <div class="px-6 py-2 bg-grey">
-            <label for="special-instructions" class="block text-xs uppercase font-bold text-gray-400 mb-1">Special Instructions / Allergies</label>
-            <textarea id="special-instructions" placeholder="e.g. No pickles, No onions..." class="w-full bg-black border border-white/20 p-3 text-white text-sm focus:border-accent focus:outline-none rounded-lg resize-none h-16"></textarea>
-        </div>
-
-        <div class="p-6 border-t border-white/10 bg-black">
-            <div class="flex flex-col mb-4 space-y-1">
-                <div class="flex justify-between items-center text-gray-400 text-sm" id="discount-row" style="display: none;">
-                    <span>Discount (10%):</span>
-                    <span id="cart-discount" class="text-accent">-£0.00</span>
                 </div>
-                <div class="flex justify-between items-center">
-                    <span class="text-gray-400 font-bold uppercase text-sm">Total</span>
-                    <span id="cart-total" class="font-bebas text-3xl text-accent">£0.00</span>
-                </div>
-            </div>
-            <div class="flex flex-col gap-3 mt-4">
-                <button id="checkout-btn-card" class="w-full bg-accent text-primary font-bebas text-2xl py-3 hover:bg-white transition rounded-lg focus:outline-none focus:ring-2 focus:ring-white">PROCEED TO CHECKOUT</button>
-                <div class="relative flex items-center py-1">
-                    <div class="flex-grow border-t border-white/10"></div>
-                    <span class="flex-shrink-0 mx-4 text-gray-500 text-xs font-bold uppercase tracking-wider">Or</span>
-                    <div class="flex-grow border-t border-white/10"></div>
-                </div>
-                <button id="checkout-btn-wa" class="w-full bg-transparent border-2 border-white/20 text-white font-bebas text-xl py-2 hover:border-[#25D366] hover:text-[#25D366] transition rounded-lg focus:outline-none focus:ring-2 focus:ring-[#25D366]">ORDER VIA WHATSAPP</button>
+                <ul class="space-y-3 text-sm text-gray-300 font-light">
+                    <li class="flex justify-between border-b border-white/5 pb-2"><span>Monday – Thursday</span> <span class="font-bold text-white">12:00 PM – 11:30 PM</span></li>
+                    <li class="flex justify-between border-b border-white/5 pb-2"><span>Friday (Fusion Drop)</span> <span class="font-bold text-accent">12:00 PM – 11:30 PM</span></li>
+                    <li class="flex justify-between border-b border-white/5 pb-2"><span>Saturday</span> <span class="font-bold text-white">12:00 PM – 11:30 PM</span></li>
+                    <li class="flex justify-between pt-1"><span>Sunday</span> <span class="font-bold text-white">12:00 PM – 11:30 PM</span></li>
+                </ul>
             </div>
         </div>
     </div>
+</section>
 
-    <!-- FLOATING CART BUTTON -->
-    <button id="open-cart" aria-label="Open cart drawer" class="fixed bottom-6 right-6 z-40 bg-accent text-primary font-bebas text-xl px-6 py-3 rounded-full shadow-[0_0_20px_rgba(255,212,0,0.4)] flex items-center gap-2 hover:bg-white transition transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white">
-        🛒 Cart (<span id="cart-count">0</span>)
-    </button>
+<!-- Discount Signup Banner -->
+<section class="py-20 bg-gradient-to-br from-black via-grey to-black border-t border-white/10 relative">
+    <div class="container mx-auto px-4 max-w-3xl relative z-10 text-center">
+        <span class="bg-accent/10 border border-accent/20 text-accent text-xs font-bold uppercase px-3 py-1 rounded-full inline-block mb-4">Instant Savings</span>
+        <h2 class="font-bebas text-5xl sm:text-6xl text-white mb-3">GET <span class="text-accent">10% OFF</span> YOUR FIRST ORDER</h2>
+        <p class="text-gray-300 text-sm sm:text-base mb-8 font-light max-w-lg mx-auto">
+            Join the Smash Guys VIP list. Get secret menu notifications, Friday drop previews, and an instant discount promo code.
+        </p>
+        
+        <form id="signup-form" class="space-y-4 max-w-lg mx-auto text-left">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <input type="email" id="signup-email" placeholder="Email Address *" required class="bg-black/80 border border-white/20 p-3.5 text-white text-sm rounded-xl focus:border-accent focus:outline-none">
+                <input type="tel" id="signup-phone" placeholder="Phone Number (For SMS)" class="bg-black/80 border border-white/20 p-3.5 text-white text-sm rounded-xl focus:border-accent focus:outline-none">
+            </div>
+            
+            <div class="bg-black/40 p-3.5 rounded-xl border border-white/10 space-y-2 text-xs text-gray-300">
+                <label class="flex items-center gap-2.5 cursor-pointer">
+                    <input type="checkbox" id="consent-email" class="w-4 h-4 accent-accent rounded">
+                    <span>Send me exclusive offers and menu drops via Email.</span>
+                </label>
+                <label class="flex items-center gap-2.5 cursor-pointer">
+                    <input type="checkbox" id="consent-sms" class="w-4 h-4 accent-accent rounded">
+                    <span>Send me drop reminders via SMS/WhatsApp.</span>
+                </label>
+            </div>
 
-    <!-- Scripts -->
-    <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script> 
-    <script src="script.js"></script>
+            <p id="signup-error" class="text-red-400 text-xs hidden font-bold text-center"></p>
+            
+            <button type="submit" class="btn-3d w-full bg-accent text-primary font-bebas text-2xl py-3.5 rounded-xl transition">CLAIM 10% DISCOUNT CODE</button>
+            <div id="signup-success-msg" class="hidden text-center bg-accent/10 border border-accent/30 p-4 rounded-xl mt-4">
+                <p class="text-white text-sm">Success! Your instant discount promo code is:</p>
+                <p class="font-mono text-2xl text-accent font-bold tracking-wider mt-1">WELCOME10</p>
+                <p class="text-gray-400 text-xs mt-1">Use this code at checkout on the menu page!</p>
+            </div>
+        </form>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="py-12 border-t border-white/10 text-center bg-black">
+    <div class="container mx-auto px-4 flex flex-col items-center gap-6">
+        <div class="flex items-center gap-3">
+            <img src="logo.png" alt="Smash Guys Logo" class="w-12 h-12 object-contain blend-logo" onerror="this.style.display='none'">
+            <span class="font-bebas text-3xl tracking-widest text-white">SMASH <span class="text-accent">GUYS</span></span>
+        </div>
+        <p class="text-gray-400 text-xs max-w-md">
+            Smash Guys UK Ltd | Trading at Public Car Park, The Galleria, Hatfield, AL10 0XR. Fresh ingredients, high heat, zero compromises.
+        </p>
+        
+        <!-- SOCIAL HANDLES -->
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-6 text-sm text-gray-300">
+            <a href="https://www.instagram.com/smashguys_hatfield" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 hover:text-accent transition group">
+                <i class="fa-brands fa-instagram text-xl text-accent"></i> <span>@smashguys_hatfield</span>
+            </a>
+            <a href="https://www.facebook.com/smashguysuk" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 hover:text-accent transition group">
+                <i class="fa-brands fa-facebook text-xl text-accent"></i> <span>@smashguysuk</span>
+            </a>
+            <a href="https://www.tiktok.com/@smashguysuk" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 hover:text-accent transition group">
+                <i class="fa-brands fa-tiktok text-xl text-accent"></i> <span>@smashguysuk</span>
+            </a>
+        </div>
+
+        <div class="text-gray-500 text-xs flex flex-wrap justify-center gap-4 border-t border-white/10 pt-6 w-full max-w-md">
+            <span>&copy; 2026 Smash Guys.</span>
+            <button id="open-privacy-modal" class="underline hover:text-white">Privacy Policy</button>
+            <button id="open-terms-modal" class="underline hover:text-white">Terms & Conditions</button>
+        </div>
+    </div>
+</footer>
+
+<!-- AUTHENTICATION MODAL -->
+<div id="auth-modal-overlay" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center p-4">
+    <div class="modal-glass bg-grey rounded-2xl max-w-md w-full p-8 relative">
+        <button id="close-auth-modal" aria-label="Close" class="absolute top-4 right-4 text-gray-400 hover:text-white text-2xl focus:outline-none">&times;</button>
+        <h3 class="font-bebas text-4xl text-white mb-2 text-center">WELCOME TO <span class="text-accent">SMASH GUYS</span></h3>
+        <p class="text-gray-400 text-xs mb-6 text-center">Log in to track orders and save promo codes.</p>
+        
+        <div class="space-y-3 mb-6">
+            <button onclick="mockSocialLogin('Google')" class="w-full bg-white text-black font-bold py-3 px-4 rounded-xl flex items-center justify-center gap-3 text-sm hover:bg-gray-200 transition"><i class="fa-brands fa-google text-red-500"></i> Continue with Google</button>
+            <button onclick="mockSocialLogin('Facebook')" class="w-full bg-[#1877F2] text-white font-bold py-3 px-4 rounded-xl flex items-center justify-center gap-3 text-sm hover:bg-blue-600 transition"><i class="fa-brands fa-facebook"></i> Continue with Facebook</button>
+        </div>
+        
+        <div class="relative flex items-center py-2 mb-6"><div class="flex-grow border-t border-white/10"></div><span class="mx-4 text-gray-500 text-[10px] uppercase font-bold tracking-widest">Or email</span><div class="flex-grow border-t border-white/10"></div></div>
+        
+        <form id="email-login-form" class="space-y-3">
+            <input type="email" id="login-email" placeholder="Enter your email address" required class="w-full bg-black border border-white/20 p-3 text-white text-sm rounded-xl focus:border-accent focus:outline-none">
+            <button type="submit" class="w-full bg-accent text-primary font-bebas text-2xl py-3 rounded-xl hover:bg-white transition">CONTINUE WITH EMAIL</button>
+        </form>
+    </div>
+</div>
+
+<!-- PRIVACY & TERMS MODALS -->
+<div id="privacy-modal-overlay" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center p-4"><div class="modal-glass bg-grey rounded-2xl max-w-xl w-full p-8 relative max-h-[80vh] overflow-y-auto"><button id="close-privacy-modal" class="absolute top-4 right-4 text-gray-400 hover:text-white text-2xl">&times;</button><h3 class="font-bebas text-3xl text-white mb-4">PRIVACY POLICY</h3><p class="text-gray-300 text-xs leading-relaxed">We collect basic account registration and order details solely to process your collection orders and manage discount codes. We never sell your personal data to unauthorized third parties.</p></div></div>
+<div id="terms-modal-overlay" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center p-4"><div class="modal-glass bg-grey rounded-2xl max-w-xl w-full p-8 relative max-h-[80vh] overflow-y-auto"><button id="close-terms-modal" class="absolute top-4 right-4 text-gray-400 hover:text-white text-2xl">&times;</button><h3 class="font-bebas text-3xl text-white mb-4">TERMS & CONDITIONS</h3><p class="text-gray-300 text-xs leading-relaxed">All collection orders placed through this platform are subject to kitchen availability. Promotional codes like WELCOME10 are strictly restricted to single-use per verified user account.</p></div></div>
+
+<!-- GLOBALS LOAD FIRST -->
+<script src="script.js"></script>
+<!-- INTERACTIVE GRIDDLE PRESS ENGINE -->
+<script>
+    (function() {
+        const station = document.getElementById('griddle-station');
+        const pattyImg = document.getElementById('griddle-patty');
+        const pressImg = document.getElementById('griddle-press');
+        const shadow = document.getElementById('griddle-shadow');
+        const badge = document.getElementById('griddle-badge');
+
+        if (!station || !pattyImg || !pressImg) return;
+
+        let isCooked = false;
+        let isAnimating = false;
+
+        station.addEventListener('click', () => {
+            if (isAnimating) return;
+            isAnimating = true;
+
+            if (!isCooked) {
+                // STEP 1: Bring down the steel press
+                pressImg.classList.remove('animate-press-lift');
+                pressImg.classList.add('animate-press-down');
+
+                if (badge) {
+                    badge.innerHTML = '💨 SIZZLING ON FLAT-TOP...';
+                    badge.className = 'text-[11px] uppercase tracking-widest font-bold mt-4 border border-accent/20 bg-accent text-primary px-3 py-1 rounded-full shadow-lg transition';
+                }
+
+                if (shadow) {
+                    shadow.style.transform = 'scale(1.35)';
+                    shadow.style.opacity = '0.95';
+                }
+
+                // STEP 2: Flatten patty & swap image mid-press at peak compression (350ms)
+                setTimeout(() => {
+                    pattyImg.src = 'cooked-patty.png';
+                    pattyImg.style.transform = 'scale(1.25) translateY(6px)';
+                }, 350);
+
+                // STEP 3: Lift press back up to reveal crust (750ms)
+                setTimeout(() => {
+                    pressImg.classList.remove('animate-press-down');
+                    pressImg.classList.add('animate-press-lift');
+
+                    if (badge) {
+                        badge.innerHTML = '🔥 PERFECT CRUST! (Click to reset)';
+                        badge.className = 'text-[11px] uppercase tracking-widest font-bold mt-4 border border-accent/30 bg-black/80 text-accent px-3 py-1 rounded-full shadow-lg transition';
+                    }
+                    if (shadow) {
+                        shadow.style.transform = '';
+                        shadow.style.opacity = '';
+                    }
+                    isCooked = true;
+                    isAnimating = false;
+                }, 750);
+
+            } else {
+                // RESET BACK TO RAW BALL
+                pattyImg.style.transform = 'scale(1) translateY(0)';
+                pattyImg.src = 'Raw-Patty.png';
+                isCooked = false;
+                isAnimating = false;
+
+                if (badge) {
+                    badge.innerHTML = '🔥 Click to Press & Smash!';
+                    badge.className = 'text-[11px] uppercase tracking-widest font-bold text-accent/80 mt-4 border border-accent/20 bg-black/60 px-3 py-1 rounded-full opacity-80 group-hover:opacity-100 group-hover:bg-accent group-hover:text-black transition';
+                }
+            }
+        });
+    })();
+</script>
 </body>
 </html>
