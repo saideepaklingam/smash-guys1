@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smash Guys | Order Menu & Checkout</title>
+    
+    <link rel="icon" type="image/png" href="logo.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Sora:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- MISSING LIBRARIES ADDED HERE TO PREVENT SCRIPT CRASHING -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { primary: '#111', accent: '#FFD400', grey: '#1a1a1a' },
+                    fontFamily: { bebas: ['"Bebas Neue"', 'sans-serif'], sora: ['Sora', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="style.css">
+
+    <!-- DEPTH / PSEUDO-3D LAYER -->
+    <style>
+        .menu-grid-3d { perspective: 1600px; }
+
+        .menu-card {
+            position: relative;
+            overflow: hidden;
+            transform: perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0);
+            transform-style: preserve-3d;
+            transition: transform 0.15s ease-out, box-shadow 0.2s ease-out;
+            box-shadow:
+                0 10px 25px -10px rgba(0,0,0,0.65),
+                0 2px 6px rgba(0,0,0,0.4),
+                inset 0 1px 0 rgba(255,255,255,0.04);
+            will-change: transform;
+        }
+        .menu-card:hover {
+            box-shadow:
+                0 30px 60px -15px rgba(0,0,0,0.75),
+                0 0 45px -10px rgba(255,212,0,0.18),
+                inset 0 1px 0 rgba(255,255,255,0.06);
+        }
+        .menu-card img, .menu-card h4, .menu-card p {
+            transform: translateZ(15px);
+            transition: transform 0.2s ease-out;
+        }
+        .menu-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at var(--glare-x, 50%) var(--glare-y, 30%), rgba(255,255,255,0.14), transparent 55%);
+            opacity: 0;
+            transition: opacity 0.25s ease;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .menu-card:hover::after { opacity: 1; }
+
+        .btn-3d {
+            position: relative;
+            box-shadow:
+                0 4px 0 0 rgba(0,0,0,0.35),
+                0 10px 22px -6px rgba(255,212,0,0.35),
+                inset 0 1px 0 rgba(255,255,255,0.45);
+            transition: transform 0.12s ease, box-shadow 0.12s ease;
+        }
+        .btn-3d:hover {
+            transform: translateY(-2px);
+            box-shadow:
+                0 6px 0 0 rgba(0,0,0,0.35),
+                0 16px 30px -6px rgba(255,212,0,0.45),
+                inset 0 1px 0 rgba(255,255,255,0.55);
+        }
+        .btn-3d:active {
+            transform: translateY(2px);
+            box-shadow:
+                0 1px 0 0 rgba(0,0,0,0.35),
+                0 4px 10px -4px rgba(255,212,0,0.3),
+                inset 0 1px 0 rgba(255,255,255,0.3);
+        }
+
+        .modal-glass {
+            background: linear-gradient(145deg, rgba(32,32,32,0.88), rgba(12,12,12,0.92)) !important;
+            backdrop-filter: blur(20px) saturate(160%);
+            -webkit-backdrop-filter: blur(20px) saturate(160%);
+            border: 1px solid rgba(255,255,255,0.08) !important;
+            box-shadow:
+                0 30px 70px -15px rgba(0,0,0,0.85),
+                inset 0 1px 0 rgba(255,255,255,0.06);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .menu-card, .btn-3d { transition: none !important; transform: none !important; }
+        }
+    </style>
+</head>
+<body class="font-sora selection:bg-accent selection:text-black bg-primary text-white">
+
+<!-- LOGO & BUSINESS NAME -->
+<div class="absolute top-3 left-4 md:left-6 z-50">
+    <a href="index.html" class="flex items-center gap-3 group">
+        <img src="logo.png" alt="Smash Guys Logo" class="w-16 h-16 md:w-20 md:h-20 object-contain blend-logo">
+        <span class="font-bebas text-2xl md:text-3xl tracking-widest text-white group-hover:text-accent transition">
+            SMASH <span class="text-accent group-hover:text-white transition">GUYS</span>
+        </span>
+    </a>
+</div>
+
+<!-- NAVIGATION -->
+<nav class="absolute top-6 right-6 z-50 flex items-center gap-6">
+    <a href="index.html" class="text-gray-300 hover:text-accent font-bold text-sm uppercase tracking-wider transition">Home</a>
+    <a href="menu.html" class="text-gray-300 hover:text-accent font-bold text-sm uppercase tracking-wider transition">View Menu</a>
+    <a href="cart.html" class="text-accent hover:text-white font-bold text-sm uppercase tracking-wider transition">Checkout</a>
+    <button id="open-auth-modal" class="text-accent hover:text-white font-bold text-sm uppercase tracking-wider transition flex items-center gap-2 focus:outline-none"><i class="fa-solid fa-user"></i> <span id="auth-nav-label">Login</span></button>
+</nav>
+
+<!-- CENTERED FULL-WIDTH MENU CONTAINER -->
+<div class="container mx-auto px-4 max-w-4xl pt-32 pb-16">
+    <h2 class="font-bebas text-6xl text-center mb-2">BUILD YOUR <span class="text-accent">ORDER</span></h2>
+    <p class="text-gray-400 text-center mb-10">Add items below or craft your own custom burger. Everything syncs live to your cart.</p>
+
+    <!-- STORE STATUS BANNER -->
+    <div id="store-status-banner" class="px-4 py-2 bg-red-900/50 border border-red-500/30 text-red-200 text-xs font-bold text-center mb-8 hidden">
+        🔴 Store is currently closed (Hours: 12:00 PM – 11:30 PM). Orders will be prepared for the next opening time.
+    </div>
+
+    <!-- COMPLETE MENU SECTIONS -->
+    <div class="space-y-12">
+
+        <!-- INTERACTIVE CUSTOM BURGER BUILDER -->
+        <div class="bg-gradient-to-br from-grey to-black border-2 border-accent rounded-2xl p-6 md:p-8 shadow-[0_0_30px_rgba(255,212,0,0.15)] relative overflow-hidden">
+            <div class="absolute -top-10 -right-10 w-40 h-40 bg-accent/5 rounded-full blur-2xl pointer-events-none"></div>
+            
+            <div class="flex justify-between items-start mb-6 border-b border-white/10 pb-4">
+                <div>
+                    <span class="bg-accent text-primary font-bold text-[10px] uppercase px-2 py-0.5 rounded">Interactive Builder</span>
+                    <h3 class="font-bebas text-4xl text-white mt-1">BUILD YOUR OWN <span class="text-accent">SMASH</span></h3>
+                    <p class="text-gray-400 text-xs">Start with a toasted brioche bun (£2.00 base) and stack it your way.</p>
+                </div>
+                <div class="text-right">
+                    <span class="text-gray-400 text-[10px] uppercase block font-bold">Live Price</span>
+                    <span id="custom-burger-price" class="font-bebas text-4xl text-accent">£2.00</span>
+                </div>
+            </div>
+
+            <form id="custom-burger-form" class="space-y-6 text-xs">
+                <!-- Proteins -->
+                <div class="bg-black/50 p-4 rounded-xl border border-white/5 space-y-3">
+                    <h4 class="font-bold text-accent uppercase tracking-wider text-sm flex items-center gap-2">
+                        <i class="fa-solid fa-fire"></i> 1. Choose Your Proteins (+£3.00 each)
+                    </h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="flex justify-between items-center bg-grey p-3 rounded-lg border border-white/10">
+                            <span class="font-bold text-white text-sm">Smash Beef Patty</span>
+                            <div class="flex items-center gap-2 bg-black p-1 rounded-full border border-white/10">
+                                <button type="button" onclick="adjustCustomQty('beef-patty-qty', -1)" class="w-6 h-6 font-bold bg-white/10 rounded-full hover:bg-accent hover:text-black transition">-</button>
+                                <span id="beef-patty-qty" class="font-bold w-5 text-center text-white">0</span>
+                                <button type="button" onclick="adjustCustomQty('beef-patty-qty', 1)" class="w-6 h-6 font-bold bg-white/10 rounded-full hover:bg-accent hover:text-black transition">+</button>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center bg-grey p-3 rounded-lg border border-white/10">
+                            <span class="font-bold text-white text-sm">Crispy Chicken Breast</span>
+                            <div class="flex items-center gap-2 bg-black p-1 rounded-full border border-white/10">
+                                <button type="button" onclick="adjustCustomQty('chicken-patty-qty', -1)" class="w-6 h-6 font-bold bg-white/10 rounded-full hover:bg-accent hover:text-black transition">-</button>
+                                <span id="chicken-patty-qty" class="font-bold w-5 text-center text-white">0</span>
+                                <button type="button" onclick="adjustCustomQty('chicken-patty-qty', 1)" class="w-6 h-6 font-bold bg-white/10 rounded-full hover:bg-accent hover:text-black transition">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cheeses & Bacon -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="bg-black/50 p-4 rounded-xl border border-white/5 space-y-2">
+                        <h4 class="font-bold text-accent uppercase tracking-wider text-sm">2. Cheese (+£0.50)</h4>
+                        <div class="space-y-2.5 text-gray-300 text-sm">
+                            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="custom-item accent-accent w-4 h-4" data-name="American Cheese" data-price="0.50"> American Cheese Slice</label>
+                            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="custom-item accent-accent w-4 h-4" data-name="Cheddar Cheese" data-price="0.50"> Cheddar Slice</label>
+                            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="custom-item accent-accent w-4 h-4" data-name="Swiss Cheese" data-price="0.50"> Swiss Slice</label>
+                        </div>
+                    </div>
+                    <div class="bg-black/50 p-4 rounded-xl border border-white/5 space-y-2">
+                        <h4 class="font-bold text-accent uppercase tracking-wider text-sm">3. Premium (+£1.00)</h4>
+                        <div class="space-y-2.5 text-gray-300 text-sm">
+                            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="custom-item accent-accent w-4 h-4" data-name="Beef Bacon" data-price="1.00"> Crispy Beef Bacon</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Fresh Veggies -->
+                <div class="bg-black/50 p-4 rounded-xl border border-white/5 space-y-2">
+                    <h4 class="font-bold text-accent uppercase tracking-wider text-sm">4. Fresh Veggies (+£0.25 each)</h4>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 text-gray-300 text-sm">
+                        <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="custom-item accent-accent w-4 h-4" data-name="Pickles" data-price="0.25"> Pickles</label>
+                        <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="custom-item accent-accent w-4 h-4" data-name="Fresh Onions" data-price="0.25"> Fresh Onions</label>
+                        <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="custom-item accent-accent w-4 h-4" data-name="Jalapenos" data-price="0.25"> Jalapenos</label>
+                        <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="custom-item accent-accent w-4 h-4" data-name="Shredded Lettuce" data-price="0.25"> Lettuce</label>
+                        <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="custom-item accent-accent w-4 h-4" data-name="Tomatoes" data-price="0.25"> Sliced Tomatoes</label>
+                    </div>
+                </div>
+
+                <!-- Free Sauces -->
+                <div class="bg-black/50 p-4 rounded-xl border border-white/5 space-y-2">
+                    <h4 class="font-bold text-accent uppercase tracking-wider text-sm">5. Sauces (FREE)</h4>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 text-gray-300 text-sm">
+                        <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="custom-item accent-accent w-4 h-4" data-name="OG Sauce" data-price="0"> OG Sauce</label>
+                        <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="custom-item accent-accent w-4 h-4" data-name="Ranch" data-price="0"> Ranch Sauce</label>
+                        <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="custom-item accent-accent w-4 h-4" data-name="Nashville Hot" data-price="0"> Nashville Hot</label>
+                        <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="custom-item accent-accent w-4 h-4" data-name="Nashville Mayo" data-price="0"> Nashville Mayo</label>
+                        <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="custom-item accent-accent w-4 h-4" data-name="Ketchup" data-price="0"> Ketchup</label>
+                        <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="custom-item accent-accent w-4 h-4" data-name="Mayo" data-price="0"> Mayo</label>
+                        <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="custom-item accent-accent w-4 h-4" data-name="Mustard" data-price="0"> Mustard</label>
+                    </div>
+                </div>
+
+                <button type="button" id="add-custom-burger-btn" class="btn-3d w-full bg-accent text-primary font-bebas text-2xl py-3 rounded-xl transition shadow-lg">
+                    ➕ ADD CUSTOM SMASH TO CART
+                </button>
+            </form>
+        </div>
+
+        <!-- SMASH BURGERS -->
+        <div class="bg-grey border border-white/10 rounded-2xl p-6 md:p-8">
+            <h3 class="font-bebas text-4xl text-accent mb-6 border-b border-white/10 pb-3">SMASH BURGERS</h3>
+            <div class="space-y-4">
+                <div class="menu-card flex justify-between items-center bg-black/30 p-4 rounded-xl border border-white/5">
+                    <div>
+                        <h4 class="font-bold text-base item-name" data-id="classic-smash">Classic Smash Burger</h4>
+                        <p class="text-accent text-sm item-price" data-price="3.50">£3.50</p>
+                    </div>
+                    <div class="flex items-center gap-3 bg-black p-1.5 rounded-full border border-white/10">
+                        <button type="button" class="qty-btn minus-btn w-8 h-8">-</button>
+                        <span class="font-bold w-6 text-center qty-display text-sm">0</span>
+                        <button type="button" class="qty-btn plus-btn w-8 h-8">+</button>
+                    </div>
+                </div>
+                
+                <!-- CHEESE SMASH CARD WITH 3D HOVER POP -->
+                <div class="menu-card flex justify-between items-center bg-black/30 p-4 rounded-xl border border-white/5">
+                    <div class="flex items-center gap-4">
+                        <img src="Cheese-Smash-No-BG.png" alt="Cheese Smash" class="w-16 h-16 object-contain drop-shadow-[0_8px_8px_rgba(0,0,0,0.8)] hidden sm:block">
+                        <div>
+                            <h4 class="font-bold text-base item-name" data-id="cheese-smash">Cheese Smash Burger</h4>
+                            <p class="text-accent text-sm item-price" data-price="4.00">£4.00</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3 bg-black p-1.5 rounded-full border border-white/10">
+                        <button type="button" class="qty-btn minus-btn w-8 h-8">-</button>
+                        <span class="font-bold w-6 text-center qty-display text-sm">0</span>
+                        <button type="button" class="qty-btn plus-btn w-8 h-8">+</button>
+                    </div>
+                </div>
+
+                <div class="menu-card flex justify-between items-center bg-black/30 p-4 rounded-xl border border-white/5">
+                    <div>
+                        <h4 class="font-bold text-base item-name" data-id="nashville-smash">Nashville Smash Burger</h4>
+                        <p class="text-accent text-sm item-price" data-price="4.50">£4.50</p>
+                    </div>
+                    <div class="flex items-center gap-3 bg-black p-1.5 rounded-full border border-white/10">
+                        <button type="button" class="qty-btn minus-btn w-8 h-8">-</button>
+                        <span class="font-bold w-6 text-center qty-display text-sm">0</span>
+                        <button type="button" class="qty-btn plus-btn w-8 h-8">+</button>
+                    </div>
+                </div>
+                <!-- Friday Fusion Burger -->
+                <div id="friday-fusion-burger" class="menu-card flex justify-between items-center bg-black/30 p-4 rounded-xl border border-accent/40" style="display: none;">
+                    <div>
+                        <h4 class="font-bold text-base text-accent item-name" data-id="friday-fusion-special">Friday Fusion Special</h4>
+                        <p class="text-accent text-sm item-price" data-price="6.00">£6.00</p>
+                    </div>
+                    <div class="flex items-center gap-3 bg-black p-1.5 rounded-full border border-white/10">
+                        <button type="button" class="qty-btn minus-btn w-8 h-8">-</button>
+                        <span class="font-bold w-6 text-center qty-display text-sm">0</span>
+                        <button type="button" class="qty-btn plus-btn w-8 h-8">+</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CHICKEN SANDWICHES -->
+        <div class="bg-grey border border-white/10 rounded-2xl p-6 md:p-8">
+            <h3 class="font-bebas text-4xl text-accent mb-6 border-b border-white/10 pb-3">CHICKEN SANDWICHES</h3>
+            <div class="space-y-4">
+                <div class="menu-card flex justify-between items-center bg-black/30 p-4 rounded-xl border border-white/5">
+                    <div>
+                        <h4 class="font-bold text-base item-name" data-id="classic-chicken">Classic Chicken Sandwich</h4>
+                        <p class="text-accent text-sm item-price" data-price="3.00">£3.00</p>
+                    </div>
+                    <div class="flex items-center gap-3 bg-black p-1.5 rounded-full border border-white/10">
+                        <button type="button" class="qty-btn minus-btn w-8 h-8">-</button>
+                        <span class="font-bold w-6 text-center qty-display text-sm">0</span>
+                        <button type="button" class="qty-btn plus-btn w-8 h-8">+</button>
+                    </div>
+                </div>
+                <div class="menu-card flex justify-between items-center bg-black/30 p-4 rounded-xl border border-white/5">
+                    <div>
+                        <h4 class="font-bold text-base item-name" data-id="spicy-chicken">Spicy Chicken Sandwich</h4>
+                        <p class="text-accent text-sm item-price" data-price="3.50">£3.50</p>
+                    </div>
+                    <div class="flex items-center gap-3 bg-black p-1.5 rounded-full border border-white/10">
+                        <button type="button" class="qty-btn minus-btn w-8 h-8">-</button>
+                        <span class="font-bold w-6 text-center qty-display text-sm">0</span>
+                        <button type="button" class="qty-btn plus-btn w-8 h-8">+</button>
+                    </div>
+                </div>
+                <div class="menu-card flex justify-between items-center bg-black/30 p-4 rounded-xl border border-white/5">
+                    <div>
+                        <h4 class="font-bold text-base item-name" data-id="nashville-chicken">Nashville Chicken Sandwich</h4>
+                        <p class="text-accent text-sm item-price" data-price="4.00">£4.00</p>
+                    </div>
+                    <div class="flex items-center gap-3 bg-black p-1.5 rounded-full border border-white/10">
+                        <button type="button" class="qty-btn minus-btn w-8 h-8">-</button>
+                        <span class="font-bold w-6 text-center qty-display text-sm">0</span>
+                        <button type="button" class="qty-btn plus-btn w-8 h-8">+</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- COMBOS -->
+        <div class="bg-grey border border-white/10 rounded-2xl p-6 md:p-8">
+            <h3 class="font-bebas text-4xl text-accent mb-6 border-b border-white/10 pb-3">COMBOS (MEAL UPGRADES)</h3>
+            <div class="space-y-4">
+                <div class="menu-card flex justify-between items-center bg-black/30 p-4 rounded-xl border border-white/5">
+                    <div>
+                        <h4 class="font-bold text-base item-name" data-id="classic-smash-combo">Classic Smash Combo</h4>
+                        <p class="text-accent text-sm item-price" data-price="6.50">£6.50</p>
+                    </div>
+                    <div class="flex items-center gap-3 bg-black p-1.5 rounded-full border border-white/10">
+                        <button type="button" class="qty-btn minus-btn w-8 h-8">-</button>
+                        <span class="font-bold w-6 text-center qty-display text-sm">0</span>
+                        <button type="button" class="qty-btn plus-btn w-8 h-8">+</button>
+                    </div>
+                </div>
+                <div class="menu-card flex justify-between items-center bg-black/30 p-4 rounded-xl border border-white/5">
+                    <div>
+                        <h4 class="font-bold text-base item-name" data-id="cheese-smash-combo">Cheese Smash Combo</h4>
+                        <p class="text-accent text-sm item-price" data-price="7.00">£7.00</p>
+                    </div>
+                    <div class="flex items-center gap-3 bg-black p-1.5 rounded-full border border-white/10">
+                        <button type="button" class="qty-btn minus-btn w-8 h-8">-</button>
+                        <span class="font-bold w-6 text-center qty-display text-sm">0</span>
+                        <button type="button" class="qty-btn plus-btn w-8 h-8">+</button>
+                    </div>
+                </div>
+                <div class="menu-card flex justify-between items-center bg-black/30 p-4 rounded-xl border border-white/5">
+                    <div>
+                        <h4 class="font-bold text-base item-name" data-id="nashville-smash-combo">Nashville Smash Combo</h4>
+                        <p class="text-accent text-sm item-price" data-price="7.50">£7.50</p>
+                    </div>
+                    <div class="flex items-center gap-3 bg-black p-1.5 rounded-full border border-white/10">
+                        <button type="button" class="qty-btn minus-btn w-8 h-8">-</button>
+                        <span class="font-bold w-6 text-center qty-display text-sm">0</span>
+                        <button type="button" class="qty-btn plus-btn w-8 h-8">+</button>
+                    </div>
+                </div>
+                <div class="menu-card flex justify-between items-center bg-black/30 p-4 rounded-xl border border-white/5">
+                    <div>
+                        <h4 class="font-bold text-base item-name" data-id="classic-chicken-combo">Classic Chicken Combo</h4>
+                        <p class="text-accent text-sm item-price" data-price="6.00">£6.00</p>
+                    </div>
+                    <div class="flex items-center gap-3 bg-black p-1.5 rounded-full border border-white/10">
+                        <button type="button" class="qty-btn minus-btn w-8 h-8">-</button>
+                        <span class="font-bold w-6 text-center qty-display text-sm">0</span>
+                        <button type="button" class="qty-btn plus-btn w-8 h-8">+</button>
+                    </div>
+                </div>
+                <div class="menu-card flex justify-between items-center bg-black/30 p-4 rounded-xl border border-white/5">
+                    <div>
+                        <h4 class="font-bold text-base item-name" data-id="spicy-chicken-combo">Spicy Chicken Combo</h4>
+                        <p class="text-accent text-sm item-price" data-price="6.50">£6.50</p>
+                    </div>
+                    <div class="flex items-center gap-3 bg-black p-1.5 rounded-full border border-white/10">
+                        <button type="button" class="qty-btn minus-btn w-8 h-8">-</button>
+                        <span class="font-bold w-6 text-center qty-display text-sm">0</span>
+                        <button type="button" class="qty-btn plus-btn w-8 h-8">+</button>
+                    </div>
+                </div>
+                <div class="menu-card flex justify-between items-center bg-black/30 p-4 rounded-xl border border-white/5">
+                    <div>
+                        <h4 class="font-bold text-base item-name" data-id="nashville-chicken-combo">Nashville Chicken Combo</h4>
+                        <p class="text-accent text-sm item-price" data-price="7.00">£7.00</p>
+                    </div>
+                    <div class="flex items-center gap-3 bg-black p-1.5 rounded-full border border-white/10">
+                        <button type="button" class="qty-btn minus-btn w-8 h-8">-</button>
+                        <span class="font-bold w-6 text-center qty-display text-sm">0</span>
+                        <button type="button" class="qty-btn plus-btn w-8 h-8">+</button>
+                    </div>
+                </div>
+                <!-- Friday Fusion Combo -->
+                <div id="friday-fusion-combo" class="menu-card flex justify-between items-center bg-black/30 p-4 rounded-xl border border-accent/40" style="display: none;">
+                    <div>
+                        <h4 class="font-bold text-base text-accent item-name" data-id="friday-fusion-combo">Friday Fusion Combo</h4>
+                        <p class="text-accent text-sm item-price" data-price="8.50">£8.50</p>
+                    </div>
+                    <div class="flex items-center gap-3 bg-black p-1.5 rounded-full border border-white/10">
+                        <button type="button" class="qty-btn minus-btn w-8 h-8">-</button>
+                        <span class="font-bold w-6 text-center qty-display text-sm">0</span>
+                        <button type="button" class="qty-btn plus-btn w-8 h-8">+</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FRIES -->
+        <div class="bg-grey border border-white/10 rounded-2xl p-6 md:p-8">
+            <h3 class="font-bebas text-4xl text-accent mb-6 border-b border-white/10 pb-3">FRIES</h3>
+            <div class="space-y-4">
+                <div class="menu-card flex justify-between items-center bg-black/30 p-4 rounded-xl border border-white/5">
+                    <div>
+                        <h4 class="font-bold text-base item-name" data-id="regular-fries">Regular Fries</h4>
+                        <p class="text-accent text-sm item-price" data-price="3.49">£3.49</p>
+                    </div>
+                    <div class="flex items-center gap-3 bg-black p-1.5 rounded-full border border-white/10">
+                        <button type="button" class="qty-btn minus-btn w-8 h-8">-</button>
+                        <span class="font-bold w-6 text-center qty-display text-sm">0</span>
+                        <button type="button" class="qty-btn plus-btn w-8 h-8">+</button>
+                    </div>
+                </div>
+                <div class="menu-card flex justify-between items-center bg-black/30 p-4 rounded-xl border border-white/5">
+                    <div>
+                        <h4 class="font-bold text-base item-name" data-id="cajun-fries">Cajun Fries</h4>
+                        <p class="text-accent text-sm item-price" data-price="3.99">£3.99</p>
+                    </div>
+                    <div class="flex items-center gap-3 bg-black p-1.5 rounded-full border border-white/10">
+                        <button type="button" class="qty-btn minus-btn w-8 h-8">-</button>
+                        <span class="font-bold w-6 text-center qty-display text-sm">0</span>
+                        <button type="button" class="qty-btn plus-btn w-8 h-8">+</button>
+                    </div>
+                </div>
+                <div class="menu-card flex justify-between items-center bg-black/30 p-4 rounded-xl border border-white/5">
+                    <div>
+                        <h4 class="font-bold text-base item-name" data-id="cheese-loaded-fries">Cheese Loaded Fries</h4>
+                        <p class="text-accent text-sm item-price" data-price="4.49">£4.49</p>
+                    </div>
+                    <div class="flex items-center gap-3 bg-black p-1.5 rounded-full border border-white/10">
+                        <button type="button" class="qty-btn minus-btn w-8 h-8">-</button>
+                        <span class="font-bold w-6 text-center qty-display text-sm">0</span>
+                        <button type="button" class="qty-btn plus-btn w-8 h-8">+</button>
+                    </div>
+                </div>
+                <div class="menu-card flex justify-between items-center bg-black/30 p-4 rounded-xl border border-white/5">
+                    <div>
+                        <h4 class="font-bold text-base item-name" data-id="chicken-bacon-ranch-fries">Chicken Bacon Ranch Loaded Fries</h4>
+                        <p class="text-accent text-sm item-price" data-price="5.49">£5.49</p>
+                    </div>
+                    <div class="flex items-center gap-3 bg-black p-1.5 rounded-full border border-white/10">
+                        <button type="button" class="qty-btn minus-btn w-8 h-8">-</button>
+                        <span class="font-bold w-6 text-center qty-display text-sm">0</span>
+                        <button type="button" class="qty-btn plus-btn w-8 h-8">+</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DRINKS -->
+        <div class="bg-grey border border-white/10 rounded-2xl p-6 md:p-8">
+            <h3 class="font-bebas text-4xl text-accent mb-6 border-b border-white/10 pb-3">DRINKS</h3>
+            <div class="space-y-4">
+                <div class="menu-card flex justify-between items-center bg-black/30 p-4 rounded-xl border border-white/5">
+                    <div>
+                        <h4 class="font-bold text-base item-name" data-id="soft-drinks">Soft Drinks (Pop)</h4>
+                        <p class="text-accent text-sm item-price" data-price="1.50">£1.50</p>
+                    </div>
+                    <div class="flex items-center gap-3 bg-black p-1.5 rounded-full border border-white/10">
+                        <button type="button" class="qty-btn minus-btn w-8 h-8">-</button>
+                        <span class="font-bold w-6 text-center qty-display text-sm">0</span>
+                        <button type="button" class="qty-btn plus-btn w-8 h-8">+</button>
+                    </div>
+                </div>
+                <div class="menu-card flex justify-between items-center bg-black/30 p-4 rounded-xl border border-white/5">
+                    <div>
+                        <h4 class="font-bold text-base item-name" data-id="water">Water</h4>
+                        <p class="text-accent text-sm item-price" data-price="0.99">£0.99</p>
+                    </div>
+                    <div class="flex items-center gap-3 bg-black p-1.5 rounded-full border border-white/10">
+                        <button type="button" class="qty-btn minus-btn w-8 h-8">-</button>
+                        <span class="font-bold w-6 text-center qty-display text-sm">0</span>
+                        <button type="button" class="qty-btn plus-btn w-8 h-8">+</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- EXTRAS -->
+        <div class="bg-grey border border-white/10 rounded-2xl p-6 md:p-8">
+            <h3 class="font-bebas text-4xl text-accent mb-6 border-b border-white/10 pb-3">EXTRAS</h3>
+            <div class="space-y-4">
+                <div class="menu-card flex justify-between items-center bg-black/30 p-4 rounded-xl border border-white/5">
+                    <div>
+                        <h4 class="font-bold text-base item-name" data-id="beef-bacon">Crispy Beef Bacon</h4>
+                        <p class="text-accent text-sm item-price" data-price="1.00">£1.00</p>
+                    </div>
+                    <div class="flex items-center gap-3 bg-black p-1.5 rounded-full border border-white/10">
+                        <button type="button" class="qty-btn minus-btn w-8 h-8">-</button>
+                        <span class="font-bold w-6 text-center qty-display text-sm">0</span>
+                        <button type="button" class="qty-btn plus-btn w-8 h-8">+</button>
+                    </div>
+                </div>
+                <div class="menu-card flex justify-between items-center bg-black/30 p-4 rounded-xl border border-white/5">
+                    <div>
+                        <h4 class="font-bold text-base item-name" data-id="extra-american-cheese">Extra American Cheese Slice</h4>
+                        <p class="text-accent text-sm item-price" data-price="0.50">£0.50</p>
+                    </div>
+                    <div class="flex items-center gap-3 bg-black p-1.5 rounded-full border border-white/10">
+                        <button type="button" class="qty-btn minus-btn w-8 h-8">-</button>
+                        <span class="font-bold w-6 text-center qty-display text-sm">0</span>
+                        <button type="button" class="qty-btn plus-btn w-8 h-8">+</button>
+                    </div>
+                </div>
+                <div class="menu-card flex justify-between items-center bg-black/30 p-4 rounded-xl border border-white/5">
+                    <div>
+                        <h4 class="font-bold text-base item-name" data-id="extra-cheddar-cheese">Extra Cheddar Cheese Slice</h4>
+                        <p class="text-accent text-sm item-price" data-price="0.50">£0.50</p>
+                    </div>
+                    <div class="flex items-center gap-3 bg-black p-1.5 rounded-full border border-white/10">
+                        <button type="button" class="qty-btn minus-btn w-8 h-8">-</button>
+                        <span class="font-bold w-6 text-center qty-display text-sm">0</span>
+                        <button type="button" class="qty-btn plus-btn w-8 h-8">+</button>
+                    </div>
+                </div>
+                <div class="menu-card flex justify-between items-center bg-black/30 p-4 rounded-xl border border-white/5">
+                    <div>
+                        <h4 class="font-bold text-base item-name" data-id="smash-beef-patty-addon">Smash Beef Patty (Add-on)</h4>
+                        <p class="text-accent text-sm item-price" data-price="3.00">£3.00</p>
+                    </div>
+                    <div class="flex items-center gap-3 bg-black p-1.5 rounded-full border border-white/10">
+                        <button type="button" class="qty-btn minus-btn w-8 h-8">-</button>
+                        <span class="font-bold w-6 text-center qty-display text-sm">0</span>
+                        <button type="button" class="qty-btn plus-btn w-8 h-8">+</button>
+                    </div>
+                </div>
+                <div class="menu-card flex justify-between items-center bg-black/30 p-4 rounded-xl border border-white/5">
+                    <div>
+                        <h4 class="font-bold text-base item-name" data-id="nashville-chicken-addon">Crispy Chicken Breast (Add-on)</h4>
+                        <p class="text-accent text-sm item-price" data-price="3.00">£3.00</p>
+                    </div>
+                    <div class="flex items-center gap-3 bg-black p-1.5 rounded-full border border-white/10">
+                        <button type="button" class="qty-btn minus-btn w-8 h-8">-</button>
+                        <span class="font-bold w-6 text-center qty-display text-sm">0</span>
+                        <button type="button" class="qty-btn plus-btn w-8 h-8">+</button>
+                    </div>
+                </div>
+                <div class="menu-card flex justify-between items-center bg-black/30 p-4 rounded-xl border border-white/5">
+                    <div>
+                        <h4 class="font-bold text-base item-name" data-id="extra-jalapenos">Jalapenos Portion</h4>
+                        <p class="text-accent text-sm item-price" data-price="0.50">£0.50</p>
+                    </div>
+                    <div class="flex items-center gap-3 bg-black p-1.5 rounded-full border border-white/10">
+                        <button type="button" class="qty-btn minus-btn w-8 h-8">-</button>
+                        <span class="font-bold w-6 text-center qty-display text-sm">0</span>
+                        <button type="button" class="qty-btn plus-btn w-8 h-8">+</button>
+                    </div>
+                </div>
+                <div class="menu-card flex justify-between items-center bg-black/30 p-4 rounded-xl border border-white/5">
+                    <div>
+                        <h4 class="font-bold text-base item-name" data-id="extra-pickles">Pickles Portion</h4>
+                        <p class="text-accent text-sm item-price" data-price="0.50">£0.50</p>
+                    </div>
+                    <div class="flex items-center gap-3 bg-black p-1.5 rounded-full border border-white/10">
+                        <button type="button" class="qty-btn minus-btn w-8 h-8">-</button>
+                        <span class="font-bold w-6 text-center qty-display text-sm">0</span>
+                        <button type="button" class="qty-btn plus-btn w-8 h-8">+</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SAUCES -->
+        <div class="bg-grey border border-white/10 rounded-2xl p-6 md:p-8">
+            <h3 class="font-bebas text-4xl text-accent mb-6 border-b border-white/10 pb-3">SAUCES</h3>
+            <div class="space-y-4">
+                <div class="menu-card flex justify-between items-center bg-black/30 p-4 rounded-xl border border-white/5">
+                    <div>
+                        <h4 class="font-bold text-base item-name" data-id="ranch-sauce-tub">Ranch Sauce</h4>
+                        <p class="text-accent text-sm item-price" data-price="0.50">£0.50</p>
+                    </div>
+                    <div class="flex items-center gap-3 bg-black p-1.5 rounded-full border border-white/10">
+                        <button type="button" class="qty-btn minus-btn w-8 h-8">-</button>
+                        <span class="font-bold w-6 text-center qty-display text-sm">0</span>
+                        <button type="button" class="qty-btn plus-btn w-8 h-8">+</button>
+                    </div>
+                </div>
+                <div class="menu-card flex justify-between items-center bg-black/30 p-4 rounded-xl border border-white/5">
+                    <div>
+                        <h4 class="font-bold text-base item-name" data-id="og-sauce-tub">OG Smash Sauce</h4>
+                        <p class="text-accent text-sm item-price" data-price="0.50">£0.50</p>
+                    </div>
+                    <div class="flex items-center gap-3 bg-black p-1.5 rounded-full border border-white/10">
+                        <button type="button" class="qty-btn minus-btn w-8 h-8">-</button>
+                        <span class="font-bold w-6 text-center qty-display text-sm">0</span>
+                        <button type="button" class="qty-btn plus-btn w-8 h-8">+</button>
+                    </div>
+                </div>
+                <div class="menu-card flex justify-between items-center bg-black/30 p-4 rounded-xl border border-white/5">
+                    <div>
+                        <h4 class="font-bold text-base item-name" data-id="nashville-hot-sauce-tub">Nashville Hot Sauce</h4>
+                        <p class="text-accent text-sm item-price" data-price="0.50">£0.50</p>
+                    </div>
+                    <div class="flex items-center gap-3 bg-black p-1.5 rounded-full border border-white/10">
+                        <button type="button" class="qty-btn minus-btn w-8 h-8">-</button>
+                        <span class="font-bold w-6 text-center qty-display text-sm">0</span>
+                        <button type="button" class="qty-btn plus-btn w-8 h-8">+</button>
+                    </div>
+                </div>
+                <div class="menu-card flex justify-between items-center bg-black/30 p-4 rounded-xl border border-white/5">
+                    <div>
+                        <h4 class="font-bold text-base item-name" data-id="nashville-mayo-tub">Nashville Mayo</h4>
+                        <p class="text-accent text-sm item-price" data-price="0.50">£0.50</p>
+                    </div>
+                    <div class="flex items-center gap-3 bg-black p-1.5 rounded-full border border-white/10">
+                        <button type="button" class="qty-btn minus-btn w-8 h-8">-</button>
+                        <span class="font-bold w-6 text-center qty-display text-sm">0</span>
+                        <button type="button" class="qty-btn plus-btn w-8 h-8">+</button>
+                    </div>
+                </div>
+                <div class="menu-card flex justify-between items-center bg-black/30 p-4 rounded-xl border border-white/5">
+                    <div>
+                        <h4 class="font-bold text-base item-name" data-id="ketchup-tub">Ketchup</h4>
+                        <p class="text-accent text-sm item-price" data-price="0.00">FREE</p>
+                    </div>
+                    <div class="flex items-center gap-3 bg-black p-1.5 rounded-full border border-white/10">
+                        <button type="button" class="qty-btn minus-btn w-8 h-8">-</button>
+                        <span class="font-bold w-6 text-center qty-display text-sm">0</span>
+                        <button type="button" class="qty-btn plus-btn w-8 h-8">+</button>
+                    </div>
+                </div>
+                <div class="menu-card flex justify-between items-center bg-black/30 p-4 rounded-xl border border-white/5">
+                    <div>
+                        <h4 class="font-bold text-base item-name" data-id="mayo-tub">Mayo</h4>
+                        <p class="text-accent text-sm item-price" data-price="0.00">FREE</p>
+                    </div>
+                    <div class="flex items-center gap-3 bg-black p-1.5 rounded-full border border-white/10">
+                        <button type="button" class="qty-btn minus-btn w-8 h-8">-</button>
+                        <span class="font-bold w-6 text-center qty-display text-sm">0</span>
+                        <button type="button" class="qty-btn plus-btn w-8 h-8">+</button>
+                    </div>
+                </div>
+                <div class="menu-card flex justify-between items-center bg-black/30 p-4 rounded-xl border border-white/5">
+                    <div>
+                        <h4 class="font-bold text-base item-name" data-id="mustard-tub">Mustard</h4>
+                        <p class="text-accent text-sm item-price" data-price="0.00">FREE</p>
+                    </div>
+                    <div class="flex items-center gap-3 bg-black p-1.5 rounded-full border border-white/10">
+                        <button type="button" class="qty-btn minus-btn w-8 h-8">-</button>
+                        <span class="font-bold w-6 text-center qty-display text-sm">0</span>
+                        <button type="button" class="qty-btn plus-btn w-8 h-8">+</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- STICKY BOTTOM-RIGHT CART ICON -->
+<div class="fixed bottom-6 right-6 z-50 group">
+    <a href="cart.html" id="sticky-cart-btn" class="btn-3d bg-accent text-primary font-bebas text-xl px-6 py-3.5 rounded-full flex items-center gap-3 hover:bg-white transition transform hover:scale-105">
+        <i class="fa-solid fa-cart-shopping"></i> 
+        <span>Cart (<span id="sticky-cart-count">0</span>)</span>
+    </a>
+</div>
+
+<!-- FOOTER -->
+<footer class="bg-transparent py-12 border-t border-white/10 text-center" style="background-color: transparent !important; background: transparent !important;">
+    <div class="container mx-auto px-4 flex flex-col items-center justify-center gap-4">
+        <div class="flex items-center gap-3">
+            <img src="logo.png" alt="Smash Guys Logo" class="w-40 h-40 object-contain blend-logo" onerror="this.style.display='none'">
+            <h2 class="font-bebas text-4xl text-white tracking-widest">SMASH<span class="text-accent">GUYS</span></h2>
+        </div>
+        <p class="text-gray-400 text-xs">Smash Guys UK Ltd | Trading at Public Car Park, The Galleria, Hatfield, AL10 0XR</p>
+        <p class="text-gray-500 text-sm">Also available for delivery via <strong>Uber Eats</strong>, <strong>Just Eat</strong>, and <strong>Deliveroo</strong>.</p>
+        <div>
+            <a href="https://www.instagram.com/smashguys_uk?igsh=aXhlaDk2dTEwa3I5" target="_blank" class="inline-block hover:scale-110 transition transform text-accent text-6xl" aria-label="Instagram Profile">
+                <i class="fa-brands fa-instagram"></i>
+            </a>
+        </div>
+        <p class="text-gray-500 text-xs">
+            &copy; 2026 Smash Guys. All rights reserved. | 
+            <button id="open-privacy-modal" class="underline hover:text-accent focus:outline-none">Privacy Policy</button> | 
+            <button id="open-terms-modal" class="underline hover:text-accent focus:outline-none">Terms & Conditions</button>
+        </p>
+    </div>
+</footer>
+
+<!-- AUTHENTICATION MODAL -->
+<div id="auth-modal-overlay" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center p-4">
+    <div class="modal-glass bg-grey border border-white/20 rounded-2xl max-w-md w-full p-8 relative shadow-2xl">
+        <button id="close-auth-modal" aria-label="Close modal" class="absolute top-4 right-4 text-gray-400 hover:text-white font-bold text-2xl focus:outline-none">&times;</button>
+        <h3 class="font-bebas text-4xl text-white mb-2 text-center">WELCOME TO <span class="text-accent">SMASH GUYS</span></h3>
+        <p class="text-gray-400 text-sm mb-6 text-center">Log in to track orders and secure exclusive discounts.</p>
+        
+        <div class="space-y-3 mb-6">
+            <button onclick="mockSocialLogin('Google')" class="w-full bg-white text-black font-bold py-3 px-4 rounded-lg flex items-center justify-center gap-3 hover:bg-gray-200 transition focus:outline-none">
+                <i class="fa-brands fa-google text-red-500"></i> Continue with Google
+            </button>
+            <button onclick="mockSocialLogin('Facebook')" class="w-full bg-[#1877F2] text-white font-bold py-3 px-4 rounded-lg flex items-center justify-center gap-3 hover:bg-blue-600 transition focus:outline-none">
+                <i class="fa-brands fa-facebook"></i> Continue with Facebook
+            </button>
+            <button onclick="mockSocialLogin('Apple')" class="w-full bg-black border border-white/20 text-white font-bold py-3 px-4 rounded-lg flex items-center justify-center gap-3 hover:bg-zinc-900 transition focus:outline-none">
+                <i class="fa-brands fa-apple"></i> Continue with Apple
+            </button>
+        </div>
+
+        <div class="relative flex items-center py-2 mb-6">
+            <div class="flex-grow border-t border-white/10"></div>
+            <span class="flex-shrink-0 mx-4 text-gray-500 text-xs font-bold uppercase tracking-wider">Or with email</span>
+            <div class="flex-grow border-t border-white/10"></div>
+        </div>
+
+        <form id="email-login-form" class="space-y-4">
+            <input type="email" id="login-email" placeholder="Enter your email" required class="w-full bg-black border border-white/20 p-3 text-white focus:border-accent focus:outline-none rounded-lg text-sm">
+            <button type="submit" class="w-full bg-accent text-primary font-bebas text-2xl py-3 hover:bg-white transition rounded-lg focus:outline-none">CONTINUE WITH EMAIL</button>
+        </form>
+    </div>
+</div>
+
+<!-- PRIVACY POLICY MODAL -->
+<div id="privacy-modal-overlay" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center p-4">
+    <div class="modal-glass bg-grey border border-white/20 rounded-2xl max-w-2xl w-full p-8 relative shadow-2xl max-h-[80vh] overflow-y-auto">
+        <button id="close-privacy-modal" aria-label="Close modal" class="absolute top-4 right-4 text-gray-400 hover:text-white font-bold text-2xl focus:outline-none">&times;</button>
+        <h3 class="font-bebas text-4xl text-white mb-4 text-center">PRIVACY <span class="text-accent">POLICY</span></h3>
+        <div class="space-y-4 text-gray-300 text-sm leading-relaxed">
+            <p><strong>1. Who We Are:</strong> Smash Guys operates as Hertfordshire's dedicated smash burger and Nashville hot chicken destination.</p>
+            <p><strong>2. Information We Collect:</strong> We collect account registration details (email and social login tokens), order history, delivery preferences, and contact information submitted via our sign-up forms or promo code redemptions.</p>
+            <p><strong>3. How We Use Your Data:</strong> Your data is used strictly to process orders, manage user accounts, enforce single-use coupon policies, and send direct marketing updates (only where explicit opt-in consent has been provided).</p>
+            <p><strong>4. Data Security:</strong> We implement secure technical measures to retain your information safely. We never sell, trade, or share your personal data with unauthorized third parties.</p>
+            <p><strong>5. Your Rights:</strong> You have the right to request access to your data or ask for your account and data to be deleted at any time.</p>
+        </div>
+    </div>
+</div>
+
+<!-- TERMS & CONDITIONS MODAL -->
+<div id="terms-modal-overlay" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center p-4">
+    <div class="modal-glass bg-grey border border-white/20 rounded-2xl max-w-2xl w-full p-8 relative shadow-2xl max-h-[80vh] overflow-y-auto">
+        <button id="close-terms-modal" aria-label="Close modal" class="absolute top-4 right-4 text-gray-400 hover:text-white font-bold text-2xl focus:outline-none">&times;</button>
+        <h3 class="font-bebas text-4xl text-white mb-4 text-center">TERMS & <span class="text-accent">CONDITIONS</span></h3>
+        <div class="space-y-4 text-gray-300 text-sm leading-relaxed">
+            <p><strong>1. Introduction:</strong> Welcome to Smash Guys. By placing an order or using our website, you agree to these terms.</p>
+            <p><strong>2. Orders & Pricing:</strong> All orders are subject to availability. Prices are listed in GBP and include applicable taxes where required.</p>
+            <p><strong>3. Promo Codes:</strong> Promotional codes (such as WELCOME10) are restricted to single-use per verified user account and cannot be combined unless stated otherwise.</p>
+            <p><strong>4. Allergens:</strong> While we take precautions, our kitchen handles various ingredients. Please contact our staff directly regarding specific allergy inquiries before ordering.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Shared Site Scripts -->
+<script src="script.js"></script>
+
+<!-- Standalone Order Page Logic & Event Stop Propagation -->
+<script>
+    try {
+        const now = new Date();
+        const ukTimeStr = now.toLocaleString("en-US", { timeZone: "Europe/London" });
+        const ukNow = new Date(ukTimeStr);
+        if (ukNow.getDay() === 5) {
+            const b = document.getElementById('friday-fusion-burger');
+            const c = document.getElementById('friday-fusion-combo');
+            if (b) b.style.display = 'flex';
+            if (c) c.style.display = 'flex';
+        }
+        const currentMins = ukNow.getHours() * 60 + ukNow.getMinutes();
+        if (currentMins < 12 * 60 || currentMins > 23 * 60 + 30) {
+            const banner = document.getElementById('store-status-banner');
+            if (banner) banner.classList.remove('hidden');
+        }
+    } catch(err) {
+        console.warn("Timezone check skipped:", err);
+    }
+
+    let cart = JSON.parse(localStorage.getItem('smash_cart')) || [];
+
+    function syncAllCounters() {
+        document.querySelectorAll('.menu-card').forEach(card => {
+            const nameEl = card.querySelector('.item-name');
+            const qtyDisplay = card.querySelector('.qty-display');
+            if (nameEl && qtyDisplay) {
+                const itemId = nameEl.getAttribute('data-id');
+                const existing = cart.find(item => item.id === itemId);
+                qtyDisplay.innerText = existing ? existing.quantity : '0';
+            }
+        });
+        updateStickyCartUI();
+    }
+
+    function updateStickyCartUI() {
+        const countEl = document.getElementById('sticky-cart-count');
+        if (!countEl) return;
+        let totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+        countEl.innerText = totalCount;
+    }
+
+    function saveAndRefresh() {
+        localStorage.setItem('smash_cart', JSON.stringify(cart));
+        syncAllCounters();
+    }
+
+    document.querySelectorAll('.menu-card').forEach(card => {
+        const minusBtn = card.querySelector('.minus-btn');
+        const plusBtn = card.querySelector('.plus-btn');
+        const nameEl = card.querySelector('.item-name');
+        const priceEl = card.querySelector('.item-price');
+
+        if (minusBtn && plusBtn && nameEl && priceEl) {
+            const itemId = nameEl.getAttribute('data-id');
+            const itemName = nameEl.innerText.trim();
+            const itemPrice = parseFloat(priceEl.getAttribute('data-price'));
+
+            plusBtn.addEventListener('click', (e) => {
+                e.stopImmediatePropagation();
+                let existing = cart.find(i => i.id === itemId);
+                if (existing) {
+                    existing.quantity += 1;
+                } else {
+                    cart.push({ id: itemId, name: itemName, price: itemPrice, quantity: 1 });
+                }
+                saveAndRefresh();
+            });
+
+            minusBtn.addEventListener('click', (e) => {
+                e.stopImmediatePropagation();
+                let existingIndex = cart.findIndex(i => i.id === itemId);
+                if (existingIndex > -1) {
+                    cart[existingIndex].quantity -= 1;
+                    if (cart[existingIndex].quantity <= 0) {
+                        cart.splice(existingIndex, 1);
+                    }
+                }
+                saveAndRefresh();
+            });
+        }
+    });
+
+    let beefPattyCount = 0;
+    let chickenPattyCount = 0;
+
+    window.adjustCustomQty = function(type, change) {
+        if (type === 'beef-patty-qty') {
+            if (beefPattyCount + change >= 0) beefPattyCount += change;
+            document.getElementById('beef-patty-qty').innerText = beefPattyCount;
+        } else if (type === 'chicken-patty-qty') {
+            if (chickenPattyCount + change >= 0) chickenPattyCount += change;
+            document.getElementById('chicken-patty-qty').innerText = chickenPattyCount;
+        }
+        calculateCustomPrice();
+    };
+
+    function calculateCustomPrice() {
+        let total = 2.00; 
+        total += (beefPattyCount * 3.00);
+        total += (chickenPattyCount * 3.00);
+        document.querySelectorAll('.custom-item:checked').forEach(box => {
+            total += parseFloat(box.getAttribute('data-price') || 0);
+        });
+        const priceDisplay = document.getElementById('custom-burger-price');
+        if (priceDisplay) priceDisplay.innerText = `£${total.toFixed(2)}`;
+        return total;
+    }
+
+    document.querySelectorAll('.custom-item').forEach(box => {
+        box.addEventListener('change', calculateCustomPrice);
+    });
+
+    const addCustomBtn = document.getElementById('add-custom-burger-btn');
+    if (addCustomBtn) {
+        addCustomBtn.addEventListener('click', (e) => {
+            e.stopImmediatePropagation();
+            const finalPrice = calculateCustomPrice();
+            let ingredients = [];
+            if (beefPattyCount > 0) ingredients.push(`${beefPattyCount}x Beef Patty`);
+            if (chickenPattyCount > 0) ingredients.push(`${chickenPattyCount}x Chicken Breast`);
+            document.querySelectorAll('.custom-item:checked').forEach(box => {
+                ingredients.push(box.getAttribute('data-name'));
+            });
+
+            const customTitle = ingredients.length > 0 
+                ? `Custom Smash (${ingredients.join(', ')})` 
+                : `Custom Smash (Brioche Bun Only)`;
+                
+            const uniqueId = 'custom-' + Date.now();
+            cart.push({ id: uniqueId, name: customTitle, price: finalPrice, quantity: 1 });
+            saveAndRefresh();
+
+            beefPattyCount = 0;
+            chickenPattyCount = 0;
+            document.getElementById('beef-patty-qty').innerText = '0';
+            document.getElementById('chicken-patty-qty').innerText = '0';
+            document.getElementById('custom-burger-form').reset();
+            calculateCustomPrice();
+            alert('Your Custom Smash has been added to your cart!');
+        });
+    }
+
+    syncAllCounters();
+
+    // DEPTH / PSEUDO-3D BEHAVIOR
+    (function () {
+        var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (!reduceMotion) {
+            var cards = document.querySelectorAll('.menu-card');
+            cards.forEach(function (card) {
+                var maxTilt = 7; 
+                card.addEventListener('mouseenter', function () {
+                    card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)';
+                });
+                card.addEventListener('mousemove', function (e) {
+                    var rect = card.getBoundingClientRect();
+                    var x = e.clientX - rect.left;
+                    var y = e.clientY - rect.top;
+                    var cx = rect.width / 2;
+                    var cy = rect.height / 2;
+                    var rotateX = ((y - cy) / cy) * -maxTilt;
+                    var rotateY = ((x - cx) / cx) * maxTilt;
+
+                    card.style.transform =
+                        'perspective(1000px) rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg) translateY(-4px)';
+                    card.style.setProperty('--glare-x', (x / rect.width) * 100 + '%');
+                    card.style.setProperty('--glare-y', (y / rect.height) * 100 + '%');
+                });
+                card.addEventListener('mouseleave', function () {
+                    card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)';
+                });
+                card.addEventListener('touchstart', function () {
+                    card.style.transform = 'none';
+                }, { passive: true });
+            });
+        }
+    })();
+</script>
+</body>
+</html>
