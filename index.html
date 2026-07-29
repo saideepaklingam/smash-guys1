@@ -493,8 +493,26 @@
     })();
 </script>
 
-<!-- REAL-TIME VIP LEAD CAPTURE ENGINE -->
+<!-- UNIFIED VIP LEAD CAPTURE & UI ENGINE -->
 <script>
+    // 1. Check local storage immediately on load to prevent flashing
+    (function() {
+        if (localStorage.getItem('smash_vip_claimed') === 'true') {
+            const successMsg = document.getElementById('signup-success-msg');
+            const formGrid = document.querySelector('#signup-form .grid'); 
+            const consentBox = document.getElementById('consent-email')?.closest('.bg-black\\/40');
+            const submitBtn = document.querySelector('#signup-form button[type="submit"]');
+            const errorMsg = document.getElementById('signup-error');
+            
+            if (successMsg) successMsg.classList.remove('hidden');
+            if (formGrid) formGrid.classList.add('hidden');
+            if (consentBox) consentBox.classList.add('hidden');
+            if (submitBtn) submitBtn.classList.add('hidden');
+            if (errorMsg) errorMsg.classList.add('hidden');
+        }
+    })();
+
+    // 2. Handle form submission, API fetch, and UI hiding
     document.getElementById('signup-form')?.addEventListener('submit', function(event) {
         event.preventDefault();
         
@@ -505,11 +523,12 @@
         const errorMsg = document.getElementById('signup-error');
         const successMsg = document.getElementById('signup-success-msg');
         const submitBtn = this.querySelector('button[type="submit"]');
+        const formGrid = document.querySelector('#signup-form .grid');
+        const consentBox = document.getElementById('consent-email')?.closest('.bg-black\\/40');
 
-        // IMPORTANT: Replace this with your actual business email address
         const RESTAURANT_EMAIL = "smashguysuk@gmail.com";
 
-        // Validate that at least one contact method or email is solid
+        // Basic Validation
         if (!emailInput.value || !emailInput.value.includes('@')) {
             errorMsg.innerText = "Please enter a valid email address.";
             errorMsg.classList.remove('hidden');
@@ -518,7 +537,6 @@
         errorMsg.classList.add('hidden');
 
         // UI Feedback during transmission
-        const originalBtnText = submitBtn.innerText;
         submitBtn.innerText = "TRANSMITTING TO KITCHEN...";
         submitBtn.disabled = true;
 
@@ -528,12 +546,12 @@
             Email: emailInput.value.trim(),
             Phone: phoneInput.value.trim() || "Not Provided",
             Email_Marketing_Consent: consentEmail.checked ? "YES" : "NO",
-            SMS_Marketing_Consent: consentSms.checked ? "YES" : "NO",
+            SMS_Marketing_Consent: consentSms?.checked ? "YES" : "NO",
             Source: "Galleria Hatfield Homepage Banner",
             _template: "table"
         };
 
-        // Send directly to your email inbox without page reload
+        // Send directly to your email inbox
         fetch(`https://formsubmit.co/ajax/${RESTAURANT_EMAIL}`, {
             method: "POST",
             headers: { 
@@ -544,71 +562,22 @@
         })
         .then(response => response.json())
         .then(data => {
-            // Hide input form and reveal the WELCOME10 code
-            emailInput.parentElement.classList.add('hidden');
-            phoneInput.classList.add('hidden');
-            consentEmail.closest('.bg-black\\/40').classList.add('hidden');
-            submitBtn.classList.add('hidden');
+            // Hide input forms and reveal the code instantly
+            if (formGrid) formGrid.classList.add('hidden');
+            if (consentBox) consentBox.classList.add('hidden');
+            if (submitBtn) submitBtn.classList.add('hidden');
+            if (successMsg) successMsg.classList.remove('hidden');
             
-            successMsg.classList.remove('hidden');
-            
-            // Log local flag so the device remembers they already claimed it
+            // Lock it into local storage
             localStorage.setItem('smash_vip_claimed', 'true');
         })
         .catch(error => {
             console.error("Lead capture failed:", error);
-            // Fallback: If offline or blocked, still show them the code so we don't break UX
-            successMsg.classList.remove('hidden');
-            submitBtn.innerText = "CODE CLAIMED";
-        });
-    });
-
-    // If customer already claimed their code on this device, show the code automatically
-    if (localStorage.getItem('smash_vip_claimed') === 'true') {
-        const successMsg = document.getElementById('signup-success-msg');
-        const form = document.getElementById('signup-form');
-        if (successMsg && form) {
-            Array.from(form.children).forEach(child => {
-                if (child.id !== 'signup-success-msg') child.classList.add('hidden');
-            });
-            successMsg.classList.remove('hidden');
-        }
-    }
-</script>
-
-<script>
-    // Run immediately before paint to prevent flashing or sticking
-    (function() {
-        if (localStorage.getItem('smash_vip_claimed') === 'true') {
-            const successMsg = document.getElementById('signup-success-msg');
-            const emailInput = document.getElementById('signup-email');
-            const phoneInput = document.getElementById('signup-phone');
-            const submitBtn = document.querySelector('#signup-form button[type="submit"]');
-            const consentBox = document.getElementById('consent-email')?.closest('.bg-black\\/40');
-            
+            // Fallback: Show code even if offline so UX doesn't break
             if (successMsg) successMsg.classList.remove('hidden');
-            if (emailInput) emailInput.parentElement.classList.add('hidden');
-            if (phoneInput) phoneInput.classList.add('hidden');
-            if (consentBox) consentBox.classList.add('hidden');
-            if (submitBtn) submitBtn.classList.add('hidden');
-        }
-    })();
-
-    // Handle form submission and lock it into local storage
-    document.getElementById('signup-form')?.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        // Save state so it never reappears on refresh
-        localStorage.setItem('smash_vip_claimed', 'true');
-        
-        // Hide inputs and reveal success message instantly
-        document.getElementById('signup-success-msg').classList.remove('hidden');
-        this.querySelector('button[type="submit"]').classList.add('hidden');
-        document.getElementById('signup-email').parentElement.classList.add('hidden');
-        document.getElementById('signup-phone').classList.add('hidden');
-        
-        const consentBox = document.getElementById('consent-email')?.closest('.bg-black\\/40');
-        if (consentBox) consentBox.classList.add('hidden');
+            submitBtn.innerText = "CODE CLAIMED";
+            localStorage.setItem('smash_vip_claimed', 'true');
+        });
     });
 </script>
 
